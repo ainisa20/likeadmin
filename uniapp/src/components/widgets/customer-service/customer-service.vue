@@ -183,18 +183,18 @@ const stopHeartbeat = () => {
  * 动态加载 Dify Chatbot 脚本
  */
 let difyLoaded = false
+let difyReady = false
 const loadDifyScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
         // 检查是否已经加载
-        if (difyLoaded || document.getElementById('dify-chatbot-bubble-button')) {
-            difyLoaded = true
+        if (difyLoaded) {
             resolve()
             return
         }
 
         console.log('开始加载 Dify Chatbot...')
 
-        // 创建配置脚本
+        // 创建配置脚本 - 必须在加载脚本之前设置
         const configScript = document.createElement('script')
         configScript.textContent = `
             window.difyChatbotConfig = {
@@ -204,6 +204,16 @@ const loadDifyScript = (): Promise<void> => {
                     user_id: '',
                     conversation_id: '',
                 },
+                onReady: function() {
+                    console.log('Dify Chatbot 已就绪')
+                    window.__DIFY_READY__ = true
+                },
+                onOpen: function() {
+                    console.log('Dify Chatbot 已打开')
+                },
+                onClose: function() {
+                    console.log('Dify Chatbot 已关闭')
+                }
             }
         `
         document.head.appendChild(configScript)
@@ -214,13 +224,15 @@ const loadDifyScript = (): Promise<void> => {
         loadScript.id = 'DOvk6D9nyaO5J06r'
         loadScript.defer = true
         loadScript.onload = () => {
-            console.log('Dify 脚本加载完成，等待初始化...')
-            // Dify 脚本加载后需要等待它创建 UI
+            console.log('Dify 脚本加载完成')
+            difyLoaded = true
+            
+            // 等待 Dify 初始化
             setTimeout(() => {
-                difyLoaded = true
-                console.log('Dify 初始化完成')
+                difyReady = true
+                console.log('Dify 准备完成')
                 resolve()
-            }, 2000)
+            }, 1000)
         }
         loadScript.onerror = (e) => {
             console.error('Dify 脚本加载失败:', e)
@@ -258,7 +270,6 @@ const openDifyChatbot = async () => {
             cancelText: '取消',
             success: (res) => {
                 if (res.confirm) {
-                    // 跳转到登录页面
                     uni.navigateTo({
                         url: '/pages/login/login'
                     })
@@ -268,23 +279,18 @@ const openDifyChatbot = async () => {
         return
     }
     
-    // 显示加载中
     uni.showLoading({ title: '客服加载中...' })
     
     try {
-        // 动态加载 Dify 脚本
         await loadDifyScript()
         
-        // 初始化用户追踪
         const userId = getUserId()
         const conversationId = getConversationId()
         
-        // 设置全局变量供 Dify Chatbot 使用
         if (typeof window !== 'undefined') {
             window.__OPC_USER_ID__ = userId
             window.__OPC_CONVERSATION_ID__ = conversationId
             
-            // 更新 Dify Chatbot 配置
             if (window.difyChatbotConfig) {
                 window.difyChatbotConfig.systemVariables = {
                     user_id: userId,
@@ -295,55 +301,84 @@ const openDifyChatbot = async () => {
         
         uni.hideLoading()
         
-        // 等待一下然后尝试打开
-        setTimeout(() => {
-            // 方法1: 查找并点击悬浮按钮
-            const bubbleBtn = document.getElementById('dify-chatbot-bubble-button')
-            if (bubbleBtn) {
-                console.log('找到悬浮按钮，点击打开')
-                bubbleBtn.click()
-                return
+        // 等待一下让 Dify 完全准备好
+        await new Promise(resolve => setTimeout(resolve, 500))
+        
+        console.log('尝试打开 Dify Chatbot...')
+        
+        // 尝试多种方式打开
+        let opened = false
+        
+        // 方式1: 查找按钮元素并点击
+        const buttonSelectors = [
+            '#dify-chatbot-bubble-button',
+            '#dify-chatbot-bubble',
+            '.dify-chatbot-bubble-button',
+            '[class*="dify-chatbot"]'
+        ]
+        
+        for (const selector of buttonSelectors) {
+            const btn = document.querySelector(selector)
+            if (btn) {
+                console.log('找到按钮:', selector)
+                btn.addEventListener('click', () => console.log('按钮被点击'), { once: true })
+                ;(btn as HTMLElement).click()
+                opened = true
+                break
             }
-            
-            // 方法2: 查找聊天窗口（可能已经打开）
-            const chatWindow = document.getElementById('dify-chatbot-bubble-window')
-            if (chatWindow) {
-                console.log('聊天窗口已打开')
-                return
-            }
-            
-            // 方法3: 尝试通过 Dify 全局对象
+        }
+        
+        // 方式2: 通过 Dify 全局对象
+        if (!opened) {
             // @ts-ignore
-            if (window.difyChatbot) {
-                console.log('通过 difyChatbot 全局对象打开')
-                // @ts-ignore
-                window.difyChatbot.open()
-                return
+            const dc = window.difyChatbot || window.DifyChatbot || window.DifyChatbotWidget
+            if (dc) {
+                console.log('通过全局对象打开')
+                try {
+                    if (typeof dc.open === 'function') {
+                        dc.open()
+                        opened = true
+                    } else if (typeof dc === 'function') {
+                        dc()
+                        opened = true
+                    }
+                } catch (e) {
+                    console.error('全局对象打开失败:', e)
+                }
             }
+        }
+        
+        // 方式3: 触发自定义事件
+        if (!opened) {
+            console.log('尝试触发自定义事件')
+            document.dispatchEvent(new CustomEvent('dify-chatbot-open'))
+            const event = new CustomEvent('dify-chatbot-open')
+            document.body.dispatchEvent(event)
+        }
+        
+        // 如果都没成功，提示用户
+        if (!opened) {
+            // 检查是否已经显示在页面上（可能 Dify 自动显示了）
+            const existingWindow = document.querySelector('[class*="dify-chatbot-window"], [id*="dify-chatbot-window"]')
+            const existingButton = document.querySelector('[class*="dify-chatbot-bubble"]')
             
-            // 方法4: 尝试通过 window 方法
-            // @ts-ignore  
-            if (window.DifyChatbot) {
-                console.log('通过 DifyChatbot 类打开')
-                // @ts-ignore
-                window.DifyChatbot.open()
-                return
+            if (existingButton || existingWindow) {
+                console.log('Dify UI 已存在于页面')
+                opened = true
+            } else {
+                uni.showToast({
+                    title: '请点击右下角客服按钮',
+                    icon: 'none',
+                    duration: 3000
+                })
             }
-            
-            console.log('未找到任何打开方式，显示提示')
-            uni.showToast({
-                title: '请点击页面右下角客服按钮',
-                icon: 'none',
-                duration: 3000
-            })
-        }, 500)
+        }
         
     } catch (error) {
         uni.hideLoading()
         uni.showToast({
-            title: '客服加载失败，请刷新页面重试',
-            icon: 'none',
-            duration: 2000
+            title: '客服加载失败',
+            icon: 'none'
         })
         console.error('Dify Chatbot 加载失败:', error)
     }
