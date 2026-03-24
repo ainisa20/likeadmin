@@ -180,9 +180,73 @@ const stopHeartbeat = () => {
 }
 
 /**
+ * 动态加载 Dify Chatbot 脚本
+ */
+const loadDifyScript = (): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        // 检查是否已经加载
+        if (document.getElementById('DOvk6D9nyaO5J06r')) {
+            resolve()
+            return
+        }
+
+        // 创建配置脚本
+        const configScript = document.createElement('script')
+        configScript.textContent = `
+            window.difyChatbotConfig = {
+                token: 'DOvk6D9nyaO5J06r',
+                baseUrl: 'http://56uznsgemurp.xiaomiqiu.com',
+                systemVariables: {
+                    user_id: '',
+                    conversation_id: '',
+                },
+            }
+        `
+        document.head.appendChild(configScript)
+
+        // 创建加载脚本
+        const loadScript = document.createElement('script')
+        loadScript.src = 'http://56uznsgemurp.xiaomiqiu.com/embed.min.js'
+        loadScript.id = 'DOvk6D9nyaO5J06r'
+        loadScript.defer = true
+        loadScript.onload = () => resolve()
+        loadScript.onerror = () => reject(new Error('Dify 脚本加载失败'))
+        document.head.appendChild(loadScript)
+
+        // 添加样式
+        const style = document.createElement('style')
+        style.textContent = `
+            #dify-chatbot-bubble-button {
+                background-color: #1C64F2 !important;
+            }
+            #dify-chatbot-bubble-window {
+                width: 24rem !important;
+                height: 40rem !important;
+            }
+        `
+        document.head.appendChild(style)
+    })
+}
+
+/**
+ * 清理 Dify Chatbot（关闭并移除）
+ */
+const cleanupDify = () => {
+    // 尝试点击关闭按钮
+    const closeButton = document.querySelector('#dify-chatbot-bubble-window button[aria-label="关闭"]')
+    if (closeButton) {
+        (closeButton as HTMLElement).click()
+    }
+
+    // 移除脚本（可选，保留可以加快下次加载）
+    // const script = document.getElementById('DOvk6D9nyaO5J06r')
+    // if (script) script.remove()
+}
+
+/**
  * 打开 Dify Chatbot
  */
-const openDifyChatbot = () => {
+const openDifyChatbot = async () => {
     // 检查是否登录
     if (!userStore.isLogin) {
         uni.showModal({
@@ -202,33 +266,54 @@ const openDifyChatbot = () => {
         return
     }
     
-    // 初始化用户追踪
-    const userId = getUserId()
-    const conversationId = getConversationId()
+    // 显示加载中
+    uni.showLoading({ title: '客服加载中...' })
     
-    // 设置全局变量供 Dify Chatbot 使用
-    if (typeof window !== 'undefined') {
-        window.__OPC_USER_ID__ = userId
-        window.__OPC_CONVERSATION_ID__ = conversationId
+    try {
+        // 动态加载 Dify 脚本
+        await loadDifyScript()
         
-        // 更新 Dify Chatbot 配置
-        if (window.difyChatbotConfig) {
-            window.difyChatbotConfig.systemVariables = {
-                user_id: userId,
-                conversation_id: conversationId
+        // 初始化用户追踪
+        const userId = getUserId()
+        const conversationId = getConversationId()
+        
+        // 设置全局变量供 Dify Chatbot 使用
+        if (typeof window !== 'undefined') {
+            window.__OPC_USER_ID__ = userId
+            window.__OPC_CONVERSATION_ID__ = conversationId
+            
+            // 更新 Dify Chatbot 配置
+            if (window.difyChatbotConfig) {
+                window.difyChatbotConfig.systemVariables = {
+                    user_id: userId,
+                    conversation_id: conversationId
+                }
             }
         }
-    }
-    
-    // 尝试触发 Dify Chatbot 打开
-    const difyButton = document.querySelector('#dify-chatbot-bubble-button')
-    if (difyButton) {
-        (difyButton as any).click()
-    } else {
+        
+        uni.hideLoading()
+        
+        // 尝试触发 Dify Chatbot 打开
+        // 等待一下让脚本完全初始化
+        setTimeout(() => {
+            const difyButton = document.querySelector('#dify-chatbot-bubble-button')
+            if (difyButton) {
+                (difyButton as HTMLElement).click()
+            } else {
+                uni.showToast({
+                    title: '请稍后重试',
+                    icon: 'none'
+                })
+            }
+        }, 500)
+        
+    } catch (error) {
+        uni.hideLoading()
         uni.showToast({
-            title: '客服加载中...',
+            title: '客服加载失败',
             icon: 'none'
         })
+        console.error('Dify Chatbot 加载失败:', error)
     }
 }
 
