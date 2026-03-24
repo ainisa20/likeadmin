@@ -10,12 +10,30 @@
             {{ content.title }}
         </view>
 
+        <!-- #ifdef H5 -->
+        <!-- Dify Chatbot 在线客服 -->
+        <view class="mt-[40rpx] w-full flex flex-col items-center">
+            <view class="text-sm text-muted mb-[20rpx]">或使用智能客服</view>
+            <view 
+                class="dify-chatbot-trigger bg-primary text-white px-[40rpx] py-[20rpx] rounded-full text-base"
+                @click="openDifyChatbot"
+            >
+                💬 在线咨询
+            </view>
+        </view>
+        <!-- #endif -->
+
+        <!-- 全局元素：二维码展示 -->
         <view class="mt-[60rpx]">
             <!--      这样渲染是为了能在小程序中长按识别二维码      -->
             <u-parse :html="richTxt"></u-parse>
 <!--            <u-image width="200" height="200" border-radius="10rpx" :src="getImageUrl(content.qrcode)"/>-->
         </view>
+
+        <!-- 全局元素：备注 -->
         <view v-if="content.remark" class="text-sm mt-[40rpx] font-medium">{{ content.remark }}</view>
+
+        <!-- 全局元素：电话拨打 -->
         <view v-if="content.mobile" class="text-sm mt-[24rpx] flex flex-wrap">
             <!-- #ifdef H5 -->
             <a class="ml-[10rpx] phone text-primary underline" :href="'tel:' + content.mobile">
@@ -28,14 +46,28 @@
             </view>
             <!-- #endif -->
         </view>
+
+        <!-- 全局元素：服务时间 -->
         <view v-if="content.time" class="text-muted text-sm mt-[30rpx]">
             服务时间：{{ content.time }}
         </view>
     </view>
 </template>
 <script lang="ts" setup>
-import {useAppStore} from '@/stores/app'
-import { computed } from 'vue'
+import { useAppStore } from '@/stores/app'
+import { useUserStore } from '@/stores/user'
+import { computed, onMounted, onUnmounted } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
+
+// #ifdef H5
+declare global {
+    interface Window {
+        __OPC_USER_ID__?: string
+        __OPC_CONVERSATION_ID__?: string
+        difyChatbotConfig?: any
+    }
+}
+// #endif
 
 const props = defineProps({
     content: {
@@ -48,7 +80,8 @@ const props = defineProps({
     }
 })
 
-const {getImageUrl} = useAppStore()
+const { getImageUrl } = useAppStore()
+const userStore = useUserStore()
 
 const richTxt = computed(() => {
     const src = getImageUrl(props.content.qrcode)
@@ -60,6 +93,160 @@ const handleCall = () => {
         phoneNumber: String(props.content.mobile)
     })
 }
+
+// #ifdef H5
+// Dify Chatbot 相关功能
+let heartbeatTimer: any = null
+const HEARTBEAT_INTERVAL = 60000 // 60秒心跳间隔
+
+/**
+ * 生成或获取用户ID
+ */
+const getUserId = (): string => {
+    let userId = uni.getStorageSync('opc_user_id')
+    if (!userId) {
+        // 如果用户已登录，使用用户ID；否则生成新的
+        userId = userStore.isLogin ? String(userStore.userInfo.id || '') : generateUUID()
+        uni.setStorageSync('opc_user_id', userId)
+    }
+    return userId
+}
+
+/**
+ * 生成或获取会话ID
+ */
+const getConversationId = (): string => {
+    let conversationId = uni.getStorageSync('opc_conversation_id')
+    if (!conversationId) {
+        conversationId = generateUUID()
+        uni.setStorageSync('opc_conversation_id', conversationId)
+    }
+    return conversationId
+}
+
+/**
+ * 生成UUID
+ */
+const generateUUID = (): string => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0
+        const v = c === 'x' ? r : (r & 0x3 | 0x8)
+        return v.toString(16)
+    })
+}
+
+/**
+ * 上报用户心跳
+ */
+const reportHeartbeat = async () => {
+    try {
+        // TODO: 根据实际API接口调整上报逻辑
+        console.log('[Dify Chatbot] Heartbeat:', {
+            user_id: getUserId(),
+            conversation_id: getConversationId(),
+            timestamp: Date.now()
+        })
+        
+        // 这里可以调用后端API上报心跳
+        // await reportUserHeartbeat({
+        //     user_id: getUserId(),
+        //     conversation_id: getConversationId()
+        // })
+    } catch (error) {
+        console.error('[Dify Chatbot] Heartbeat error:', error)
+    }
+}
+
+/**
+ * 启动心跳上报
+ */
+const startHeartbeat = () => {
+    if (heartbeatTimer) {
+        clearInterval(heartbeatTimer)
+    }
+    heartbeatTimer = setInterval(reportHeartbeat, HEARTBEAT_INTERVAL)
+    // 立即上报一次
+    reportHeartbeat()
+}
+
+/**
+ * 停止心跳上报
+ */
+const stopHeartbeat = () => {
+    if (heartbeatTimer) {
+        clearInterval(heartbeatTimer)
+        heartbeatTimer = null
+    }
+}
+
+/**
+ * 打开 Dify Chatbot
+ */
+const openDifyChatbot = () => {
+    // 初始化用户追踪
+    const userId = getUserId()
+    const conversationId = getConversationId()
+    
+    // 设置全局变量供 Dify Chatbot 使用
+    if (typeof window !== 'undefined') {
+        window.__OPC_USER_ID__ = userId
+        window.__OPC_CONVERSATION_ID__ = conversationId
+        
+        // 更新 Dify Chatbot 配置
+        if (window.difyChatbotConfig) {
+            window.difyChatbotConfig.systemVariables = {
+                user_id: userId,
+                conversation_id: conversationId
+            }
+        }
+    }
+    
+    // 尝试触发 Dify Chatbot 打开
+    const difyButton = document.querySelector('#dify-chatbot-bubble-button')
+    if (difyButton) {
+        (difyButton as any).click()
+    } else {
+        uni.showToast({
+            title: '客服加载中...',
+            icon: 'none'
+        })
+    }
+}
+
+// 页面显示时初始化
+onShow(() => {
+    // #ifdef H5
+    // 初始化用户追踪
+    const userId = getUserId()
+    const conversationId = getConversationId()
+    
+    // 设置全局变量
+    if (typeof window !== 'undefined') {
+        window.__OPC_USER_ID__ = userId
+        window.__OPC_CONVERSATION_ID__ = conversationId
+    }
+    
+    // 启动心跳
+    startHeartbeat()
+    // #endif
+})
+
+// 组件卸载时清理
+onUnmounted(() => {
+    // #ifdef H5
+    stopHeartbeat()
+    // #endif
+})
+// #endif
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.dify-chatbot-trigger {
+    transition: all 0.3s ease;
+    
+    &:active {
+        opacity: 0.8;
+        transform: scale(0.98);
+    }
+}
+</style>
