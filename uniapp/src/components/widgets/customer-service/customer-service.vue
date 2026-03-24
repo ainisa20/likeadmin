@@ -182,13 +182,17 @@ const stopHeartbeat = () => {
 /**
  * 动态加载 Dify Chatbot 脚本
  */
+let difyLoaded = false
 const loadDifyScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
-        // 检查是否已经加载并且按钮存在
-        if (document.getElementById('dify-chatbot-bubble-button')) {
+        // 检查是否已经加载
+        if (difyLoaded || document.getElementById('dify-chatbot-bubble-button')) {
+            difyLoaded = true
             resolve()
             return
         }
+
+        console.log('开始加载 Dify Chatbot...')
 
         // 创建配置脚本
         const configScript = document.createElement('script')
@@ -210,12 +214,18 @@ const loadDifyScript = (): Promise<void> => {
         loadScript.id = 'DOvk6D9nyaO5J06r'
         loadScript.defer = true
         loadScript.onload = () => {
-            // 等待 Dify 完全初始化
+            console.log('Dify 脚本加载完成，等待初始化...')
+            // Dify 脚本加载后需要等待它创建 UI
             setTimeout(() => {
+                difyLoaded = true
+                console.log('Dify 初始化完成')
                 resolve()
-            }, 1000)
+            }, 2000)
         }
-        loadScript.onerror = () => reject(new Error('Dify 脚本加载失败'))
+        loadScript.onerror = (e) => {
+            console.error('Dify 脚本加载失败:', e)
+            reject(new Error('Dify 脚本加载失败'))
+        }
         document.head.appendChild(loadScript)
 
         // 添加样式
@@ -223,12 +233,12 @@ const loadDifyScript = (): Promise<void> => {
         style.textContent = `
             #dify-chatbot-bubble-button {
                 background-color: #1C64F2 !important;
-                z-index: 999999 !important;
+                z-index: 9999999 !important;
             }
             #dify-chatbot-bubble-window {
                 width: 24rem !important;
                 height: 40rem !important;
-                z-index: 999999 !important;
+                z-index: 9999999 !important;
             }
         `
         document.head.appendChild(style)
@@ -285,26 +295,48 @@ const openDifyChatbot = async () => {
         
         uni.hideLoading()
         
-        // 等待 Dify 初始化完成，然后点击打开
+        // 等待一下然后尝试打开
         setTimeout(() => {
-            const difyButton = document.getElementById('dify-chatbot-bubble-button')
-            if (difyButton) {
-                console.log('找到 Dify 按钮，点击打开')
-                difyButton.click()
-            } else {
-                // 如果按钮还没出现，尝试通过 window 方法打开
-                console.log('按钮未找到，尝试其他方式打开')
-                if (window.difyChatbot) {
-                    window.difyChatbot.open()
-                } else {
-                    uni.showToast({
-                        title: '请稍后重试',
-                        icon: 'none',
-                        duration: 2000
-                    })
-                }
+            // 方法1: 查找并点击悬浮按钮
+            const bubbleBtn = document.getElementById('dify-chatbot-bubble-button')
+            if (bubbleBtn) {
+                console.log('找到悬浮按钮，点击打开')
+                bubbleBtn.click()
+                return
             }
-        }, 1500)
+            
+            // 方法2: 查找聊天窗口（可能已经打开）
+            const chatWindow = document.getElementById('dify-chatbot-bubble-window')
+            if (chatWindow) {
+                console.log('聊天窗口已打开')
+                return
+            }
+            
+            // 方法3: 尝试通过 Dify 全局对象
+            // @ts-ignore
+            if (window.difyChatbot) {
+                console.log('通过 difyChatbot 全局对象打开')
+                // @ts-ignore
+                window.difyChatbot.open()
+                return
+            }
+            
+            // 方法4: 尝试通过 window 方法
+            // @ts-ignore  
+            if (window.DifyChatbot) {
+                console.log('通过 DifyChatbot 类打开')
+                // @ts-ignore
+                window.DifyChatbot.open()
+                return
+            }
+            
+            console.log('未找到任何打开方式，显示提示')
+            uni.showToast({
+                title: '请点击页面右下角客服按钮',
+                icon: 'none',
+                duration: 3000
+            })
+        }, 500)
         
     } catch (error) {
         uni.hideLoading()
