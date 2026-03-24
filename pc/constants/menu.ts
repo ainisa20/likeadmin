@@ -4,14 +4,33 @@ export const NAVBAR = [
         path: '/'
     },
     {
+        name: '核心服务',
+        path: '/services'
+    },
+    {
+        name: 'OPC百科',
+        path: '/opc-intro'
+    },
+    {
+        name: '政策地图',
+        path: '/policy-map'
+    },
+    {
+        name: '成功案例',
+        path: '/cases'
+    },
+    {
+        name: '社区动态',
+        path: '/community'
+    },
+    {
+        name: '关于我们',
+        path: '/about'
+    },
+    {
         name: '资讯中心',
         path: '/information',
         component: 'information'
-    },
-    {
-        name: '移动端',
-        path: '/mobile',
-        component: 'mobile'
     },
     {
         name: '管理后台',
