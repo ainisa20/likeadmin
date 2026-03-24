@@ -183,6 +183,25 @@ const stopHeartbeat = () => {
  * 打开 Dify Chatbot
  */
 const openDifyChatbot = () => {
+    // 检查是否登录
+    if (!userStore.isLogin) {
+        uni.showModal({
+            title: '提示',
+            content: '请先注册/登录后再使用在线客服',
+            confirmText: '去登录',
+            cancelText: '取消',
+            success: (res) => {
+                if (res.confirm) {
+                    // 跳转到登录页面
+                    uni.navigateTo({
+                        url: '/pages/login/login'
+                    })
+                }
+            }
+        })
+        return
+    }
+    
     // 初始化用户追踪
     const userId = getUserId()
     const conversationId = getConversationId()
