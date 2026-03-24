@@ -260,9 +260,18 @@ const loadDifyScript = (): Promise<void> => {
 /**
  * 打开 Dify Chatbot
  */
+let difyOpening = false  // 防止重复打开
 const openDifyChatbot = async () => {
+    // 防止重复点击
+    if (difyOpening) {
+        console.log('Dify 正在打开中，跳过')
+        return
+    }
+    difyOpening = true
+    
     // 检查是否登录
     if (!userStore.isLogin) {
+        difyOpening = false
         uni.showModal({
             title: '提示',
             content: '请先注册/登录后再使用在线客服',
@@ -306,75 +315,55 @@ const openDifyChatbot = async () => {
         
         console.log('尝试打开 Dify Chatbot...')
         
-        // 尝试多种方式打开
-        let opened = false
+        // 检查是否已经显示
+        const existingWindow = document.querySelector('[class*="dify-chatbot-window"], [id*="dify-chatbot-window"]')
+        const existingButton = document.querySelector('[class*="dify-chatbot-bubble"]')
         
-        // 方式1: 查找按钮元素并点击
+        if (existingButton || existingWindow) {
+            console.log('Dify UI 已存在于页面，点击打开')
+            const btn = existingButton || existingWindow
+            ;(btn as HTMLElement).click()
+            difyOpening = false
+            return
+        }
+        
+        // 尝试点击按钮一次
         const buttonSelectors = [
             '#dify-chatbot-bubble-button',
             '#dify-chatbot-bubble',
             '.dify-chatbot-bubble-button',
-            '[class*="dify-chatbot"]'
+            '[class*="dify-chatbot-bubble"]'
         ]
         
         for (const selector of buttonSelectors) {
             const btn = document.querySelector(selector)
             if (btn) {
-                console.log('找到按钮:', selector)
-                btn.addEventListener('click', () => console.log('按钮被点击'), { once: true })
+                console.log('找到按钮:', selector, '点击打开')
                 ;(btn as HTMLElement).click()
-                opened = true
-                break
-            }
-        }
-        
-        // 方式2: 通过 Dify 全局对象
-        if (!opened) {
-            // @ts-ignore
-            const dc = window.difyChatbot || window.DifyChatbot || window.DifyChatbotWidget
-            if (dc) {
-                console.log('通过全局对象打开')
-                try {
-                    if (typeof dc.open === 'function') {
-                        dc.open()
-                        opened = true
-                    } else if (typeof dc === 'function') {
-                        dc()
-                        opened = true
-                    }
-                } catch (e) {
-                    console.error('全局对象打开失败:', e)
+                // 等待1秒让 Dify 响应
+                await new Promise(resolve => setTimeout(resolve, 1000))
+                
+                // 检查是否打开了
+                const afterWindow = document.querySelector('[class*="dify-chatbot-window"], [id*="dify-chatbot-window"]')
+                if (afterWindow) {
+                    console.log('Dify 聊天窗口已打开')
+                    difyOpening = false
+                    return
                 }
+                break  // 只尝试一次，不管是否成功
             }
         }
         
-        // 方式3: 触发自定义事件
-        if (!opened) {
-            console.log('尝试触发自定义事件')
-            document.dispatchEvent(new CustomEvent('dify-chatbot-open'))
-            const event = new CustomEvent('dify-chatbot-open')
-            document.body.dispatchEvent(event)
-        }
-        
-        // 如果都没成功，提示用户
-        if (!opened) {
-            // 检查是否已经显示在页面上（可能 Dify 自动显示了）
-            const existingWindow = document.querySelector('[class*="dify-chatbot-window"], [id*="dify-chatbot-window"]')
-            const existingButton = document.querySelector('[class*="dify-chatbot-bubble"]')
-            
-            if (existingButton || existingWindow) {
-                console.log('Dify UI 已存在于页面')
-                opened = true
-            } else {
-                uni.showToast({
-                    title: '请点击右下角客服按钮',
-                    icon: 'none',
-                    duration: 3000
-                })
-            }
-        }
+        // 如果按钮点击了但没打开，提示用户
+        difyOpening = false
+        uni.showToast({
+            title: '请点击右下角客服按钮',
+            icon: 'none',
+            duration: 3000
+        })
         
     } catch (error) {
+        difyOpening = false
         uni.hideLoading()
         uni.showToast({
             title: '客服加载失败',
