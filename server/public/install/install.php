@@ -28,10 +28,10 @@ $yxEnv->load($modelInstall->getAppRoot() . '/.example.env');
 $yxEnv->makeEnv($modelInstall->getAppRoot() . '/.env');
 
 $post = [
-    'host' => $_POST['host'] ?? '127.0.0.1',
+    'host' => $_POST['host'] ?? 'mysql',
     'port' => $_POST['port'] ?? '3306',
     'user' => $_POST['user'] ?? 'root',
-    'password' => $_POST['password'] ?? '',
+    'password' => $_POST['password'] ?? '123456',
     'name' => $_POST['name'] ?? 'likeadmin',
     'admin_user' => $_POST['admin_user'] ?? '',
     'admin_password' => $_POST['admin_password'] ?? '',

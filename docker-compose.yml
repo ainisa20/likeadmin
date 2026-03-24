@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: likeadmin-app
+    restart: always
+    ports:
+      - "8088:80"
+    volumes:
+      - ./server/runtime:/var/www/html/runtime
+      - ./server/public/upload:/var/www/html/public/upload
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=likeadmin
+      - DB_USER=root
+      - DB_PASS=123456
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - likeadmin
+
+  mysql:
+    image: mysql:8.0
+    platform: linux/amd64
+    container_name: likeadmin-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: likeadmin
+      TZ: Asia/Shanghai
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3308:3306"
+    networks:
+      - likeadmin
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+
+  redis:
+    image: redis:7-alpine
+    container_name: likeadmin-redis
+    restart: always
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6382:6379"
+    networks:
+      - likeadmin
+
+networks:
+  likeadmin:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  redis-data:
