@@ -310,24 +310,11 @@ const openDifyChatbot = async () => {
         
         uni.hideLoading()
         
-        // 等待一下让 Dify 完全准备好
-        await new Promise(resolve => setTimeout(resolve, 500))
+        console.log('等待 Dify UI 创建...')
         
-        console.log('尝试打开 Dify Chatbot...')
-        
-        // 检查是否已经显示
-        const existingWindow = document.querySelector('[class*="dify-chatbot-window"], [id*="dify-chatbot-window"]')
-        const existingButton = document.querySelector('[class*="dify-chatbot-bubble"]')
-        
-        if (existingButton || existingWindow) {
-            console.log('Dify UI 已存在于页面，点击打开')
-            const btn = existingButton || existingWindow
-            ;(btn as HTMLElement).click()
-            difyOpening = false
-            return
-        }
-        
-        // 尝试点击按钮一次
+        // 轮询检查按钮是否存在，最多等待5秒
+        let buttonFound = false
+        const maxAttempts = 10
         const buttonSelectors = [
             '#dify-chatbot-bubble-button',
             '#dify-chatbot-bubble',
@@ -335,29 +322,58 @@ const openDifyChatbot = async () => {
             '[class*="dify-chatbot-bubble"]'
         ]
         
-        for (const selector of buttonSelectors) {
-            const btn = document.querySelector(selector)
-            if (btn) {
-                console.log('找到按钮:', selector, '点击打开')
-                ;(btn as HTMLElement).click()
+        for (let i = 0; i < maxAttempts; i++) {
+            for (const selector of buttonSelectors) {
+                const btn = document.querySelector(selector)
+                if (btn) {
+                    console.log(`找到按钮: ${selector}，尝试打开 (${i+1}/${maxAttempts})`)
+                    ;(btn as HTMLElement).click()
+                    buttonFound = true
+                    break
+                }
+            }
+            
+            if (buttonFound) {
                 // 等待1秒让 Dify 响应
                 await new Promise(resolve => setTimeout(resolve, 1000))
                 
-                // 检查是否打开了
-                const afterWindow = document.querySelector('[class*="dify-chatbot-window"], [id*="dify-chatbot-window"]')
-                if (afterWindow) {
-                    console.log('Dify 聊天窗口已打开')
+                // 检查窗口是否打开
+                const chatWindow = document.querySelector('[class*="dify-chatbot-window"], [id*="dify-chatbot-window"]')
+                if (chatWindow) {
+                    console.log('✅ Dify 聊天窗口已打开')
                     difyOpening = false
                     return
                 }
-                break  // 只尝试一次，不管是否成功
             }
+            
+            // 每次等待0.5秒
+            await new Promise(resolve => setTimeout(resolve, 500))
         }
         
-        // 如果按钮点击了但没打开，提示用户
+        // 检查是否有任何 Dify 相关元素
+        const allDifyElements = document.querySelectorAll('[class*="dify"], [id*="dify"]')
+        console.log(`页面中 Dify 相关元素数量: ${allDifyElements.length}`)
+        
+        if (allDifyElements.length > 0) {
+            console.log('Dify 元素已存在但无法点击，尝试其他方式...')
+            // 尝试点击找到的第一个元素
+            const firstElement = allDifyElements[0] as HTMLElement
+            firstElement.click()
+            await new Promise(resolve => setTimeout(resolve, 1000))
+        }
+        
+        // 检查 window 对象
+        console.log('检查 Dify 全局对象...')
+        // @ts-ignore
+        console.log('window.difyChatbot:', typeof window.difyChatbot)
+        // @ts-ignore
+        console.log('window.DifyChatbot:', typeof window.DifyChatbot)
+        // @ts-ignore
+        console.log('window.difyChatbotConfig:', typeof window.difyChatbotConfig)
+        
         difyOpening = false
         uni.showToast({
-            title: '请点击右下角客服按钮',
+            title: '请点击右下角客服图标',
             icon: 'none',
             duration: 3000
         })
