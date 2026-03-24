@@ -184,8 +184,8 @@ const stopHeartbeat = () => {
  */
 const loadDifyScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
-        // 检查是否已经加载
-        if (document.getElementById('DOvk6D9nyaO5J06r')) {
+        // 检查是否已经加载并且按钮存在
+        if (document.getElementById('dify-chatbot-bubble-button')) {
             resolve()
             return
         }
@@ -209,7 +209,12 @@ const loadDifyScript = (): Promise<void> => {
         loadScript.src = 'http://56uznsgemurp.xiaomiqiu.com/embed.min.js'
         loadScript.id = 'DOvk6D9nyaO5J06r'
         loadScript.defer = true
-        loadScript.onload = () => resolve()
+        loadScript.onload = () => {
+            // 等待 Dify 完全初始化
+            setTimeout(() => {
+                resolve()
+            }, 1000)
+        }
         loadScript.onerror = () => reject(new Error('Dify 脚本加载失败'))
         document.head.appendChild(loadScript)
 
@@ -218,29 +223,16 @@ const loadDifyScript = (): Promise<void> => {
         style.textContent = `
             #dify-chatbot-bubble-button {
                 background-color: #1C64F2 !important;
+                z-index: 999999 !important;
             }
             #dify-chatbot-bubble-window {
                 width: 24rem !important;
                 height: 40rem !important;
+                z-index: 999999 !important;
             }
         `
         document.head.appendChild(style)
     })
-}
-
-/**
- * 清理 Dify Chatbot（关闭并移除）
- */
-const cleanupDify = () => {
-    // 尝试点击关闭按钮
-    const closeButton = document.querySelector('#dify-chatbot-bubble-window button[aria-label="关闭"]')
-    if (closeButton) {
-        (closeButton as HTMLElement).click()
-    }
-
-    // 移除脚本（可选，保留可以加快下次加载）
-    // const script = document.getElementById('DOvk6D9nyaO5J06r')
-    // if (script) script.remove()
 }
 
 /**
@@ -293,25 +285,33 @@ const openDifyChatbot = async () => {
         
         uni.hideLoading()
         
-        // 尝试触发 Dify Chatbot 打开
-        // 等待一下让脚本完全初始化
+        // 等待 Dify 初始化完成，然后点击打开
         setTimeout(() => {
-            const difyButton = document.querySelector('#dify-chatbot-bubble-button')
+            const difyButton = document.getElementById('dify-chatbot-bubble-button')
             if (difyButton) {
-                (difyButton as HTMLElement).click()
+                console.log('找到 Dify 按钮，点击打开')
+                difyButton.click()
             } else {
-                uni.showToast({
-                    title: '请稍后重试',
-                    icon: 'none'
-                })
+                // 如果按钮还没出现，尝试通过 window 方法打开
+                console.log('按钮未找到，尝试其他方式打开')
+                if (window.difyChatbot) {
+                    window.difyChatbot.open()
+                } else {
+                    uni.showToast({
+                        title: '请稍后重试',
+                        icon: 'none',
+                        duration: 2000
+                    })
+                }
             }
-        }, 500)
+        }, 1500)
         
     } catch (error) {
         uni.hideLoading()
         uni.showToast({
-            title: '客服加载失败',
-            icon: 'none'
+            title: '客服加载失败，请刷新页面重试',
+            icon: 'none',
+            duration: 2000
         })
         console.error('Dify Chatbot 加载失败:', error)
     }
