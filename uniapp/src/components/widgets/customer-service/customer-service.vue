@@ -64,7 +64,6 @@ declare global {
     interface Window {
         __OPC_USER_ID__?: string
         __OPC_CONVERSATION_ID__?: string
-        difyChatbotConfig?: any
     }
 }
 // #endif
@@ -96,8 +95,7 @@ const handleCall = () => {
 
 // #ifdef H5
 // Dify Chatbot 相关功能
-let heartbeatTimer: any = null
-const HEARTBEAT_INTERVAL = 60000 // 60秒心跳间隔
+let difyIframeOpen = false
 
 /**
  * 生成或获取用户ID
@@ -136,257 +134,82 @@ const generateUUID = (): string => {
 }
 
 /**
- * 上报用户心跳
+ * 打开 Dify Chatbot - 使用 iframe 嵌入方式
  */
-const reportHeartbeat = async () => {
-    try {
-        // TODO: 根据实际API接口调整上报逻辑
-        console.log('[Dify Chatbot] Heartbeat:', {
-            user_id: getUserId(),
-            conversation_id: getConversationId(),
-            timestamp: Date.now()
-        })
-        
-        // 这里可以调用后端API上报心跳
-        // await reportUserHeartbeat({
-        //     user_id: getUserId(),
-        //     conversation_id: getConversationId()
-        // })
-    } catch (error) {
-        console.error('[Dify Chatbot] Heartbeat error:', error)
-    }
-}
-
-/**
- * 启动心跳上报
- */
-const startHeartbeat = () => {
-    if (heartbeatTimer) {
-        clearInterval(heartbeatTimer)
-    }
-    heartbeatTimer = setInterval(reportHeartbeat, HEARTBEAT_INTERVAL)
-    // 立即上报一次
-    reportHeartbeat()
-}
-
-/**
- * 停止心跳上报
- */
-const stopHeartbeat = () => {
-    if (heartbeatTimer) {
-        clearInterval(heartbeatTimer)
-        heartbeatTimer = null
-    }
-}
-
-/**
- * 动态加载 Dify Chatbot 脚本
- */
-let difyLoaded = false
-let difyReady = false
-const loadDifyScript = (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-        // 检查是否已经加载
-        if (difyLoaded) {
-            resolve()
-            return
-        }
-
-        console.log('开始加载 Dify Chatbot...')
-
-        // 创建配置脚本 - 必须在加载脚本之前设置
-        const configScript = document.createElement('script')
-        configScript.textContent = `
-            window.difyChatbotConfig = {
-                token: 'DOvk6D9nyaO5J06r',
-                baseUrl: 'http://56uznsgemurp.xiaomiqiu.com',
-                systemVariables: {
-                    user_id: '',
-                    conversation_id: '',
-                },
-                onReady: function() {
-                    console.log('Dify Chatbot 已就绪')
-                    window.__DIFY_READY__ = true
-                },
-                onOpen: function() {
-                    console.log('Dify Chatbot 已打开')
-                },
-                onClose: function() {
-                    console.log('Dify Chatbot 已关闭')
-                }
-            }
-        `
-        document.head.appendChild(configScript)
-
-        // 创建加载脚本
-        const loadScript = document.createElement('script')
-        loadScript.src = 'http://56uznsgemurp.xiaomiqiu.com/embed.min.js'
-        loadScript.id = 'DOvk6D9nyaO5J06r'
-        loadScript.defer = true
-        loadScript.onload = () => {
-            console.log('Dify 脚本加载完成')
-            difyLoaded = true
-            
-            // 等待 Dify 初始化
-            setTimeout(() => {
-                difyReady = true
-                console.log('Dify 准备完成')
-                resolve()
-            }, 1000)
-        }
-        loadScript.onerror = (e) => {
-            console.error('Dify 脚本加载失败:', e)
-            reject(new Error('Dify 脚本加载失败'))
-        }
-        document.head.appendChild(loadScript)
-
-        // 添加样式
-        const style = document.createElement('style')
-        style.textContent = `
-            #dify-chatbot-bubble-button {
-                background-color: #1C64F2 !important;
-                z-index: 9999999 !important;
-            }
-            #dify-chatbot-bubble-window {
-                width: 24rem !important;
-                height: 40rem !important;
-                z-index: 9999999 !important;
-            }
-        `
-        document.head.appendChild(style)
-    })
-}
-
-/**
- * 打开 Dify Chatbot
- */
-let difyOpening = false  // 防止重复打开
-const openDifyChatbot = async () => {
+const openDifyChatbot = () => {
     // 防止重复点击
-    if (difyOpening) {
-        console.log('Dify 正在打开中，跳过')
+    if (difyIframeOpen) {
         return
     }
-    difyOpening = true
     
     // 检查是否登录
     if (!userStore.isLogin) {
-        difyOpening = false
         uni.showModal({
             title: '提示',
             content: '请先注册/登录后再使用在线客服',
             confirmText: '去登录',
-            cancelText: '取消',
             success: (res) => {
                 if (res.confirm) {
-                    uni.navigateTo({
-                        url: '/pages/login/login'
-                    })
+                    uni.navigateTo({ url: '/pages/login/login' })
                 }
             }
         })
         return
     }
     
-    uni.showLoading({ title: '客服加载中...' })
+    difyIframeOpen = true
     
-    try {
-        await loadDifyScript()
-        
-        const userId = getUserId()
-        const conversationId = getConversationId()
-        
-        if (typeof window !== 'undefined') {
-            window.__OPC_USER_ID__ = userId
-            window.__OPC_CONVERSATION_ID__ = conversationId
-            
-            if (window.difyChatbotConfig) {
-                window.difyChatbotConfig.systemVariables = {
-                    user_id: userId,
-                    conversation_id: conversationId
-                }
-            }
-        }
-        
-        uni.hideLoading()
-        
-        console.log('等待 Dify UI 创建...')
-        
-        // 轮询检查按钮是否存在，最多等待5秒
-        let buttonFound = false
-        const maxAttempts = 10
-        const buttonSelectors = [
-            '#dify-chatbot-bubble-button',
-            '#dify-chatbot-bubble',
-            '.dify-chatbot-bubble-button',
-            '[class*="dify-chatbot-bubble"]'
-        ]
-        
-        for (let i = 0; i < maxAttempts; i++) {
-            for (const selector of buttonSelectors) {
-                const btn = document.querySelector(selector)
-                if (btn) {
-                    console.log(`找到按钮: ${selector}，尝试打开 (${i+1}/${maxAttempts})`)
-                    ;(btn as HTMLElement).click()
-                    buttonFound = true
-                    break
-                }
-            }
-            
-            if (buttonFound) {
-                // 等待1秒让 Dify 响应
-                await new Promise(resolve => setTimeout(resolve, 1000))
-                
-                // 检查窗口是否打开
-                const chatWindow = document.querySelector('[class*="dify-chatbot-window"], [id*="dify-chatbot-window"]')
-                if (chatWindow) {
-                    console.log('✅ Dify 聊天窗口已打开')
-                    difyOpening = false
-                    return
-                }
-            }
-            
-            // 每次等待0.5秒
-            await new Promise(resolve => setTimeout(resolve, 500))
-        }
-        
-        // 检查是否有任何 Dify 相关元素
-        const allDifyElements = document.querySelectorAll('[class*="dify"], [id*="dify"]')
-        console.log(`页面中 Dify 相关元素数量: ${allDifyElements.length}`)
-        
-        if (allDifyElements.length > 0) {
-            console.log('Dify 元素已存在但无法点击，尝试其他方式...')
-            // 尝试点击找到的第一个元素
-            const firstElement = allDifyElements[0] as HTMLElement
-            firstElement.click()
-            await new Promise(resolve => setTimeout(resolve, 1000))
-        }
-        
-        // 检查 window 对象
-        console.log('检查 Dify 全局对象...')
-        // @ts-ignore
-        console.log('window.difyChatbot:', typeof window.difyChatbot)
-        // @ts-ignore
-        console.log('window.DifyChatbot:', typeof window.DifyChatbot)
-        // @ts-ignore
-        console.log('window.difyChatbotConfig:', typeof window.difyChatbotConfig)
-        
-        difyOpening = false
-        uni.showToast({
-            title: '请点击右下角客服图标',
-            icon: 'none',
-            duration: 3000
-        })
-        
-    } catch (error) {
-        difyOpening = false
-        uni.hideLoading()
-        uni.showToast({
-            title: '客服加载失败',
-            icon: 'none'
-        })
-        console.error('Dify Chatbot 加载失败:', error)
+    const userId = getUserId()
+    const conversationId = getConversationId()
+    
+    // 使用 iframe 方式嵌入
+    const iframeUrl = `http://56uznsgemurp.xiaomiqiu.com/chatbot/DOvk6D9nyaO5J06r?user_id=${userId}&conversation_id=${conversationId}`
+    
+    // 创建 iframe
+    const iframe = document.createElement('iframe')
+    iframe.src = iframeUrl
+    iframe.id = 'dify-chatbot-iframe'
+    iframe.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999999;
+        border: none;
+        background: white;
+    `
+    
+    // 添加关闭按钮
+    const closeBtn = document.createElement('div')
+    closeBtn.innerHTML = '✕'
+    closeBtn.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background: #333;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        z-index: 10000000;
+        cursor: pointer;
+    `
+    
+    const cleanup = () => {
+        iframe.remove()
+        closeBtn.remove()
+        difyIframeOpen = false
     }
+    
+    closeBtn.onclick = cleanup
+    
+    document.body.appendChild(iframe)
+    document.body.appendChild(closeBtn)
 }
 
 // 页面显示时初始化
@@ -401,16 +224,21 @@ onShow(() => {
         window.__OPC_USER_ID__ = userId
         window.__OPC_CONVERSATION_ID__ = conversationId
     }
-    
-    // 启动心跳
-    startHeartbeat()
     // #endif
 })
 
 // 组件卸载时清理
 onUnmounted(() => {
     // #ifdef H5
-    stopHeartbeat()
+    // 清理可能残留的 iframe
+    const existingIframe = document.getElementById('dify-chatbot-iframe')
+    if (existingIframe) {
+        existingIframe.remove()
+    }
+    const existingCloseBtn = document.querySelector('[style*="z-index: 10000000"]')
+    if (existingCloseBtn) {
+        existingCloseBtn.remove()
+    }
     // #endif
 })
 // #endif
