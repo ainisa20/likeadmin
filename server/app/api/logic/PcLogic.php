@@ -81,7 +81,7 @@ class PcLogic extends BaseLogic
         // 排序条件
         $orderRaw = 'sort desc, id desc';
         if ($sortType == 'new') {
-            $orderRaw = 'id desc';
+            $orderRaw = 'sort desc, id desc';
         }
         if ($sortType == 'hot') {
             $orderRaw = 'click_actual + click_virtual desc, id desc';
