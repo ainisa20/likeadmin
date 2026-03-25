@@ -37,6 +37,34 @@
                     />
                 </el-form-item>
             </el-card>
+
+            <el-card shadow="never" class="!border-none flex mt-2">
+                <template #header>
+                    <div class="font-bold text-base">在线客服配置（Dify Chatbot）</div>
+                </template>
+
+                <el-form-item label="Dify URL">
+                    <el-input
+                        class="w-[400px]"
+                        placeholder="例如: http://56uznsgemurp.xiaomiqiu.com"
+                        v-model="contentData.dify_url"
+                    />
+                    <div class="text-xs text-gray-400 mt-1">
+                        请输入 Dify 服务地址，不包含 /chatbot/xxx 部分
+                    </div>
+                </el-form-item>
+
+                <el-form-item label="Dify Token">
+                    <el-input
+                        class="w-[400px]"
+                        placeholder="例如: DOvk6D9nyaO5J06r"
+                        v-model="contentData.dify_token"
+                    />
+                    <div class="text-xs text-gray-400 mt-1">
+                        请输入 Dify 机器人 Token
+                    </div>
+                </el-form-item>
+            </el-card>
         </el-form>
     </div>
 </template>

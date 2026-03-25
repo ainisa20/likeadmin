@@ -56,7 +56,7 @@
 <script lang="ts" setup>
 import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, onUnmounted } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 
 // #ifdef H5
@@ -94,7 +94,7 @@ const handleCall = () => {
 }
 
 // #ifdef H5
-// Dify Chatbot 相关功能
+// Dify Chatbot 相关配置
 let difyIframeOpen = false
 
 /**
@@ -141,7 +141,20 @@ const openDifyChatbot = () => {
     if (difyIframeOpen) {
         return
     }
-    
+
+    // 从装修数据中获取配置
+    const difyUrl = props.content.dify_url || ''
+    const difyToken = props.content.dify_token || ''
+
+    // 检查是否配置了 Dify
+    if (!difyUrl || !difyToken) {
+        uni.showToast({
+            title: '在线客服配置错误',
+            icon: 'none'
+        })
+        return
+    }
+
     // 检查是否登录
     if (!userStore.isLogin) {
         uni.showModal({
@@ -156,14 +169,14 @@ const openDifyChatbot = () => {
         })
         return
     }
-    
+
     difyIframeOpen = true
-    
+
     const userId = getUserId()
     const conversationId = getConversationId()
-    
-    // 使用 iframe 方式嵌入
-    const iframeUrl = `http://56uznsgemurp.xiaomiqiu.com/chatbot/DOvk6D9nyaO5J06r?user_id=${userId}&conversation_id=${conversationId}`
+
+    // 使用 iframe 方式嵌入，从装修数据中获取 URL 和 token
+    const iframeUrl = `${difyUrl}/chatbot/${difyToken}?user_id=${userId}&conversation_id=${conversationId}`
     
     // 创建 iframe
     const iframe = document.createElement('iframe')
