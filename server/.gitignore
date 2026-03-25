@@ -1,7 +1,7 @@
 /.idea
 /.vscode
 *.log
-/.env
+# /.env  # Removed to track .env file
 /public/uploads/*
 !/public/uploads/index.html
 /runtime/*
