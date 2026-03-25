@@ -31,6 +31,7 @@ components.d.ts
 *.sln
 *.sw?
 
+# .env files now tracked
 # .env
-.env.development
-.env.production
+# .env.development
+# .env.production
