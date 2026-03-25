@@ -1,12 +1,18 @@
-version: '3.8'
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        DB_HOST: mysql
+        DB_PORT: 3306
+        DB_NAME: likeadmin
+        DB_USER: root
+        DB_PASS: ${DB_PASSWORD:-change_me_in_production}
+        REDIS_HOST: redis
+        REDIS_PORT: 6379
     container_name: likeadmin-app
-    restart: always
+    restart: unless-stopped
     ports:
       - "8088:80"
     volumes:
@@ -17,47 +23,114 @@ services:
       - DB_PORT=3306
       - DB_NAME=likeadmin
       - DB_USER=root
-      - DB_PASS=123456
+      - DB_PASS=${DB_PASSWORD:-change_me_in_production}
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - PHP_MAX_CHILDREN=50
+      - PHP_START_SERVERS=5
     depends_on:
-      - mysql
-      - redis
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
     networks:
       - likeadmin
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   mysql:
     image: mysql:8.0
     platform: linux/amd64
     container_name: likeadmin-mysql
-    restart: always
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-change_me_in_production}
       MYSQL_DATABASE: likeadmin
       TZ: Asia/Shanghai
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
     ports:
       - "3308:3306"
     networks:
       - likeadmin
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD:-change_me_in_production}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   redis:
     image: redis:7-alpine
     container_name: likeadmin-redis
-    restart: always
+    restart: unless-stopped
     volumes:
       - redis-data:/data
     ports:
       - "6382:6379"
     networks:
       - likeadmin
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 networks:
   likeadmin:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
 volumes:
   mysql-data:
+    driver: local
   redis-data:
+    driver: local
