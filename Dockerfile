@@ -116,13 +116,15 @@ RUN chown -R www-data:www-data /var/www/html && \
 RUN rm -f /var/www/html/config/install.lock
 
 # ========================================
-# 创建 .env 配置文件
+# 创建 .env 配置文件（注意文件名第一个字符是点）
 # ========================================
 RUN cp /var/www/html/.example.env /var/www/html/.env && \
     sed -i 's/HOSTNAME = 127.0.0.1/HOSTNAME = mysql/' /var/www/html/.env && \
     sed -i 's/DATABASE = test/DATABASE = likeadmin/' /var/www/html/.env && \
     sed -i 's/USERNAME = username/USERNAME = root/' /var/www/html/.env && \
-    sed -i 's/PASSWORD = password/PASSWORD = 123456/' /var/www/html/.env
+    sed -i 's/PASSWORD = password/PASSWORD = 123456/' /var/www/html/.env && \
+    chown www-data:www-data /var/www/html/.env && \
+    chmod 644 /var/www/html/.env
 
 # ========================================
 # 暴露端口
