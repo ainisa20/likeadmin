@@ -1,0 +1,15 @@
+{
+  "database": {
+    "host": "localhost",
+    "port": 3306,
+    "database": "likeadmin",
+    "user": "root",
+    "password": "your_password_here"
+  },
+  "article": {
+    "default_cid": 1,
+    "default_is_show": 1,
+    "default_sort": 0,
+    "default_click_virtual": 0
+  }
+}
