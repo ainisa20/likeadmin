@@ -170,7 +170,7 @@ class PcLogic extends BaseLogic
             'siteStatistics' => $siteStatistics,
             'version' => config('project.version'),
             'copyright' => $copyright,
-            'admin_url' => request()->domain() . '/admin',
+            'admin_url' => request()->domain() . '/admin/',
             'qrcode' => [
                 'oa' => $oaQrCode,
                 'mnp' => $mnpQrCode,
