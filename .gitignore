@@ -1,20 +1,29 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# Docker 相关
+.env
+data/
+logs/
 
-# Other files and folders
-.settings/
+# 前端构建产物
+admin/dist/
+admin/node_modules/
+pc/.output/
+pc/node_modules/
+pc/.nuxt/
+uniapp/dist/
+uniapp/node_modules/
+uniapp/unpackage/
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# OS
+.DS_Store
+Thumbs.db
 
-/.idea
+# 其他
+backups/
+*.log
