@@ -43,7 +43,7 @@ services:
     image: mysql:8.0
     platform: linux/arm64/v8
     container_name: likeadmin-mysql
-    restart: always 
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: moon5201314
       MYSQL_DATABASE: likeadmin

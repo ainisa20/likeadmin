@@ -152,6 +152,7 @@
 import { ElMessage } from 'element-plus'
 import { InfoFilled, Picture } from '@element-plus/icons-vue'
 import { getIndex } from '@/api/shop'
+import { submitAssessment } from '@/api/assessment'
 import { useAppStore } from '~~/stores/app'
 
 // 获取应用数据和轮播图（原有逻辑）
@@ -204,24 +205,37 @@ const submitting = ref(false)
 
 // 提交表单
 const submitForm = async () => {
-    if (!formRef.value) return
+    console.log('点击提交按钮', form)
+    console.log('formRef:', formRef.value)
+    if (!formRef.value) {
+        console.log('formRef 不存在')
+        return
+    }
 
     try {
+        // 验证表单
         await formRef.value.validate()
+        console.log('验证通过，准备提交到后端')
+
         submitting.value = true
 
-        // TODO: 调用后端接口提交表单
-        // const res = await api.submitAssessment(form)
+        const res = await submitAssessment({
+            name: form.name,
+            phone: form.phone,
+            stage: form.stage
+        })
 
-        // 模拟提交
-        await new Promise(resolve => setTimeout(resolve, 1000))
-
+        console.log('后端返回:', res)
         ElMessage.success('提交成功！我们将于24小时内联系您')
 
-        // 重置表单
         formRef.value.resetFields()
-    } catch (error) {
-        console.error('表单验证失败:', error)
+    } catch (error: any) {
+        console.log('验证或提交失败:', error)
+        console.log('error 类型:', typeof error)
+        console.log('error 详情:', JSON.stringify(error, null, 2))
+        // error 可能是字符串（后端返回的错误消息）或 Error 对象
+        const errorMsg = typeof error === 'string' ? error : (error?.message || JSON.stringify(error))
+        ElMessage.error(errorMsg)
     } finally {
         submitting.value = false
     }
