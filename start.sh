@@ -43,11 +43,11 @@ NGINX_MAIN="$NGINX_ETC/nginx.conf"
 echo "=== likeadmin 启动脚本 ==="
 
 echo "[1/6] 检查数据库..."
-if mysql -u root -p'123456' -e "USE likeadmin" 2>/dev/null; then
+if mysql -u root -p'your_secure_password_here' -e "USE likeadmin" 2>/dev/null; then
     echo "  ✓ 数据库 likeadmin 已存在"
 else
     echo "  → 创建数据库 likeadmin..."
-    mysql -u root -p'123456' -e "CREATE DATABASE IF NOT EXISTS likeadmin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>/dev/null
+    mysql -u root -p'your_secure_password_here' -e "CREATE DATABASE IF NOT EXISTS likeadmin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>/dev/null
     echo "  ✓ 数据库创建完成"
 fi
 
