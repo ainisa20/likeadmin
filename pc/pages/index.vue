@@ -1,5 +1,5 @@
 <template>
-    <div class="opc-homepage">
+    <div class="homepage">
         <!-- 轮播图 + 资讯展示区域（主视觉区域） -->
         <section class="content-section">
             <div class="content-container">
@@ -46,8 +46,8 @@
         <section class="quick-form-section" id="assessment-form">
             <div class="form-container">
                 <div class="form-header">
-                    <h2 class="form-title">你的OPC创业到哪一步了？</h2>
-                    <p class="form-subtitle">快速告诉我们，获取专属建议</p>
+                    <h2 class="form-title">联系我们，获取专属方案</h2>
+                    <p class="form-subtitle">填写您的需求，我们将在24小时内与您联系</p>
                 </div>
 
                 <ElForm
@@ -76,28 +76,28 @@
                         </ElFormItem>
                     </div>
 
-                    <ElFormItem label="当前阶段" prop="stage">
+                    <ElFormItem label="咨询类型" prop="stage">
                         <ElSelect
                             v-model="form.stage"
-                            placeholder="请选择您的当前阶段"
+                            placeholder="请选择咨询类型"
                             size="large"
                             class="w-full"
                         >
                             <ElOption
-                                label="刚有想法，需要方向梳理"
-                                value="idea"
+                                label="产品咨询"
+                                value="product"
                             />
                             <ElOption
-                                label="已有方向，需要政策匹配"
-                                value="direction"
+                                label="商务合作"
+                                value="business"
                             />
                             <ElOption
-                                label="已成立公司，需要资源对接"
-                                value="company"
+                                label="技术支持"
+                                value="support"
                             />
                             <ElOption
-                                label="已有团队，需要融资/场景"
-                                value="team"
+                                label="其他咨询"
+                                value="other"
                             />
                         </ElSelect>
                     </ElFormItem>
@@ -110,7 +110,7 @@
                             :loading="submitting"
                             @click="submitForm"
                         >
-                            提交获取专属方案
+                            提交咨询
                         </ElButton>
                     </ElFormItem>
 
@@ -129,18 +129,18 @@
                 <div class="highlights-grid">
                     <div class="highlight-card">
                         <div class="card-icon">🎯</div>
-                        <h3 class="card-title">专业专注</h3>
-                        <p class="card-desc">深耕OPC领域，理解一人公司特殊需求</p>
+                        <h3 class="card-title">专业团队</h3>
+                        <p class="card-desc">多年行业经验，为您提供专业解决方案</p>
                     </div>
                     <div class="highlight-card">
                         <div class="card-icon">🤝</div>
-                        <h3 class="card-title">资源丰富</h3>
-                        <p class="card-desc">连接政府、园区、投资机构、技术资源</p>
+                        <h3 class="card-title">优质服务</h3>
+                        <p class="card-desc">以客户为中心，全程贴心服务保障</p>
                     </div>
                     <div class="highlight-card">
                         <div class="card-icon">💼</div>
-                        <h3 class="card-title">成功案例</h3>
-                        <p class="card-desc">帮助多家OPC获得千万融资和政府补贴</p>
+                        <h3 class="card-title">成功经验</h3>
+                        <p class="card-desc">服务众多客户，积累了丰富的成功案例</p>
                     </div>
                 </div>
             </div>
@@ -243,16 +243,16 @@ const submitForm = async () => {
 
 // SEO 优化
 useHead({
-    title: 'OPC创业服务平台 - 让每一个超级个体都有属于自己的码头',
+    title: '企业官网 - 专业服务与解决方案',
     meta: [
-        { name: 'description', content: '中国首家OPC全周期赋能服务平台，为创业者提供从政策申报、社区入驻、资本对接到技术赋能的全链条服务' },
-        { name: 'keywords', content: 'OPC,一人公司,创业服务,政策申报,资本对接,技术赋能' }
+        { name: 'description', content: '我们致力于为客户提供专业、高效、创新的解决方案，助力企业实现数字化转型与业务增长' },
+        { name: 'keywords', content: '企业服务,专业解决方案,商务合作,技术支持' }
     ]
 })
 </script>
 
 <style lang="scss" scoped>
-.opc-homepage {
+.homepage {
     width: 100%;
     min-height: 100vh;
     background: #f5f7fa;

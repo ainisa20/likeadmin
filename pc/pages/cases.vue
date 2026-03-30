@@ -4,39 +4,39 @@
         <section class="page-header">
             <div class="header-container">
                 <h1 class="page-title">成功案例</h1>
-                <p class="page-subtitle">我们帮助的OPC创业者获得千万融资和政府补贴</p>
+                <p class="page-subtitle">与众多客户携手合作，共创美好未来</p>
             </div>
         </section>
 
-        <!-- 融资成功案例 -->
+        <!-- 项目成功案例 -->
         <section class="cases-section">
             <div class="section-container">
-                <h2 class="section-title">融资成功案例</h2>
+                <h2 class="section-title">项目成功案例</h2>
                 <div class="cases-grid">
                     <!-- 案例1 -->
                     <div class="case-card">
                         <div class="case-header">
                             <div class="case-avatar">
-                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='10' fill='%234153ff'/%3E%3C/svg%3E" alt="凌桂华">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='10' fill='%234153ff'/%3E%3C/svg%3E" alt="某科技公司">
                             </div>
                             <div class="case-info">
-                                <h3 class="case-name">凌桂华</h3>
-                                <p class="case-role">保险科技</p>
+                                <h3 class="case-name">某科技公司</h3>
+                                <p class="case-role">互联网行业</p>
                             </div>
                         </div>
                         <div class="case-body">
                             <div class="case-result">
-                                <span class="result-label">融资成果</span>
-                                <p class="result-value">近千万融资</p>
+                                <span class="result-label">项目成果</span>
+                                <p class="result-value">效率提升 300%</p>
                             </div>
                             <p class="case-desc">
-                                只有想法，不知如何落地。通过我们的AI商业规划生成和BP打磨，成功斩获两轮近千万元融资。
+                                通过我们的技术咨询服务，帮助客户优化系统架构，实现了业务流程的数字化转型，大幅提升了运营效率。
                             </p>
                             <div class="case-services">
-                                <span class="service-tag">商业模式打磨</span>
-                                <span class="service-tag">BP优化</span>
-                                <span class="service-tag">路演陪练</span>
-                                <span class="service-tag">FA对接</span>
+                                <span class="service-tag">技术咨询</span>
+                                <span class="service-tag">架构设计</span>
+                                <span class="service-tag">系统开发</span>
+                                <span class="service-tag">运维支持</span>
                             </div>
                         </div>
                     </div>
@@ -45,26 +45,26 @@
                     <div class="case-card">
                         <div class="case-header">
                             <div class="case-avatar">
-                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='10' fill='%234153ff'/%3E%3C/svg%3E" alt="王巍">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='10' fill='%234153ff'/%3E%3C/svg%3E" alt="某制造企业">
                             </div>
                             <div class="case-info">
-                                <h3 class="case-name">王巍</h3>
-                                <p class="case-role">AI内容制作</p>
+                                <h3 class="case-name">某制造企业</h3>
+                                <p class="case-role">制造业</p>
                             </div>
                         </div>
                         <div class="case-body">
                             <div class="case-result">
-                                <span class="result-label">月流水</span>
-                                <p class="result-value">破百万</p>
-                            </div>
+                                <span class="result-label">项目成果</span>
+                                <p class="result-value">成本降低 40%</p>
+                            </p>
                             <p class="case-desc">
-                                订单来了但没人做。通过我们的社区搭建咨询和人才培训体系，聚集40+OPC人才，月流水破百万。
+                                为客户提供智能化改造方案，通过引入先进技术和管理理念，显著降低了生产成本，提升了产品质量。
                             </p>
                             <div class="case-services">
-                                <span class="service-tag">社区搭建</span>
-                                <span class="service-tag">人才培训</span>
-                                <span class="service-tag">资源对接</span>
-                                <span class="service-tag">技术赋能</span>
+                                <span class="service-tag">方案设计</span>
+                                <span class="service-tag">技术实施</span>
+                                <span class="service-tag">培训服务</span>
+                                <span class="service-tag">持续优化</span>
                             </div>
                         </div>
                     </div>
@@ -72,35 +72,35 @@
             </div>
         </section>
 
-        <!-- 政策申报成功案例 -->
+        <!-- 客户合作案例 -->
         <section class="cases-section alt-bg">
             <div class="section-container">
-                <h2 class="section-title">政策申报成功案例</h2>
+                <h2 class="section-title">客户合作案例</h2>
                 <div class="cases-grid">
                     <!-- 案例3 -->
                     <div class="case-card">
                         <div class="case-header">
                             <div class="case-avatar">
-                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='10' fill='%2367c23a'/%3E%3C/svg%3E" alt="张总">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='10' fill='%2367c23a'/%3E%3C/svg%3E" alt="某金融公司">
                             </div>
                             <div class="case-info">
-                                <h3 class="case-name">张总</h3>
-                                <p class="case-role">智能硬件</p>
+                                <h3 class="case-name">某金融公司</h3>
+                                <p class="case-role">金融行业</p>
                             </div>
                         </div>
                         <div class="case-body">
                             <div class="case-result">
-                                <span class="result-label">政府补贴</span>
-                                <p class="result-value">300万元</p>
+                                <span class="result-label">合作成果</span>
+                                <p class="result-value">业务增长 200%</p>
                             </div>
                             <p class="case-desc">
-                                不知道自己符合哪些政策。我们匹配到3项补贴政策，成功申报300万元政府补贴。
+                                与客户建立长期战略合作关系，提供全方位的技术支持和商务服务，帮助客户实现业务快速增长。
                             </p>
                             <div class="case-services">
-                                <span class="service-tag">政策匹配</span>
-                                <span class="service-tag">材料撰写</span>
-                                <span class="service-tag">政府对接</span>
-                                <span class="service-tag">跟踪落地</span>
+                                <span class="service-tag">战略合作</span>
+                                <span class="service-tag">技术支持</span>
+                                <span class="service-tag">商务服务</span>
+                                <span class="service-tag">持续优化</span>
                             </div>
                         </div>
                     </div>
@@ -109,26 +109,26 @@
                     <div class="case-card">
                         <div class="case-header">
                             <div class="case-avatar">
-                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='10' fill='%2367c23a'/%3E%3C/svg%3E" alt="李总">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='10' fill='%2367c23a'/%3E%3C/svg%3E" alt="某教育机构">
                             </div>
                             <div class="case-info">
-                                <h3 class="case-name">李总</h3>
-                                <p class="case-role">跨境电商</p>
+                                <h3 class="case-name">某教育机构</h3>
+                                <p class="case-role">教育行业</p>
                             </div>
                         </div>
                         <div class="case-body">
                             <div class="case-result">
-                                <span class="result-label">办公空间</span>
-                                <p class="result-value">2年免费</p>
+                                <span class="result-label">合作成果</span>
+                                <p class="result-value">用户满意度 98%</p>
                             </div>
                             <p class="case-desc">
-                                刚起步没有办公场地。通过我们申请入驻政府OPC社区，获得2年免费办公空间。
+                                为客户提供定制化培训解决方案，帮助客户提升员工技能和团队协作能力，获得高度认可。
                             </p>
                             <div class="case-services">
-                                <span class="service-tag">社区匹配</span>
-                                <span class="service-tag">入驻申请</span>
-                                <span class="service-tag">政府对接</span>
-                                <span class="service-tag">跟踪服务</span>
+                                <span class="service-tag">需求分析</span>
+                                <span class="service-tag">方案设计</span>
+                                <span class="service-tag">培训实施</span>
+                                <span class="service-tag">效果评估</span>
                             </div>
                         </div>
                     </div>
@@ -140,10 +140,10 @@
         <section class="cta-section">
             <div class="cta-container">
                 <h2 class="cta-title">下一个成功案例，就是你</h2>
-                <p class="cta-subtitle">免费评估你的OPC项目，获取专属成长方案</p>
+                <p class="cta-subtitle">立即联系我们，开启合作之旅</p>
                 <div class="cta-actions">
                     <ElButton type="primary" size="large" @click="goToAssessment">
-                        立即评估
+                        立即咨询
                     </ElButton>
                     <ElButton size="large" @click="goToServices">
                         了解服务
@@ -173,10 +173,10 @@ const goToServices = () => {
 
 // SEO 优化
 useHead({
-    title: '成功案例 - OPC创业服务平台',
+    title: '成功案例 - 企业官网',
     meta: [
-        { name: 'description', content: '我们帮助的OPC创业者获得千万融资和政府补贴的成功案例：融资成功、政策申报、社区入驻等' },
-        { name: 'keywords', content: 'OPC案例,创业成功案例,融资案例,政策申报,政府补贴' }
+        { name: 'description', content: '展示我们的项目成功案例和客户合作案例，涵盖互联网、制造业、金融、教育等多个行业' },
+        { name: 'keywords', content: '成功案例,客户案例,项目案例,合作案例' }
     ]
 })
 </script>

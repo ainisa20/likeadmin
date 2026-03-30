@@ -4,7 +4,7 @@
         <section class="page-header">
             <div class="header-container">
                 <h1 class="page-title">关于我们</h1>
-                <p class="page-subtitle">让每一个超级个体，都有属于自己的码头</p>
+                <p class="page-subtitle">专业、创新、值得信赖的企业合作伙伴</p>
             </div>
         </section>
 
@@ -14,10 +14,10 @@
                 <div class="mission-card">
                     <h2 class="section-title">我们的使命</h2>
                     <blockquote class="mission-quote">
-                        "做OPC创业者的'超级陪跑员'——提供从政策申报、社区入驻、资本对接到技术赋能的全链条服务，让一人公司轻装上阵。"
+                        "以专业服务创造价值，以创新精神引领未来——致力于成为客户最值得信赖的合作伙伴。"
                     </blockquote>
                     <p class="mission-desc">
-                        我们相信，在AI时代，一人公司（OPC）将成为主流创业形态。我们的目标是帮助每一个有梦想的创业者，都能以最低的成本、最高的效率实现创业梦想。
+                        我们始终坚持以客户需求为导向，以技术创新为驱动，为客户提供高质量的解决方案。我们的目标是通过专业的服务和不懈的努力，帮助客户实现商业价值最大化。
                     </p>
                 </div>
             </div>
@@ -31,27 +31,27 @@
                     <div class="value-card">
                         <div class="value-icon">🎯</div>
                         <h3 class="value-title">我们的愿景</h3>
-                        <p class="value-desc">成为中国最大的OPC创业服务平台，帮助100万超级个体实现创业梦想。</p>
+                        <p class="value-desc">成为行业领先的服务提供商，为客户创造持续价值，推动行业创新发展。</p>
                     </div>
                     <div class="value-card">
                         <div class="value-icon">💡</div>
                         <h3 class="value-title">创新驱动</h3>
-                        <p class="value-desc">用AI技术赋能创业，用创新模式解决OPC的实际问题。</p>
+                        <p class="value-desc">持续技术创新和模式创新，用先进技术解决客户实际问题。</p>
                     </div>
                     <div class="value-card">
                         <div class="value-icon">🤝</div>
-                        <h3 class="value-title">用户至上</h3>
-                        <p class="value-desc">以用户需求为中心，提供贴身、贴心、贴心的全周期服务。</p>
+                        <h3 class="value-title">客户至上</h3>
+                        <p class="value-desc">以客户需求为中心，提供专业、高效、贴心的全周期服务。</p>
                     </div>
                     <div class="value-card">
                         <div class="value-icon">🌱</div>
-                        <h3 class="value-title">共生共赢</h3>
-                        <p class="value-desc">与创业者、政府、投资机构、产业伙伴共同成长，创造共享价值。</p>
+                        <h3 class="value-title">合作共赢</h3>
+                        <p class="value-desc">与客户、合作伙伴共同成长，建立长期稳定的合作关系。</p>
                     </div>
                     <div class="value-card">
                         <div class="value-icon">📊</div>
-                        <h3 class="value-title">数据驱动</h3>
-                        <p class="value-desc">用数据和算法精准匹配资源，提升服务效率和质量。</p>
+                        <h3 class="value-title">追求卓越</h3>
+                        <p class="value-desc">精益求精，不断优化服务和产品质量，为客户创造更大价值。</p>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                         <div class="contact-icon">📧</div>
                         <div class="contact-info">
                             <div class="contact-label">邮箱</div>
-                            <div class="contact-value">contact@opc-service.com</div>
+                            <div class="contact-value">contact@company.com</div>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -87,7 +87,7 @@
                         <div class="contact-icon">💬</div>
                         <div class="contact-info">
                             <div class="contact-label">微信公众号</div>
-                            <div class="contact-value">opc_service</div>
+                            <div class="contact-value">company_service</div>
                         </div>
                     </div>
                 </div>
@@ -127,14 +127,14 @@
         <!-- CTA 区域 -->
         <section class="cta-section">
             <div class="cta-container">
-                <h2 class="cta-title">准备好开始你的OPC之旅了吗？</h2>
-                <p class="cta-subtitle">立即获取免费需求评估，定制专属创业方案</p>
+                <h2 class="cta-title">准备好开始合作了吗？</h2>
+                <p class="cta-subtitle">立即联系我们，获取专业解决方案</p>
                 <div class="cta-actions">
                     <ElButton type="primary" size="large" @click="goToAssessment">
-                        免费评估
+                        立即咨询
                     </ElButton>
                     <ElButton size="large" @click="downloadResources">
-                        下载资源
+                        了解更多
                     </ElButton>
                 </div>
             </div>
@@ -145,7 +145,7 @@
             <div class="footer-container">
                 <div class="footer-section">
                     <h3 class="footer-title">关于我们</h3>
-                    <p class="footer-desc">中国首家OPC全周期赋能服务平台，帮助"超级个体"从0到1落地一人公司。</p>
+                    <p class="footer-desc">专业的企业服务提供商，致力于为客户提供高质量的创新解决方案。</p>
                 </div>
                 <div class="footer-section">
                     <h3 class="footer-title">联系我们</h3>
@@ -157,7 +157,7 @@
                 </div>
                 <div class="footer-section">
                     <p class="footer-copyright">
-                        &copy; 2026 OPC创业服务平台. All rights reserved.
+                        &copy; 2026 企业名称. All rights reserved.
                     </p>
                 </div>
             </div>
@@ -184,10 +184,10 @@ const downloadResources = () => {
 
 // SEO 优化
 useHead({
-    title: '关于我们 - OPC创业服务平台',
+    title: '关于我们 - 企业官网',
     meta: [
-        { name: 'description', content: 'OPC创业服务平台介绍：让每一个超级个体都有属于自己的码头。提供从政策申报、社区入驻、资本对接到技术赋能的全链条服务' },
-        { name: 'keywords', content: 'OPC平台,关于我们,联系方式,创业服务' }
+        { name: 'description', content: '了解我们的企业使命、愿景和价值观。专业的企业服务提供商，致力于为客户提供高质量的创新解决方案' },
+        { name: 'keywords', content: '关于我们,企业介绍,公司文化,联系方式' }
     ]
 })
 </script>

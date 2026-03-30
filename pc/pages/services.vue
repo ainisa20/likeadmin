@@ -4,7 +4,7 @@
         <section class="page-header">
             <div class="header-container">
                 <h1 class="page-title">我们的核心服务</h1>
-                <p class="page-subtitle">为OPC创业者提供全链条服务，让一人公司轻装上阵</p>
+                <p class="page-subtitle">为您提供专业、全面的解决方案</p>
             </div>
         </section>
 
@@ -12,86 +12,86 @@
         <section class="services-section">
             <div class="services-container">
                 <div class="services-grid">
-                    <!-- OPC孵化服务 -->
+                    <!-- 产品咨询服务 -->
                     <div class="service-card">
                         <div class="card-header">
                             <div class="service-icon">🚀</div>
-                            <h2 class="service-title">OPC孵化服务</h2>
+                            <h2 class="service-title">产品咨询服务</h2>
                         </div>
                         <div class="card-content">
                             <ul class="service-list">
-                                <li>创业idea可行性评估</li>
-                                <li>商业模式打磨</li>
-                                <li>公司注册集群地址</li>
-                                <li>财税法律基础包</li>
-                                <li>π立方评审机制</li>
+                                <li>需求分析与规划</li>
+                                <li>产品方案设计</li>
+                                <li>技术架构选型</li>
+                                <li>项目实施指导</li>
+                                <li>全生命周期支持</li>
                             </ul>
                             <div class="reference-case">
-                                <span class="case-label">参考案例：</span>
-                                <span class="case-value">成都π立方社区</span>
+                                <span class="case-label">服务特点：</span>
+                                <span class="case-value">定制化解决方案</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 政策申报服务 -->
+                    <!-- 技术开发服务 -->
                     <div class="service-card">
                         <div class="card-header">
-                            <div class="service-icon">📋</div>
-                            <h2 class="service-title">政策申报服务</h2>
+                            <div class="service-icon">💻</div>
+                            <h2 class="service-title">技术开发服务</h2>
                         </div>
                         <div class="card-content">
                             <ul class="service-list">
-                                <li>各区政策智能匹配</li>
-                                <li>申报材料专业撰写</li>
-                                <li>政府关系对接</li>
-                                <li>补贴落地跟踪</li>
-                                <li>最高1000万跟投</li>
+                                <li>前端应用开发</li>
+                                <li>后端系统开发</li>
+                                <li>移动端应用开发</li>
+                                <li>系统部署与运维</li>
+                                <li>技术支持与维护</li>
                             </ul>
                             <div class="reference-case">
-                                <span class="case-label">参考案例：</span>
-                                <span class="case-value">罗湖区跟投政策</span>
+                                <span class="case-label">技术栈：</span>
+                                <span class="case-value">主流前沿技术</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 资本对接服务 -->
+                    <!-- 商务合作服务 -->
                     <div class="service-card">
                         <div class="card-header">
-                            <div class="service-icon">💰</div>
-                            <h2 class="service-title">资本对接服务</h2>
+                            <div class="service-icon">🤝</div>
+                            <h2 class="service-title">商务合作服务</h2>
                         </div>
                         <div class="card-content">
                             <ul class="service-list">
-                                <li>BP优化指导</li>
-                                <li>投资人路演陪练</li>
-                                <li>FA专业对接</li>
-                                <li>种子基金直通车</li>
-                                <li>AI陪练平台</li>
+                                <li>商务方案策划</li>
+                                <li>合作资源对接</li>
+                                <li>项目谈判支持</li>
+                                <li>合同协议拟定</li>
+                                <li>项目落地执行</li>
                             </ul>
                             <div class="reference-case">
-                                <span class="case-label">参考案例：</span>
-                                <span class="case-value">南京"阿拉丁工作平台"</span>
+                                <span class="case-label">服务特点：</span>
+                                <span class="case-value">全程专业支持</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 技术赋能服务 -->
+                    <!-- 培训与咨询 -->
                     <div class="service-card">
                         <div class="card-header">
-                            <div class="service-icon">⚡</div>
-                            <h2 class="service-title">技术赋能服务</h2>
+                            <div class="service-icon">📚</div>
+                            <h2 class="service-title">培训与咨询</h2>
                         </div>
                         <div class="card-content">
                             <ul class="service-list">
-                                <li>算力券代申领</li>
-                                <li>模型接口对接</li>
-                                <li>数据资源包</li>
-                                <li>开源工具培训</li>
-                                <li>算力直接打折</li>
+                                <li>企业内训课程</li>
+                                <li>技术咨询顾问</li>
+                                <li>最佳实践分享</li>
+                                <li>行业趋势分析</li>
+                                <li>持续学习支持</li>
                             </ul>
                             <div class="reference-case">
-                                <span class="case-label">参考案例：</span>
-                                <span class="case-value">成都算力补贴模式</span>
+                                <span class="case-label">服务模式：</span>
+                                <span class="case-value">线上线下结合</span>
                             </div>
                         </div>
                     </div>
@@ -106,18 +106,18 @@
                 <div class="advantages-grid">
                     <div class="advantage-card">
                         <div class="card-icon">🎯</div>
-                        <h3 class="card-title">专业专注</h3>
-                        <p class="card-desc">深耕OPC领域，理解一人公司特殊需求</p>
+                        <h3 class="card-title">专业团队</h3>
+                        <p class="card-desc">多年行业经验，专业背景深厚</p>
                     </div>
                     <div class="advantage-card">
                         <div class="card-icon">🤝</div>
-                        <h3 class="card-title">资源丰富</h3>
-                        <p class="card-desc">连接政府、园区、投资机构、技术资源</p>
+                        <h3 class="card-title">优质服务</h3>
+                        <p class="card-desc">客户至上，提供贴心周到的服务</p>
                     </div>
                     <div class="advantage-card">
                         <div class="card-icon">💼</div>
-                        <h3 class="card-title">成功案例</h3>
-                        <p class="card-desc">帮助多家OPC获得千万融资和政府补贴</p>
+                        <h3 class="card-title">丰富经验</h3>
+                        <p class="card-desc">众多成功案例，值得信赖</p>
                     </div>
                 </div>
             </div>
@@ -126,11 +126,11 @@
         <!-- CTA 区域 -->
         <section class="cta-section">
             <div class="cta-container">
-                <h2 class="cta-title">准备好开始你的OPC之旅了吗？</h2>
-                <p class="cta-subtitle">立即联系我们，获取专属创业方案</p>
+                <h2 class="cta-title">准备好开始合作了吗？</h2>
+                <p class="cta-subtitle">立即联系我们，获取专业解决方案</p>
                 <div class="cta-actions">
                     <ElButton type="primary" size="large" @click="goToAssessment">
-                        免费评估
+                        立即咨询
                     </ElButton>
                     <ElButton size="large" @click="goToHome">
                         返回首页
@@ -162,10 +162,10 @@ const goToHome = () => {
 
 // SEO 优化
 useHead({
-    title: '核心服务 - OPC创业服务平台',
+    title: '核心服务 - 企业官网',
     meta: [
-        { name: 'description', content: '为OPC创业者提供全链条服务：OPC孵化、政策申报、资本对接、技术赋能，让一人公司轻装上阵' },
-        { name: 'keywords', content: 'OPC服务,创业孵化,政策申报,资本对接,技术赋能,创业服务' }
+        { name: 'description', content: '提供专业、全面的企业服务：产品咨询、技术开发、商务合作、培训咨询，助力企业实现数字化转型' },
+        { name: 'keywords', content: '企业服务,产品咨询,技术开发,商务合作,培训咨询' }
     ]
 })
 </script>

@@ -8,20 +8,8 @@ export const NAVBAR = [
         path: '/services'
     },
     {
-        name: 'OPC百科',
-        path: '/opc-intro'
-    },
-    {
-        name: '政策地图',
-        path: '/policy-map'
-    },
-    {
         name: '成功案例',
         path: '/cases'
-    },
-    {
-        name: '社区动态',
-        path: '/community'
     },
     {
         name: '关于我们',
