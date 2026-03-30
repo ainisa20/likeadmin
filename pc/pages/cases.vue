@@ -56,7 +56,7 @@
                             <div class="case-result">
                                 <span class="result-label">项目成果</span>
                                 <p class="result-value">成本降低 40%</p>
-                            </p>
+                            </div>
                             <p class="case-desc">
                                 为客户提供智能化改造方案，通过引入先进技术和管理理念，显著降低了生产成本，提升了产品质量。
                             </p>
