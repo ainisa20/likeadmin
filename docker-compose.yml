@@ -45,7 +45,7 @@ services:
     container_name: likeadmin-mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: moon5201314
+      MYSQL_ROOT_PASSWORD: your_secure_password_here
       MYSQL_DATABASE: likeadmin
     volumes:
       - ./data/mysql:/var/lib/mysql

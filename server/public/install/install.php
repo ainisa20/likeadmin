@@ -22,7 +22,7 @@ if ($modelInstall->appIsInstalled() && in_array($step, [1, 2, 3, 4])) {
 }
 
 // 加载Example文件
-$yxEnv->load($modelInstall->getAppRoot() . '/.example.env');
+$yxEnv->load($modelInstall->getAppRoot() . '/.env.example');
 
 //尝试生成.env
 $yxEnv->makeEnv($modelInstall->getAppRoot() . '/.env');
@@ -31,7 +31,7 @@ $post = [
     'host' => $_POST['host'] ?? 'mysql',
     'port' => $_POST['port'] ?? '3306',
     'user' => $_POST['user'] ?? 'root',
-    'password' => $_POST['password'] ?? 'moon5201314',
+    'password' => $_POST['password'] ?? 'your_secure_password_here',
     'name' => $_POST['name'] ?? 'likeadmin',
     'admin_user' => $_POST['admin_user'] ?? 'admin',
     'admin_password' => $_POST['admin_password'] ?? 'a123456@',
