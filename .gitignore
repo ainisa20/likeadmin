@@ -1,5 +1,9 @@
 # Docker 相关
 .env
+.env_local
+# 但保留 example 和 production 文件
+!.env.example
+!.env.production
 data/
 logs/
 
