@@ -5,6 +5,7 @@
             :menu="menu"
             :default-active="activeMenu"
             mode="horizontal"
+            :ellipsis="false"
         >
             <template #item="{ item }">
                 <MenuItem
