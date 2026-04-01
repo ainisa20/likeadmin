@@ -84,20 +84,20 @@
                             class="w-full"
                         >
                             <ElOption
-                                label="产品咨询"
-                                value="product"
+                                label="需求了解"
+                                value="idea"
                             />
                             <ElOption
-                                label="商务合作"
-                                value="business"
+                                label="方案沟通"
+                                value="direction"
                             />
                             <ElOption
-                                label="技术支持"
-                                value="support"
+                                label="商务洽谈"
+                                value="company"
                             />
                             <ElOption
-                                label="其他咨询"
-                                value="other"
+                                label="项目对接"
+                                value="team"
                             />
                         </ElSelect>
                     </ElFormItem>

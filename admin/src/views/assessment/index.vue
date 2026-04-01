@@ -20,10 +20,10 @@
                 </el-form-item>
                 <el-form-item class="w-[280px]" label="当前阶段">
                     <el-select v-model="queryParams.stage" placeholder="全部" clearable>
-                        <el-option label="刚有想法" value="idea" />
-                        <el-option label="已有方向" value="direction" />
-                        <el-option label="已成立公司" value="company" />
-                        <el-option label="已有团队" value="team" />
+                        <el-option label="需求了解" value="idea" />
+                        <el-option label="方案沟通" value="direction" />
+                        <el-option label="商务洽谈" value="company" />
+                        <el-option label="项目对接" value="team" />
                     </el-select>
                 </el-form-item>
                 <el-form-item class="w-[280px]" label="处理状态">
@@ -60,10 +60,10 @@
                 <el-table-column label="手机号" prop="phone" min-width="130" />
                 <el-table-column label="当前阶段" min-width="120">
                     <template #default="{ row }">
-                        <el-tag v-if="row.stage === 'idea'" type="info">刚有想法</el-tag>
-                        <el-tag v-else-if="row.stage === 'direction'" type="success">已有方向</el-tag>
-                        <el-tag v-else-if="row.stage === 'company'" type="warning">已成立公司</el-tag>
-                        <el-tag v-else-if="row.stage === 'team'" type="danger">已有团队</el-tag>
+                        <el-tag v-if="row.stage === 'idea'" type="info">需求了解</el-tag>
+                        <el-tag v-else-if="row.stage === 'direction'" type="success">方案沟通</el-tag>
+                        <el-tag v-else-if="row.stage === 'company'" type="warning">商务洽谈</el-tag>
+                        <el-tag v-else-if="row.stage === 'team'" type="danger">项目对接</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column label="提交IP" prop="ip" min-width="130" show-overflow-tooltip />
@@ -101,10 +101,10 @@
                 <el-descriptions-item label="姓名">{{ detail.name }}</el-descriptions-item>
                 <el-descriptions-item label="手机号">{{ detail.phone }}</el-descriptions-item>
                 <el-descriptions-item label="当前阶段">
-                    <span v-if="detail.stage === 'idea'">刚有想法</span>
-                    <span v-else-if="detail.stage === 'direction'">已有方向</span>
-                    <span v-else-if="detail.stage === 'company'">已成立公司</span>
-                    <span v-else-if="detail.stage === 'team'">已有团队</span>
+                    <span v-if="detail.stage === 'idea'">需求了解</span>
+                    <span v-else-if="detail.stage === 'direction'">方案沟通</span>
+                    <span v-else-if="detail.stage === 'company'">商务洽谈</span>
+                    <span v-else-if="detail.stage === 'team'">项目对接</span>
                 </el-descriptions-item>
                 <el-descriptions-item label="提交IP">{{ detail.ip }}</el-descriptions-item>
                 <el-descriptions-item label="提交时间">{{ detail.create_time }}</el-descriptions-item>
