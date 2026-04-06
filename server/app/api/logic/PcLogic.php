@@ -174,7 +174,8 @@ class PcLogic extends BaseLogic
             'qrcode' => [
                 'oa' => $oaQrCode,
                 'mnp' => $mnpQrCode,
-            ]
+            ],
+            'dify' => self::getDifyConfig()
         ];
     }
 
@@ -241,6 +242,50 @@ class PcLogic extends BaseLogic
         $detail['cate_name'] = ArticleCate::where('id', $detail['cid'])->value('name');
 
         return $detail;
+    }
+
+    /**
+     * @notes 获取 Dify 聊天机器人配置
+     * @return array
+     * @author raeazL
+     * @date 2026/04/04
+     */
+    private static function getDifyConfig(): array
+    {
+        $defaultConfig = [
+            'enabled' => false,
+            'token' => '',
+            'baseUrl' => 'http://localhost',
+            'buttonColor' => '#1C64F2',
+            'windowWidth' => '24',
+            'windowHeight' => '40',
+        ];
+
+        try {
+            // 获取 PC 页面装修数据
+            $pcPage = \app\common\model\decorate\DecoratePage::findOrEmpty(4);
+
+            if ($pcPage->isEmpty() || empty($pcPage->meta)) {
+                return $defaultConfig;
+            }
+
+            $meta = json_decode($pcPage->meta, true);
+            if (isset($meta['dify_config']) && is_array($meta['dify_config'])) {
+                $config = array_merge($defaultConfig, $meta['dify_config']);
+                // 确保 enabled 是布尔值
+                $config['enabled'] = isset($meta['dify_config']['enabled']) && 
+                                     ($meta['dify_config']['enabled'] === true || 
+                                      $meta['dify_config']['enabled'] === 'true' || 
+                                      $meta['dify_config']['enabled'] === '1' || 
+                                      $meta['dify_config']['enabled'] === 1);
+                return $config;
+            }
+
+            return $defaultConfig;
+        } catch (\Exception $e) {
+            // 出错时返回默认配置
+            return $defaultConfig;
+        }
     }
 
 }

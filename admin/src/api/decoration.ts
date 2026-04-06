@@ -29,3 +29,8 @@ export function setDecorateTabbar(params: any) {
 export function getDecoratePc() {
     return request.get({ url: '/decorate.data/pc' })
 }
+
+// 保存 Dify 配置
+export function saveDifyConfig(params: any) {
+    return request.post({ url: '/decorate.data/saveDifyConfig', params })
+}

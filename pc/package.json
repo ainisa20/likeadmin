@@ -5,7 +5,8 @@
         "build:ssr": "nuxt build && node scripts/build.mjs",
         "dev": "nuxt dev",
         "start": "nuxt start",
-        "preview": "nuxt preview"
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare"
     },
     "devDependencies": {
         "@element-plus/nuxt": "1.0.5",
@@ -29,9 +30,11 @@
     },
     "dependencies": {
         "@chenfengyuan/vue-countdown": "2.1.1",
-        "css-tree": "^3.2.1",
         "element-plus": "2.5.2",
         "pinia": "2.0.3",
         "vue-cropper": "1.0.5"
+    },
+    "optionalDependencies": {
+        "@rollup/rollup-linux-arm64-gnu": "^4.60.1"
     }
 }

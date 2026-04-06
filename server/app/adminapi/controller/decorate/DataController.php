@@ -52,4 +52,20 @@ class DataController extends BaseAdminController
         return $this->data($result);
     }
 
+    /**
+     * @notes 保存 Dify 配置
+     * @return Json
+     * @author raeazL
+     * @date 2026/04/04
+     */
+    public function saveDifyConfig(): Json
+    {
+        $params = $this->request->post();
+        $result = DecorateDataLogic::saveDifyConfig($params);
+        if (false === $result) {
+            return $this->fail(DecorateDataLogic::getError());
+        }
+        return $this->success('保存成功', [], 1, 1);
+    }
+
 }
