@@ -46,7 +46,7 @@
                 <el-form-item label="Dify URL">
                     <el-input
                         class="w-[400px]"
-                        placeholder="例如: http://56uznsgemurp.xiaomiqiu.com"
+                        placeholder="例如: http://localhost"
                         v-model="contentData.dify_url"
                     />
                     <div class="text-xs text-gray-400 mt-1">
