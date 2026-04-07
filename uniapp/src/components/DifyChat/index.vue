@@ -17,6 +17,13 @@
         <text class="header-title">智能客服</text>
         <view class="header-actions">
           <view
+            v-if="difyStore.messages.length > 0"
+            class="action-btn-text"
+            @click="newConversation"
+          >
+            新对话
+          </view>
+          <view
             v-if="difyStore.isTyping"
             class="stop-btn"
             @click="stopResponse"
@@ -78,8 +85,16 @@
         </view>
       </scroll-view>
 
-      <!-- 输入区域 -->
+       <!-- 输入区域 -->
       <view class="chat-input-area">
+        <!-- 上传的文件显示 -->
+        <view v-if="uploadedFile" class="uploaded-file">
+          <view class="file-info">
+            <text class="file-name">{{ uploadedFile.name }}</text>
+            <view class="file-remove" @click="removeFile">✕</view>
+          </view>
+        </view>
+
         <textarea
           v-model="inputQuery"
           class="chat-input"
@@ -89,6 +104,20 @@
         />
         <view class="input-actions">
           <!-- #ifdef H5 -->
+          <view
+            v-if="!difyStore.isTyping && !isTranscribing && !uploadedFile"
+            class="action-btn"
+            @click="triggerFileUpload"
+          >
+            📎
+          </view>
+          <input
+            ref="fileInputRef"
+            type="file"
+            style="display: none"
+            @change="handleFileUpload"
+            accept="image/*,.pdf,.doc,.docx,.txt"
+          />
           <view
             v-if="!difyStore.isTyping && !isTranscribing"
             class="action-btn"
@@ -117,8 +146,9 @@
 
 <script setup lang="ts">
 // #ifdef H5
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import { useDifyStore } from '@/stores/dify'
+import { useDifyUser } from '@/composables/useDifyUser'
 import type { DifyMessage } from '@/types/dify'
 
 const props = defineProps({
@@ -129,6 +159,7 @@ const props = defineProps({
 })
 
 const difyStore = useDifyStore()
+const { getUserId } = useDifyUser()
 
 // 从装修数据初始化配置
 onMounted(() => {
@@ -143,9 +174,11 @@ const inputQuery = ref('')
 const scrollToView = ref('')
 const isRecording = ref(false)
 const isTranscribing = ref(false)
+const uploadedFile = ref<{ id: string, type: string, url: string, name: string } | null>(null)
+const fileInputRef = ref<HTMLInputElement>()
 
 const canSend = computed(() => {
-  return inputQuery.value.trim() && !difyStore.isTyping && !isTranscribing.value
+  return (inputQuery.value.trim() || uploadedFile.value) && !difyStore.isTyping && !isTranscribing.value
 })
 
 const toggleChat = () => {
@@ -156,14 +189,21 @@ const sendMessage = async () => {
   if (!canSend.value) return
 
   const query = inputQuery.value.trim()
+  const files = uploadedFile.value ? [uploadedFile.value] : undefined
+  
   inputQuery.value = ''
+  uploadedFile.value = null
 
-  await difyStore.sendMessage(query)
+  await difyStore.sendMessage(query, files)
 
   // 滚动到底部
   setTimeout(() => {
     scrollToView.value = `msg-${difyStore.messages.length - 1}`
   }, 100)
+}
+
+const newConversation = () => {
+  difyStore.newConversation()
 }
 
 const stopResponse = async () => {
@@ -172,6 +212,44 @@ const stopResponse = async () => {
 
 const feedback = async (msg: DifyMessage, rating: 'like' | 'dislike') => {
   await difyStore.feedback(msg.id, rating)
+}
+
+// 文件上传相关
+const triggerFileUpload = () => {
+  fileInputRef.value?.click()
+}
+
+const handleFileUpload = async (event: any) => {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  try {
+    uni.showLoading({ title: '上传中...' })
+    
+    const { uploadFile } = await import('@/api/dify')
+    const result = await uploadFile(file)
+    
+    uploadedFile.value = {
+      id: result.id,
+      type: file.type.startsWith('image/') ? 'image' : 'document',
+      url: result.fullUrl || result.url,
+      name: file.name
+    }
+    
+    uni.hideLoading()
+  } catch (error: any) {
+    uni.hideLoading()
+    uni.$u.toast(`上传失败: ${error.message}`)
+  }
+  
+  // 清空 input，允许重复上传同一文件
+  if (fileInputRef.value) {
+    fileInputRef.value.value = ''
+  }
+}
+
+const removeFile = () => {
+  uploadedFile.value = null
 }
 
 // 语音录制相关
@@ -377,6 +455,19 @@ const audioBufferToWav = (buffer: AudioBuffer): ArrayBuffer => {
     gap: 20rpx;
   }
 
+  .action-btn-text {
+    padding: 8rpx 16rpx;
+    background: #f0f0f0;
+    border-radius: 8rpx;
+    font-size: 24rpx;
+    color: #666;
+    cursor: pointer;
+
+    &:active {
+      opacity: 0.7;
+    }
+  }
+
   .stop-btn {
     padding: 8rpx 20rpx;
     background: #ff4d4f;
@@ -500,6 +591,36 @@ const audioBufferToWav = (buffer: AudioBuffer): ArrayBuffer => {
   }
   30% {
     transform: translateY(-10rpx);
+  }
+}
+
+.uploaded-file {
+  padding: 16rpx 20rpx;
+  background: #f5f5f5;
+  border-radius: 8rpx;
+  margin-bottom: 16rpx;
+
+  .file-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .file-name {
+      flex: 1;
+      font-size: 24rpx;
+      color: #333;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .file-remove {
+      margin-left: 20rpx;
+      padding: 4rpx 8rpx;
+      color: #ff4d4f;
+      font-size: 28rpx;
+      cursor: pointer;
+    }
   }
 }
 
