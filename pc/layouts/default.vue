@@ -8,6 +8,11 @@
       </LayoutMain>
       <LayoutFooter />
     </div>
+
+    <ClientOnly>
+      <DifyChat v-if="difyStore.config.enabled" />
+    </ClientOnly>
+
     <Account />
   </section>
 </template>
@@ -18,7 +23,15 @@ import LayoutFooter from "./components/footer/index.vue";
 import Account from "./components/account/index.vue";
 import { useUserStore } from "~~/stores/user";
 import ToLogin from "./components/account/to-login.vue";
+import DifyChat from "@/components/DifyChat/index.vue";
+import { useDifyStore } from "@/stores/dify";
+
 const userStore = useUserStore();
+const difyStore = useDifyStore();
+
+onMounted(async () => {
+  await difyStore.initConfig();
+});
 </script>
 <style lang="scss" scoped>
 .main-contain {
