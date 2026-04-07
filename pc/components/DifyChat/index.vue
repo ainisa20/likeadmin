@@ -148,13 +148,13 @@
               />
               <div class="input-actions">
                 <input type="file" ref="fileInputRef" @change="handleFileUpload" style="display: none">
-                <button v-if="!difyStore.isTyping && !isRecording" class="input-btn" @click="triggerFileUpload" title="上传文件">
+                <button v-if="!difyStore.isTyping && !isRecording && !isTranscribing" class="input-btn" @click="triggerFileUpload" title="上传文件">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
                   </svg>
                 </button>
-                <button v-if="!difyStore.isTyping" class="input-btn" :class="{ recording: isRecording }" @click="toggleRecording" title="语音输入">
-                  <svg v-if="!isRecording" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <button v-if="!difyStore.isTyping" class="input-btn" :class="{ recording: isRecording || isTranscribing }" @click="toggleRecording" :disabled="isTranscribing" title="语音输入">
+                  <svg v-if="!isRecording && !isTranscribing" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
                     <line x1="12" y1="19" x2="12" y2="23"/>
@@ -164,6 +164,10 @@
                     <rect x="6" y="6" width="12" height="12" rx="2"/>
                   </svg>
                 </button>
+                <span v-if="isTranscribing" class="transcribing-indicator">
+                  <span class="transcribing-dot"></span>
+                  识别中
+                </span>
                 <button v-if="difyStore.isTyping" class="input-btn stop" @click="stopResponse" title="停止生成">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <rect x="6" y="6" width="12" height="12" rx="2"/>
@@ -220,6 +224,7 @@ const fileInputRef = ref<HTMLInputElement>()
 const uploadedFile = ref<{id: string, type: string, url: string, name: string} | null>(null)
 
 const isRecording = ref(false)
+const isTranscribing = ref(false)
 let mediaRecorder: MediaRecorder | null = null
 let audioChunks: Blob[] = []
 let recordingStream: MediaStream | null = null
@@ -292,13 +297,23 @@ const startRecording = async () => {
     }
 
     mediaRecorder.onstop = async () => {
+      isRecording.value = false
+      
       const webmBlob = new Blob(audioChunks, { type: mimeType })
       if (recordingStream) {
         recordingStream.getTracks().forEach(track => track.stop())
         recordingStream = null
       }
       
+      // 音频为空检查
+      if (webmBlob.size === 0) {
+        ElMessage.warning('录音内容为空，请重新录制')
+        return
+      }
+      
       try {
+        isTranscribing.value = true
+        
         const wavBlob = await convertToWav(webmBlob)
         
         const { audioToText } = await import('@/api/dify')
@@ -310,10 +325,14 @@ const startRecording = async () => {
             inputRef.value?.focus()
             inputRef.value?.scrollIntoView()
           })
+        } else {
+          ElMessage.warning('未能识别出文字，请重试')
         }
       } catch (error: any) {
         console.error('[Dify] Transcription failed:', error)
         ElMessage.error(`语音转文字失败: ${error.message}`)
+      } finally {
+        isTranscribing.value = false
       }
     }
 
@@ -912,6 +931,26 @@ onUnmounted(() => {
   .input-actions {
     display: flex;
     align-items: center;
+    gap: 8px;
+  }
+
+  .transcribing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #6b7280;
+    padding: 4px 8px;
+    background: #f3f4f6;
+    border-radius: 4px;
+  }
+
+  .transcribing-dot {
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+    animation: transcribing-pulse 1s infinite;
   }
 
   .input-btn {
@@ -1048,6 +1087,17 @@ onUnmounted(() => {
   }
   50% {
     opacity: 0.6;
+  }
+}
+
+@keyframes transcribing-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
   }
 }
 
