@@ -89,6 +89,11 @@ export class Request {
         if (requestInterceptorsHook && isFunction(requestInterceptorsHook)) {
             mergeOptions = requestInterceptorsHook(mergeOptions)
         }
+
+        if (mergeOptions.responseType === 'stream') {
+            return this.handleStreamResponse(mergeOptions)
+        }
+
         return new Promise((resolve, reject) => {
             return this.fetchInstance
                 .raw(mergeOptions.url, mergeOptions)
@@ -122,5 +127,70 @@ export class Request {
                     reject(err)
                 })
         })
+    }
+
+    private async handleStreamResponse(fetchOptions: FetchOptions) {
+        const {
+            requestInterceptorsHook,
+            responseInterceptorsCatchHook
+        } = this.requestOptions
+
+        if (requestInterceptorsHook && isFunction(requestInterceptorsHook)) {
+            fetchOptions = requestInterceptorsHook(fetchOptions)
+        }
+
+        try {
+            const response = await fetch(fetchOptions.url, {
+                method: fetchOptions.method,
+                headers: fetchOptions.headers,
+                body: fetchOptions.body
+            })
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+
+            if (!response.body) {
+                throw new Error('Response body is null')
+            }
+
+            const reader = response.body.getReader()
+            const decoder = new TextDecoder()
+            let buffer = ''
+
+            return {
+                async *[Symbol.asyncIterator]() {
+                    while (true) {
+                        const { done, value } = await reader.read()
+                        if (done) break
+
+                        buffer += decoder.decode(value, { stream: true })
+                        const lines = buffer.split('\n')
+                        buffer = lines.pop() || ''
+
+                        for (const line of lines) {
+                            if (line.startsWith('data: ')) {
+                                const jsonStr = line.slice(6).trim()
+                                if (jsonStr && jsonStr !== '[DONE]') {
+                                    try {
+                                        yield JSON.parse(jsonStr)
+                                    } catch (e) {
+                                        console.error('[Stream] Parse error:', e)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            if (
+                responseInterceptorsCatchHook &&
+                isFunction(responseInterceptorsCatchHook)
+            ) {
+                throw responseInterceptorsCatchHook(error)
+            }
+            throw error
+        }
     }
 }
