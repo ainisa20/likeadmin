@@ -62,7 +62,7 @@ export interface SendMessageParams {
   /** 会话ID（可选，首次对话不传） */
   conversation_id?: string
   /** 文件列表（可选） */
-  files?: DifyFile[]
+  files?: Array<{type: string, transfer_method: string, url: string}>
 }
 
 /**

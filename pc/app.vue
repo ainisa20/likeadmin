@@ -13,7 +13,15 @@ const config = {
     locale: zhCn
 }
 const appStore = useAppStore()
-const { pc_title, pc_ico, pc_keywords, pc_desc } = appStore.getWebsiteConfig
+const { pc_title, pc_ico, pc_keywords, pc_desc } = computed(() => {
+  const config = appStore.getWebsiteConfig
+  return {
+    pc_title: config.shop_name || 'LikeAdmin',
+    pc_ico: config.pc_logo || '',
+    pc_keywords: config.pc_keywords || '',
+    pc_desc: config.pc_desc || ''
+  }
+}).value
 const { clarity_code } = appStore.getSiteStatistics
 
 // ========== 阶段1优化：预连接优化 ==========
@@ -61,6 +69,7 @@ useHead(headOptions)
 const difyStore = useDifyStore()
 
 onMounted(async () => {
+  await appStore.getConfig()
   await difyStore.initConfig()
 
   if (difyStore.config.enabled) {
