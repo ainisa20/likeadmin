@@ -111,10 +111,11 @@
           >
             📎
           </view>
+          <!-- 使用 v-show 而不是 style="display: none" -->
           <input
             ref="fileInputRef"
             type="file"
-            style="display: none"
+            v-show="false"
             @change="handleFileUpload"
             accept="image/*,.pdf,.doc,.docx,.txt"
           />
@@ -216,7 +217,20 @@ const feedback = async (msg: DifyMessage, rating: 'like' | 'dislike') => {
 
 // 文件上传相关
 const triggerFileUpload = () => {
-  fileInputRef.value?.click()
+  const input = fileInputRef.value as any
+  if (input && input.click) {
+    input.click()
+  } else {
+    // 备用方案：直接创建临时 input
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'image/*,.pdf,.doc,.docx,.txt'
+    input.onchange = (e: any) => {
+      handleFileUpload(e)
+      input.remove()
+    }
+    input.click()
+  }
 }
 
 const handleFileUpload = async (event: any) => {
