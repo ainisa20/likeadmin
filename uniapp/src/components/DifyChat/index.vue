@@ -222,18 +222,17 @@ const triggerFileUpload = () => {
     input.click()
   } else {
     // 备用方案：直接创建临时 input
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.accept = 'image/*,.pdf,.doc,.docx,.txt'
-    input.onchange = (e: any) => {
-      handleFileUpload(e)
-      input.remove()
+    const tempInput = document.createElement('input')
+    tempInput.type = 'file'
+    tempInput.accept = 'image/*,.pdf,.doc,.docx,.txt'
+    tempInput.onchange = (e: any) => {
+      handleFileUpload(e, tempInput)  // 传递 tempInput
     }
-    input.click()
+    tempInput.click()
   }
 }
 
-const handleFileUpload = async (event: any) => {
+const handleFileUpload = async (event: any, tempInput?: HTMLInputElement) => {
   const file = event.target.files?.[0]
   if (!file) return
 
@@ -257,18 +256,27 @@ const handleFileUpload = async (event: any) => {
   }
   
   // 清空 input，允许重复上传同一文件
-  // 使用 nextTick 确保 DOM 更新后再操作
-  nextTick(() => {
-    const input = fileInputRef.value as any
-    if (input && typeof input.value !== 'undefined') {
-      try {
-        input.value = ''
-      } catch (e) {
-        // 如果设置失败，忽略（不影响功能）
-        console.warn('Failed to reset input value:', e)
-      }
+  // 优先清空临时 input（如果有的话）
+  if (tempInput) {
+    try {
+      tempInput.value = ''
+      tempInput.remove()
+    } catch (e) {
+      // 忽略错误，不影响功能
     }
-  })
+  } else {
+    // 尝试清空模板中的 input（可能失败，但没关系）
+    nextTick(() => {
+      const input = fileInputRef.value as any
+      if (input && typeof input.value !== 'undefined') {
+        try {
+          input.value = ''
+        } catch (e) {
+          // 静默忽略，不影响功能
+        }
+      }
+    })
+  }
 }
 
 const removeFile = () => {
