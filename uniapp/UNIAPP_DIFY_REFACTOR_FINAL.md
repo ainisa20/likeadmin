@@ -67,7 +67,7 @@ for await (const chunk of parseStream(response)) {
 ```vue
 <el-form-item label="Dify URL">
   <el-input v-model="contentData.dify_url" />
-  <div>例如: http://56uznsgemurp.xiaomiqiu.com</div>
+  <div>例如: http://localhost</div>
 </el-form-item>
 
 <el-form-item label="Dify Token">
@@ -564,7 +564,7 @@ return fetch(`${config.baseUrl}/v1/chat-messages`, {
 ### 6.2 测试数据
 
 **管理后台配置**:
-- Dify URL: `http://56uznsgemurp.xiaomiqiu.com`
+- Dify URL: `http://localhost`
 - Dify Token: `DOvk6D9nyaO5J06r`
 
 ### 6.3 测试用例
