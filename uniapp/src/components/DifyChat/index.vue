@@ -211,13 +211,20 @@ const startRecording = async () => {
 
       try {
         isTranscribing.value = true
+
+        // 转换为 WAV 格式（Dify 不支持 webm）
+        const wavBlob = await convertToWav(webmBlob)
+
         const { audioToText } = await import('@/api/dify')
-        const text = await audioToText(webmBlob, 'wav')
+        const text = await audioToText(wavBlob, 'wav')
 
         if (text) {
           inputQuery.value += (inputQuery.value ? ' ' : '') + text
+        } else {
+          uni.$u.toast('未能识别出文字，请重试')
         }
       } catch (error: any) {
+        console.error('[Dify] Transcription failed:', error)
         uni.$u.toast(`语音转文字失败: ${error.message}`)
       } finally {
         isTranscribing.value = false
@@ -236,6 +243,81 @@ const stopRecording = () => {
     mediaRecorder.stop()
     isRecording.value = false
   }
+}
+
+/**
+ * 将 WebM 格式转换为 WAV 格式
+ * Dify 不支持 WebM，需要转换
+ */
+const convertToWav = async (webmBlob: Blob): Promise<Blob> => {
+  const audioContext = new AudioContext()
+  try {
+    const arrayBuffer = await webmBlob.arrayBuffer()
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
+    const wavBuffer = audioBufferToWav(audioBuffer)
+    return new Blob([wavBuffer], { type: 'audio/wav' })
+  } finally {
+    audioContext.close()
+  }
+}
+
+/**
+ * 将 AudioBuffer 转换为 WAV 格式的 ArrayBuffer
+ */
+const audioBufferToWav = (buffer: AudioBuffer): ArrayBuffer => {
+  const numChannels = buffer.numberOfChannels
+  const sampleRate = buffer.sampleRate
+  const format = 1 // PCM
+  const bitDepth = 16
+
+  const bytesPerSample = bitDepth / 8
+  const blockAlign = numChannels * bytesPerSample
+
+  const dataLength = buffer.length * blockAlign
+  const bufferLength = 44 + dataLength
+
+  const arrayBuffer = new ArrayBuffer(bufferLength)
+  const view = new DataView(arrayBuffer)
+
+  // 写入 WAV 文件头
+  const writeString = (offset: number, str: string) => {
+    for (let i = 0; i < str.length; i++) {
+      view.setUint8(offset + i, str.charCodeAt(i))
+    }
+  }
+
+  writeString(0, 'RIFF')
+  view.setUint32(4, 36 + dataLength, true)
+  writeString(8, 'WAVE')
+  writeString(12, 'fmt ')
+  view.setUint32(16, 16, true)
+  view.setUint16(20, format, true)
+  view.setUint16(22, numChannels, true)
+  view.setUint32(24, sampleRate, true)
+  view.setUint32(28, sampleRate * blockAlign, true)
+  view.setUint16(32, blockAlign, true)
+  view.setUint16(34, bitDepth, true)
+  writeString(36, 'data')
+  view.setUint32(40, dataLength, true)
+
+  // 写入音频数据
+  const channels = []
+  for (let i = 0; i < numChannels; i++) {
+    channels.push(buffer.getChannelData(i))
+  }
+
+  let offset = 44
+  for (let i = 0; i < buffer.length; i++) {
+    for (let ch = 0; ch < numChannels; ch++) {
+      let sample = channels[ch][i]
+      sample = Math.max(-1, Math.min(1, sample))
+      sample = sample < 0 ? sample * 0x8000 : sample * 0x7FFF
+      view.setInt16(offset, sample, true)
+      offset += 2
+    }
+  }
+
+  return arrayBuffer
 }
 // #endif
 </script>
@@ -371,10 +453,15 @@ const stopRecording = () => {
     margin-top: 10rpx;
 
     .action-btn {
-      padding: 8rpx 16rpx;
+      padding: 6rpx 10rpx;
+      min-width: 48rpx;
+      height: 48rpx;
       background: #f0f0f0;
       border-radius: 8rpx;
       font-size: 24rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
 
       &.active {
