@@ -257,9 +257,18 @@ const handleFileUpload = async (event: any) => {
   }
   
   // 清空 input，允许重复上传同一文件
-  if (fileInputRef.value) {
-    fileInputRef.value.value = ''
-  }
+  // 使用 nextTick 确保 DOM 更新后再操作
+  nextTick(() => {
+    const input = fileInputRef.value as any
+    if (input && typeof input.value !== 'undefined') {
+      try {
+        input.value = ''
+      } catch (e) {
+        // 如果设置失败，忽略（不影响功能）
+        console.warn('Failed to reset input value:', e)
+      }
+    }
+  })
 }
 
 const removeFile = () => {
