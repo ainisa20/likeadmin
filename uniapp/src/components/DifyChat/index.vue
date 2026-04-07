@@ -672,7 +672,6 @@ const audioBufferToWav = (buffer: AudioBuffer): ArrayBuffer => {
   .input-actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 12rpx;
 
     .action-btn {
@@ -693,6 +692,10 @@ const audioBufferToWav = (buffer: AudioBuffer): ArrayBuffer => {
       padding: 8rpx 16rpx;
       background: #f0f0f0;
       border-radius: 8rpx;
+    }
+
+    .send-btn {
+      margin-left: auto;
 
       .dot {
         width: 8rpx;
