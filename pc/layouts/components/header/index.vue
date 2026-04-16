@@ -24,6 +24,9 @@ import Navbar from './navbar.vue'
     top: 0;
     width: 100%;
     z-index: 1999;
+    background-color: var(--header-bg, var(--el-color-primary));
+    color: var(--header-text, #fff);
+    
     .header-contain {
         height: 100%;
         display: flex;
@@ -32,12 +35,12 @@ import Navbar from './navbar.vue'
         margin: 0 auto;
         .navbar {
             --el-menu-item-font-size: var(--el-font-size-large);
-            --el-menu-bg-color: var(--el-color-primary);
-            --el-menu-active-color: var(--color-white);
-            --el-menu-text-color: var(--color-white);
-            --el-menu-item-hover-fill: var(--el-color-primary);
-            --el-menu-hover-text-color: var(--color-white);
-            --el-menu-hover-bg-color: var(--el-color-primary);
+            --el-menu-bg-color: var(--header-bg, var(--el-color-primary));
+            --el-menu-active-color: var(--header-text, var(--color-white));
+            --el-menu-text-color: var(--header-text, var(--color-white));
+            --el-menu-item-hover-fill: var(--header-bg, var(--el-color-primary));
+            --el-menu-hover-text-color: var(--header-text, var(--color-white));
+            --el-menu-hover-bg-color: var(--header-bg, var(--el-color-primary));
         }
     }
 }

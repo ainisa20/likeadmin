@@ -63,11 +63,47 @@ class DecorateDataLogic extends BaseLogic
         // 获取 Dify 配置
         $difyConfig = self::getDifyConfig($pcPage);
 
+        // 获取主题配置
+        $themeConfig = self::getThemeConfig($pcPage);
+
         return [
             'update_time' => $updateTime,
             'pc_url' => request()->domain() . '/pc/',
-            'dify_config' => $difyConfig
+            'dify_config' => $difyConfig,
+            'theme_config' => $themeConfig
         ];
+    }
+
+    /**
+     * @notes 获取主题配置
+     * @param $pcPage
+     * @return array
+     * @author raeazL
+     * @date 2026/04/16
+     */
+    private static function getThemeConfig($pcPage): array
+    {
+        $defaultConfig = [
+            'mode' => 'preset',
+            'presetId' => 1,
+            'primaryColor' => '#4153ff',
+            'minorColor' => '#7583ff',
+            'pageBgColor' => '#f7f7f7',
+            'headerBgColor' => '#4153ff',
+            'headerTextColor' => 'white',
+            'borderRadius' => 8,
+        ];
+
+        if (empty($pcPage['meta'])) {
+            return $defaultConfig;
+        }
+
+        $meta = json_decode($pcPage['meta'], true);
+        if (isset($meta['theme_config'])) {
+            return array_merge($defaultConfig, $meta['theme_config']);
+        }
+
+        return $defaultConfig;
     }
 
     /**
@@ -101,7 +137,7 @@ class DecorateDataLogic extends BaseLogic
     }
 
     /**
-     * @notes 保存 Dify 配置
+     * @notes 保存配置（Dify配置 + 主题配置）
      * @param $params
      * @return bool
      * @author raeazL
@@ -121,15 +157,34 @@ class DecorateDataLogic extends BaseLogic
             $meta = json_decode($pcPage->meta, true);
         }
 
-        // 更新 Dify 配置
-        $meta['dify_config'] = [
-            'enabled' => isset($params['enabled']) && ($params['enabled'] === true || $params['enabled'] === 'true' || $params['enabled'] === 1 || $params['enabled'] === '1'),
-            'token' => $params['token'] ?? '',
-            'baseUrl' => $params['baseUrl'] ?? 'http://localhost',
-            'buttonColor' => $params['buttonColor'] ?? '#1C64F2',
-            'windowWidth' => $params['windowWidth'] ?? '24',
-            'windowHeight' => $params['windowHeight'] ?? '40',
-        ];
+        // 保存 Dify 配置
+        if (isset($params['dify_config'])) {
+            $difyParams = $params['dify_config'];
+            $meta['dify_config'] = [
+                'enabled' => isset($difyParams['enabled']) && ($difyParams['enabled'] === true || $difyParams['enabled'] === 'true' || $difyParams['enabled'] === 1 || $difyParams['enabled'] === '1'),
+                'token' => $difyParams['token'] ?? '',
+                'baseUrl' => $difyParams['baseUrl'] ?? 'http://localhost',
+                'buttonColor' => $difyParams['buttonColor'] ?? '#1C64F2',
+                'windowWidth' => $difyParams['windowWidth'] ?? '24',
+                'windowHeight' => $difyParams['windowHeight'] ?? '40',
+            ];
+        }
+
+        // 保存主题配置
+        if (isset($params['theme_config'])) {
+            $themeParams = $params['theme_config'];
+            $meta['theme_config'] = [
+            'mode' => $themeParams['mode'] ?? 'preset',
+            'presetId' => $themeParams['presetId'] ?? 1,
+            'primaryColor' => $themeParams['primaryColor'] ?? '#4153ff',
+            'minorColor' => $themeParams['minorColor'] ?? '#7583ff',
+            'pageBgColor' => $themeParams['pageBgColor'] ?? '#f7f7f7',
+            'headerBgColor' => $themeParams['headerBgColor'] ?? '#4153ff',
+            'headerTextColor' => $themeParams['headerTextColor'] ?? 'white',
+            'borderRadius' => $themeParams['borderRadius'] ?? 8,
+            'footerStyle' => $themeParams['footerStyle'] ?? 'gray',
+            ];
+        }
 
         // 保存到数据库
         $pcPage->meta = json_encode($meta, JSON_UNESCAPED_UNICODE);

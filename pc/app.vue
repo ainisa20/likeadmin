@@ -70,12 +70,71 @@ const difyStore = useDifyStore()
 
 onMounted(async () => {
   await appStore.getConfig()
+  
+  // 先应用主题配置（在组件渲染前）
+  applyThemeConfig()
+  
   await difyStore.initConfig()
 
   if (difyStore.config.enabled) {
     console.log('[Dify] Custom chat initialized')
   }
 })
+
+// 应用主题配置
+const applyThemeConfig = () => {
+  if (typeof document === 'undefined') return
+  
+  try {
+    // 直接从 store 获取主题配置
+    const themeConfig = appStore.getThemeConfig
+    
+    if (themeConfig && Object.keys(themeConfig).length > 0) {
+      console.log('[Theme] Applying theme config:', themeConfig)
+      
+      const root = document.documentElement
+      
+      // 应用颜色变量
+      if (themeConfig.primaryColor) {
+        root.style.setProperty('--color-primary', themeConfig.primaryColor)
+        root.style.setProperty('--el-color-primary', themeConfig.primaryColor)
+      }
+      
+      if (themeConfig.minorColor) {
+        root.style.setProperty('--color-minor', themeConfig.minorColor)
+      }
+      
+      if (themeConfig.pageBgColor) {
+        root.style.setProperty('--el-bg-color-page', themeConfig.pageBgColor)
+      }
+      
+      if (themeConfig.headerBgColor) {
+        root.style.setProperty('--header-bg', themeConfig.headerBgColor)
+        // 同时更新 primary 相关的变量，确保导航菜单颜色正确
+        root.style.setProperty('--el-color-primary', themeConfig.headerBgColor)
+      }
+      
+      if (themeConfig.headerTextColor) {
+        root.style.setProperty('--header-text', themeConfig.headerTextColor)
+      }
+      
+      if (themeConfig.borderRadius !== undefined) {
+        root.style.setProperty('--border-radius', `${themeConfig.borderRadius}px`)
+      }
+      
+      console.log('[Theme] Theme applied successfully')
+      
+      // 强制触发一次样式更新
+      nextTick(() => {
+        console.log('[Theme] Next tick - theme should be applied now')
+      })
+    } else {
+      console.log('[Theme] No theme config found, using default')
+    }
+  } catch (error) {
+    console.error('[Theme] Failed to apply theme:', error)
+  }
+}
 </script>
 
 <template>

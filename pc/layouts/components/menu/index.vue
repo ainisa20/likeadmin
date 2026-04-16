@@ -27,11 +27,23 @@ defineProps({
         --el-menu-item-height: 40px;
         border-bottom: none;
         :deep(.el-menu-item) {
+            color: var(--header-text, var(--color-white));
+            
             span {
                 border-bottom: 2px solid transparent;
             }
-            &.is-active > span {
-                border-color: currentColor;
+            
+            &.is-active {
+                color: var(--header-text, var(--color-white));
+                
+                > span {
+                    border-color: var(--header-text, var(--color-white));
+                }
+            }
+            
+            &:hover {
+                color: var(--header-text, var(--color-white));
+                background-color: var(--header-bg, var(--el-color-primary));
             }
         }
     }

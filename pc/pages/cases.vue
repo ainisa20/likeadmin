@@ -191,9 +191,9 @@ useHead({
 // 页面标题区域
 .page-header {
     padding: 80px 20px 60px;
-    background: linear-gradient(135deg, #4153ff 0%, #7583ff 100%);
+    background: #f5f7fa;
     text-align: center;
-    color: white;
+    color: #333;
 
     @media (max-width: 768px) {
         padding: 60px 20px 40px;

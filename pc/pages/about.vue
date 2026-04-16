@@ -94,36 +94,6 @@
             </div>
         </section>
 
-        <!-- 在线留言 -->
-        <section class="message-section">
-            <div class="section-container">
-                <div class="message-card">
-                    <h2 class="section-title">在线留言</h2>
-                    <ElForm label-position="top" class="message-form">
-                        <ElFormItem label="姓名">
-                            <ElInput placeholder="请输入您的姓名" size="large" />
-                        </ElFormItem>
-                        <ElFormItem label="手机号">
-                            <ElInput placeholder="请输入您的手机号" size="large" />
-                        </ElFormItem>
-                        <ElFormItem label="留言内容">
-                            <ElInput
-                                type="textarea"
-                                :rows="4"
-                                placeholder="请描述您的需求或问题..."
-                                size="large"
-                            />
-                        </ElFormItem>
-                        <ElFormItem>
-                            <ElButton type="primary" size="large" class="submit-button">
-                                提交留言
-                            </ElButton>
-                        </ElFormItem>
-                    </ElForm>
-                </div>
-            </div>
-        </section>
-
         <!-- CTA 区域 -->
         <section class="cta-section">
             <div class="cta-container">
@@ -139,29 +109,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- 页脚 -->
-        <footer class="page-footer">
-            <div class="footer-container">
-                <div class="footer-section">
-                    <h3 class="footer-title">关于我们</h3>
-                    <p class="footer-desc">专业的企业服务提供商，致力于为客户提供高质量的创新解决方案。</p>
-                </div>
-                <div class="footer-section">
-                    <h3 class="footer-title">联系我们</h3>
-                    <p class="footer-contact">
-                        📍 深圳市南山区科技园<br>
-                        📧 contact@opc-service.com<br>
-                        📞 0755-12345678
-                    </p>
-                </div>
-                <div class="footer-section">
-                    <p class="footer-copyright">
-                        &copy; 2026 企业名称. All rights reserved.
-                    </p>
-                </div>
-            </div>
-        </footer>
     </div>
 </template>
 
@@ -202,9 +149,9 @@ useHead({
 // 页面标题区域
 .page-header {
     padding: 80px 20px 60px;
-    background: linear-gradient(135deg, #4153ff 0%, #7583ff 100%);
+    background: #f5f7fa;
     text-align: center;
-    color: white;
+    color: #333;
 
     @media (max-width: 768px) {
         padding: 60px 20px 40px;
@@ -396,39 +343,6 @@ useHead({
     font-weight: 500;
 }
 
-// 在线留言
-.message-section {
-    padding: 60px 20px;
-    background: white;
-}
-
-.message-card {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 40px;
-    background: #f5f7fa;
-    border-radius: 16px;
-}
-
-.message-form {
-    :deep(.el-form-item) {
-        margin-bottom: 24px;
-    }
-
-    :deep(.el-form-item__label) {
-        font-weight: 500;
-        color: #303133;
-    }
-
-    .submit-button {
-        width: 100%;
-        height: 50px;
-        font-size: 18px;
-        font-weight: 500;
-        border-radius: 8px;
-    }
-}
-
 // CTA 区域
 .cta-section {
     padding: 80px 20px;
@@ -478,56 +392,6 @@ useHead({
         font-size: 18px;
         font-weight: 500;
         border-radius: 8px;
-    }
-}
-
-// 页脚
-.page-footer {
-    padding: 60px 20px 40px;
-    background: #222;
-    color: #bebebe;
-}
-
-.footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-
-    @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-        gap: 32px;
-    }
-}
-
-.footer-section {
-    .footer-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: white;
-        margin-bottom: 16px;
-    }
-
-    .footer-desc {
-        font-size: 14px;
-        line-height: 1.6;
-        margin: 0;
-    }
-
-    .footer-contact {
-        font-size: 14px;
-        line-height: 2;
-        margin: 0;
-    }
-
-    .footer-copyright {
-        font-size: 14px;
-        color: #999;
-        text-align: center;
-        padding-top: 20px;
-        margin-top: 20px;
-        border-top: 1px solid #333;
     }
 }
 </style>

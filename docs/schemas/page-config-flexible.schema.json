@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://your-domain.com/schemas/page-config-flexible-v1.json",
+  "title": "PageConfig - Flexible",
+  "description": "灵活的页面配置Schema - 支持预定义组件和自定义组件",
+  "type": "object",
+  "required": ["pageInfo", "sections"],
+  "properties": {
+    "pageInfo": {
+      "type": "object",
+      "description": "页面基本信息",
+      "required": ["fileName", "title", "description", "keywords"],
+      "properties": {
+        "fileName": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "examples": ["about", "products", "services"]
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "description": {
+          "type": "string",
+          "minLength": 80,
+          "maxLength": 160
+        },
+        "keywords": {
+          "type": "string"
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "description": "页面版块列表",
+      "minItems": 1,
+      "maxItems": 15,
+      "items": {
+        "oneOf": [
+          { "$ref": "#/definitions/PredefinedSection" },
+          { "$ref": "#/definitions/CustomSection" },
+          { "$ref": "#/definitions/RawSection" }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "PredefinedSection": {
+      "type": "object",
+      "description": "预定义的版块类型（稳定，有固定模板）",
+      "required": ["type", "enabled", "order", "config"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["page-header", "hero", "mission", "text-block", "values", "cards", "products", "services", "cases", "contact", "cta", "stats", "timeline", "team", "faq", "pricing", "testimonials"]
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "config": {
+          "description": "根据type不同，config结构不同"
+        }
+      }
+    },
+    "CustomSection": {
+      "type": "object",
+      "description": "自定义版块（扩展性强，半结构化）",
+      "required": ["type", "enabled", "order", "config"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "^custom-"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "order": {
+          "type": "integer"
+        },
+        "config": {
+          "type": "object",
+          "required": ["layout", "content"],
+          "properties": {
+            "layout": {
+              "type": "string",
+              "enum": ["container", "grid-2", "grid-3", "grid-4", "list", "flex", "custom"]
+            },
+            "content": {
+              "type": "array",
+              "description": "内容项列表",
+              "items": {
+                "type": "object",
+                "required": ["component"],
+                "properties": {
+                  "component": {
+                    "type": "string",
+                    "enum": ["heading", "text", "image", "button", "card", "icon-text", "video", "divider", "spacer"]
+                  },
+                  "props": {
+                    "type": "object",
+                    "description": "组件属性"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "RawSection": {
+      "type": "object",
+      "description": "原始版块（完全自定义，最大灵活性）",
+      "required": ["type", "enabled", "order", "template"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "^raw-"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "order": {
+          "type": "integer"
+        },
+        "template": {
+          "type": "string",
+          "description": "Vue template代码片段"
+        },
+        "script": {
+          "type": "string",
+          "description": "Script代码片段（可选）"
+        },
+        "style": {
+          "type": "string",
+          "description": "Style代码片段（可选）"
+        }
+      }
+    }
+  }
+}

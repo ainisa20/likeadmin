@@ -17,7 +17,8 @@ export const useAppStore = defineStore({
         getCopyrightConfig: (state) => state.config.copyright || [],
         getQrcodeConfig: (state) => state.config.qrcode || {},
         getAdminUrl: (state) => state.config.admin_url,
-        getSiteStatistics: (state) => state.config.siteStatistics || {}
+        getSiteStatistics: (state) => state.config.siteStatistics || {},
+        getThemeConfig: (state) => state.config.theme_config || {}
     },
     actions: {
         async getConfig() {

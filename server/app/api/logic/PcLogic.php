@@ -175,7 +175,8 @@ class PcLogic extends BaseLogic
                 'oa' => $oaQrCode,
                 'mnp' => $mnpQrCode,
             ],
-            'dify' => self::getDifyConfig()
+            'dify' => self::getDifyConfig(),
+            'theme_config' => self::getThemeConfig()
         ];
     }
 
@@ -273,12 +274,52 @@ class PcLogic extends BaseLogic
             if (isset($meta['dify_config']) && is_array($meta['dify_config'])) {
                 $config = array_merge($defaultConfig, $meta['dify_config']);
                 // 确保 enabled 是布尔值
-                $config['enabled'] = isset($meta['dify_config']['enabled']) && 
-                                     ($meta['dify_config']['enabled'] === true || 
-                                      $meta['dify_config']['enabled'] === 'true' || 
-                                      $meta['dify_config']['enabled'] === '1' || 
+                $config['enabled'] = isset($meta['dify_config']['enabled']) &&
+                                     ($meta['dify_config']['enabled'] === true ||
+                                      $meta['dify_config']['enabled'] === 'true' ||
+                                      $meta['dify_config']['enabled'] === '1' ||
                                       $meta['dify_config']['enabled'] === 1);
                 return $config;
+            }
+
+            return $defaultConfig;
+        } catch (\Exception $e) {
+            // 出错时返回默认配置
+            return $defaultConfig;
+        }
+    }
+
+    /**
+     * @notes 获取主题配置
+     * @return array
+     * @author raeazL
+     * @date 2026/04/16
+     */
+    private static function getThemeConfig(): array
+    {
+        $defaultConfig = [
+            'mode' => 'preset',
+            'presetId' => 1,
+            'primaryColor' => '#4153ff',
+            'minorColor' => '#7583ff',
+            'pageBgColor' => '#f7f7f7',
+            'headerBgColor' => '#4153ff',
+            'headerTextColor' => 'white',
+            'borderRadius' => 8,
+            'footerStyle' => 'gray',
+        ];
+
+        try {
+            // 获取 PC 页面装修数据
+            $pcPage = DecoratePage::findOrEmpty(4);
+
+            if ($pcPage->isEmpty() || empty($pcPage->meta)) {
+                return $defaultConfig;
+            }
+
+            $meta = json_decode($pcPage->meta, true);
+            if (isset($meta['theme_config']) && is_array($meta['theme_config'])) {
+                return array_merge($defaultConfig, $meta['theme_config']);
             }
 
             return $defaultConfig;

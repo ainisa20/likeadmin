@@ -23,6 +23,161 @@
                     </el-form-item>
                 </el-form>
 
+                <!-- PC端主题配置 -->
+                <el-divider class="my-5"></el-divider>
+
+                <div class="mb-4">
+                    <span class="text-lg font-medium">🎨 PC端主题配置</span>
+                    <span class="ml-3 text-sm text-gray-500">修改后刷新PC端页面即可生效</span>
+                </div>
+
+                <el-form
+                    ref="themeFormRef"
+                    :model="themeConfig"
+                    label-width="140px"
+                    class="max-w-3xl"
+                >
+                    <el-form-item label="主题模式">
+                        <el-radio-group v-model="themeConfig.mode" @change="handleThemeModeChange">
+                            <el-radio value="preset">预设主题</el-radio>
+                            <el-radio value="custom">自定义颜色</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+
+                    <!-- 预设主题选择 -->
+                    <template v-if="themeConfig.mode === 'preset'">
+                        <el-form-item label-width="0">
+                            <div class="grid grid-cols-5 gap-4">
+                                <div
+                                    v-for="theme in presetThemes"
+                                    :key="theme.id"
+                                    @click="selectPresetTheme(theme)"
+                                    class="cursor-pointer border-2 rounded-lg p-3 transition-all hover:shadow-md"
+                                    :class="themeConfig.presetId === theme.id ? 'border-primary ring-2 ring-primary/20' : 'border-gray-200'"
+                                >
+                                    <div class="text-sm font-medium mb-2 text-center">{{ theme.name }}</div>
+                                    <div class="flex gap-1 justify-center">
+                                        <div class="w-6 h-6 rounded-full" :style="{ background: theme.primary }"></div>
+                                        <div class="w-6 h-6 rounded-full" :style="{ background: theme.minor }"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </el-form-item>
+                    </template>
+
+                    <!-- 自定义颜色 -->
+                    <template v-if="themeConfig.mode === 'custom'">
+                        <el-form-item label="主题色">
+                            <div class="flex items-center gap-3">
+                                <el-color-picker v-model="themeConfig.primaryColor" show-alpha />
+                                <span class="text-sm text-gray-500">主要按钮、链接颜色</span>
+                                <el-tag size="small" effect="plain">{{ themeConfig.primaryColor }}</el-tag>
+                            </div>
+                        </el-form-item>
+
+                        <el-form-item label="次要色">
+                            <div class="flex items-center gap-3">
+                                <el-color-picker v-model="themeConfig.minorColor" show-alpha />
+                                <span class="text-sm text-gray-500">渐变色、悬停效果</span>
+                                <el-tag size="small" effect="plain">{{ themeConfig.minorColor }}</el-tag>
+                            </div>
+                        </el-form-item>
+
+                        <el-form-item label="页面背景">
+                            <div class="flex items-center gap-3">
+                                <el-color-picker v-model="themeConfig.pageBgColor" />
+                                <span class="text-sm text-gray-500">整体页面背景</span>
+                            </div>
+                        </el-form-item>
+
+                        <el-form-item label="Header背景">
+                            <div class="flex items-center gap-3">
+                                <el-color-picker v-model="themeConfig.headerBgColor" />
+                                <span class="text-sm text-gray-500">顶部导航背景</span>
+                            </div>
+                        </el-form-item>
+
+                        <el-form-item label="Header文字">
+                            <el-radio-group v-model="themeConfig.headerTextColor">
+                                <el-radio value="white">白色</el-radio>
+                                <el-radio value="black">黑色</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item label="圆角风格">
+                            <div class="flex items-center gap-3">
+                                <el-slider v-model="themeConfig.borderRadius" :min="0" :max="16" style="width: 200px" />
+                                <span class="text-sm text-gray-500">{{ themeConfig.borderRadius }}px</span>
+                            </div>
+                        </el-form-item>
+
+                        <el-form-item label="Footer风格">
+                            <el-radio-group v-model="themeConfig.footerStyle">
+                                <el-radio value="theme">主题色</el-radio>
+                                <el-radio value="dark">深色</el-radio>
+                                <el-radio value="gray">浅灰（推荐）</el-radio>
+                                <el-radio value="white">纯白</el-radio>
+                            </el-radio-group>
+                            <div class="text-sm text-gray-500 mt-1">
+                                <span v-if="themeConfig.footerStyle === 'theme'">使用主题色的柔和版本</span>
+                                <span v-if="themeConfig.footerStyle === 'dark'">深色背景+白色文字，稳重专业</span>
+                                <span v-if="themeConfig.footerStyle === 'gray'">浅灰背景+深色文字，简洁清爽（默认）</span>
+                                <span v-if="themeConfig.footerStyle === 'white'">纯白背景+深色文字，极简现代</span>
+                            </div>
+                        </el-form-item>
+                    </template>
+
+                    <!-- 实时预览 -->
+                    <el-form-item label="效果预览">
+                        <div class="border rounded-lg overflow-hidden" style="width: 400px">
+                            <!-- Header预览 -->
+                            <div class="px-4 py-3 flex items-center justify-between" :style="{ background: themeConfig.headerBgColor, color: themeConfig.headerTextColor === 'white' ? '#fff' : '#000' }">
+                                <span class="font-medium">Logo</span>
+                                <div class="flex gap-4 text-sm">
+                                    <span>首页</span>
+                                    <span>资讯</span>
+                                    <span>关于</span>
+                                </div>
+                                <span>用户</span>
+                            </div>
+                            <!-- 内容预览 -->
+                            <div class="p-4" :style="{ background: themeConfig.pageBgColor }">
+                                <div class="mb-3 p-3 bg-white rounded" :style="{ borderRadius: themeConfig.borderRadius + 'px' }">
+                                    <div class="text-sm text-gray-500 mb-2">内容卡片示例</div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 rounded-full" :style="{ background: themeConfig.primaryColor }"></div>
+                                        <div class="w-3 h-3 rounded-full" :style="{ background: themeConfig.minorColor }"></div>
+                                    </div>
+                                </div>
+                                <button
+                                    class="w-full py-2 rounded text-white text-sm"
+                                    :style="{
+                                        background: `linear-gradient(to right, ${themeConfig.primaryColor}, ${themeConfig.minorColor})`,
+                                        borderRadius: themeConfig.borderRadius + 'px'
+                                    }"
+                                >
+                                    主要按钮
+                                </button>
+                            </div>
+                            <!-- Footer预览 -->
+                            <div class="px-4 py-3 text-center text-xs" :style="getFooterPreviewStyle()">
+                                <span class="mx-2">用户协议</span>
+                                <span class="mx-2">|</span>
+                                <span class="mx-2">隐私政策</span>
+                                <span class="mx-2">|</span>
+                                <span class="mx-2">会员中心</span>
+                            </div>
+                        </div>
+                    </el-form-item>
+
+                    <el-form-item>
+                        <el-button type="primary" @click="handleSaveThemeConfig" :loading="themeSaving">
+                            保存主题配置
+                        </el-button>
+                        <el-button @click="handleResetTheme">重置</el-button>
+                    </el-form-item>
+                </el-form>
+
                 <!-- Dify 配置 -->
                 <el-divider class="my-5"></el-divider>
 
@@ -109,16 +264,42 @@ const state = ref({
         buttonColor: '#1C64F2',
         windowWidth: '24',
         windowHeight: '40',
+    },
+    theme_config: {
+        mode: 'preset',
+        presetId: 1,
+        primaryColor: '#4153ff',
+        minorColor: '#7583ff',
+        pageBgColor: '#f7f7f7',
+        headerBgColor: '#4153ff',
+        headerTextColor: 'white',
+        borderRadius: 8,
+        footerStyle: 'gray',
     }
 })
 
 const difyConfig = ref({ ...state.value.dify_config })
 const saving = ref(false)
 
+// 主题配置
+const themeConfig = ref({ ...state.value.theme_config })
+const themeSaving = ref(false)
+
+// 预设主题
+const presetThemes = ref([
+    { id: 1, name: '科技蓝', primary: '#4153ff', minor: '#7583ff' },
+    { id: 2, name: '翡翠绿', primary: '#10b981', minor: '#34d399' },
+    { id: 3, name: '高贵紫', primary: '#8b5cf6', minor: '#a78bfa' },
+    { id: 4, name: '活力橙', primary: '#f59e0b', minor: '#fbbf24' },
+    { id: 5, name: '经典红', primary: '#ef4444', minor: '#f87171' },
+])
+
 const getData = async () => {
     try {
         const data = await getDecoratePc()
         state.value = data
+        
+        // 加载 Dify 配置
         if (data.dify_config) {
             difyConfig.value = {
                 ...data.dify_config,
@@ -127,9 +308,105 @@ const getData = async () => {
                 windowHeight: Number(data.dify_config.windowHeight || 40)
             }
         }
+        
+        // 加载主题配置
+        if (data.theme_config) {
+            themeConfig.value = {
+                ...state.value.theme_config,
+                ...data.theme_config
+            }
+        }
     } catch (error) {
         console.log(error)
     }
+}
+
+// 选择预设主题
+const selectPresetTheme = (theme: any) => {
+    themeConfig.value.presetId = theme.id
+    themeConfig.value.primaryColor = theme.primary
+    themeConfig.value.minorColor = theme.minor
+    themeConfig.value.headerBgColor = theme.primary
+    themeConfig.value.footerStyle = 'gray'  // 预设主题默认使用浅灰色Footer
+}
+
+// 主题模式切换
+const handleThemeModeChange = (mode: string) => {
+    if (mode === 'preset') {
+        // 切换到预设模式，应用当前选中的预设
+        const theme = presetThemes.value.find(t => t.id === themeConfig.value.presetId)
+        if (theme) {
+            selectPresetTheme(theme)
+        }
+    } else if (mode === 'custom') {
+        // 切换到自定义模式，设置默认Footer风格为浅灰
+        themeConfig.value.footerStyle = 'gray'
+    }
+}
+
+// 保存主题配置
+const handleSaveThemeConfig = async () => {
+    try {
+        themeSaving.value = true
+
+        // 组装保存数据 - 只发送主题配置，不影响Dify配置
+        const saveData = {
+            theme_config: themeConfig.value
+        }
+
+        await saveDifyConfig(saveData)
+        feedback.msgSuccess('主题配置保存成功，刷新PC端页面即可生效')
+        await getData()
+    } catch (error) {
+        console.log(error)
+        feedback.msgError('保存失败')
+    } finally {
+        themeSaving.value = false
+    }
+}
+
+// 重置主题配置
+const handleResetTheme = () => {
+    themeConfig.value = { ...state.value.theme_config }
+}
+
+// 获取Footer预览样式
+const getFooterPreviewStyle = () => {
+    const style: any = {
+        padding: '12px',
+        borderTop: '1px solid rgba(0,0,0,0.1)'
+    }
+    
+    switch (themeConfig.value.footerStyle) {
+        case 'theme':
+            style.background = lightenColor(themeConfig.value.primaryColor, 40)
+            style.color = '#ffffff'
+            break
+        case 'dark':
+            style.background = '#1a1a1a'
+            style.color = '#e0e0e0'
+            break
+        case 'gray':
+            style.background = '#fafafa'
+            style.color = '#666666'
+            break
+        case 'white':
+            style.background = '#ffffff'
+            style.color = '#333333'
+            style.borderTop = '1px solid #e0e0e0'
+            break
+    }
+    
+    return style
+}
+
+// 辅助函数：提亮颜色
+const lightenColor = (color: string, percent: number): string => {
+    const hex = color.replace('#', '')
+    const r = Math.min(255, parseInt(hex.substr(0, 2), 16) * (100 + percent) / 100)
+    const g = Math.min(255, parseInt(hex.substr(2, 2), 16) * (100 + percent) / 100)
+    const b = Math.min(255, parseInt(hex.substr(4, 2), 16) * (100 + percent) / 100)
+    return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`
 }
 
 const handleSaveDifyConfig = async () => {
@@ -156,7 +433,13 @@ const handleSaveDifyConfig = async () => {
 const saveConfig = async () => {
     try {
         saving.value = true
-        await saveDifyConfig(difyConfig.value)
+
+        // 只发送 Dify 配置，不影响主题配置
+        const saveData = {
+            dify_config: difyConfig.value
+        }
+
+        await saveDifyConfig(saveData)
         feedback.msgSuccess('保存成功')
         await getData()
     } catch (error) {
