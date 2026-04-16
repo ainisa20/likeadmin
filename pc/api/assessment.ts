@@ -7,7 +7,7 @@ export function submitAssessment(data: {
 }) {
     console.log('发送请求前 data:', data)
     return $request.post({
-        url: '/api/assessment/submit',
+        url: '/assessment/submit',
         params: data
     })
 }

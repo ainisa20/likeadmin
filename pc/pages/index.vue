@@ -102,6 +102,17 @@
                         </ElSelect>
                     </ElFormItem>
 
+                    <ElFormItem label="留言内容" prop="content">
+                        <ElInput
+                            v-model="form.content"
+                            type="textarea"
+                            placeholder="请描述您的具体需求或问题（选填）"
+                            :rows="4"
+                            maxlength="500"
+                            show-word-limit
+                        />
+                    </ElFormItem>
+
                     <ElFormItem>
                         <ElButton
                             type="primary"
@@ -183,7 +194,8 @@ const showList = computed(() => {
 const form = reactive({
     name: '',
     phone: '',
-    stage: ''
+    stage: '',
+    content: ''
 })
 
 // 表单验证规则
@@ -222,7 +234,8 @@ const submitForm = async () => {
         const res = await submitAssessment({
             name: form.name,
             phone: form.phone,
-            stage: form.stage
+            stage: form.stage,
+            content: form.content
         })
 
         console.log('后端返回:', res)
