@@ -97,7 +97,11 @@ docker exec likeadmin-php bash -c "
 
 **可用表单：**
 - ✅ 评估申请表单：`/api/assessment/submit`
-- 字段：`name`(姓名)、`phone`(电话)、`stage`(阶段: idea/direction/company/team)
+- 字段：
+  - `name`(姓名) - 必填
+  - `phone`(电话) - 必填，11位手机号
+  - `stage`(咨询类型) - 必填，可选值：idea(需求了解)/direction(方案沟通)/company(商务洽谈)/team(项目对接)
+  - `content`(留言内容) - 选填，最多500字符
 - 防重复：同手机号1小时内只能提交1次
 
 **使用规则：**
