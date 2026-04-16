@@ -767,6 +767,7 @@ CREATE TABLE `la_assessment`  (
   `name` varchar(50) NOT NULL COMMENT '姓名',
   `phone` varchar(11) NOT NULL COMMENT '手机号',
   `stage` varchar(20) NOT NULL COMMENT '当前阶段：idea-刚有想法, direction-已有方向, company-已成立公司, team-已有团队',
+  `content` text COMMENT '用户留言内容（最多500字符）',
   `ip` varchar(39) DEFAULT NULL COMMENT '提交IP地址',
   `user_agent` varchar(500) DEFAULT NULL COMMENT '用户代理信息',
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '处理状态：0-待处理, 1-已联系, 2-已成交',

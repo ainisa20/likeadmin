@@ -58,6 +58,7 @@
                 <el-table-column label="ID" prop="id" min-width="80" />
                 <el-table-column label="姓名" prop="name" min-width="100" />
                 <el-table-column label="手机号" prop="phone" min-width="130" />
+                <el-table-column label="留言内容" prop="content" min-width="200" show-overflow-tooltip />
                 <el-table-column label="当前阶段" min-width="120">
                     <template #default="{ row }">
                         <el-tag v-if="row.stage === 'idea'" type="info">需求了解</el-tag>
@@ -108,6 +109,9 @@
                 </el-descriptions-item>
                 <el-descriptions-item label="提交IP">{{ detail.ip }}</el-descriptions-item>
                 <el-descriptions-item label="提交时间">{{ detail.create_time }}</el-descriptions-item>
+                <el-descriptions-item label="留言内容" :span="2">
+                    <div style="white-space: pre-wrap; max-height: 200px; overflow-y: auto;">{{ detail.content || '无' }}</div>
+                </el-descriptions-item>
                 <el-descriptions-item label="User Agent" :span="2">
                     <div style="max-height: 100px; overflow: auto; font-size: 12px;">
                         {{ detail.user_agent }}

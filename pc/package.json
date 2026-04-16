@@ -32,7 +32,8 @@
         "@chenfengyuan/vue-countdown": "2.1.1",
         "element-plus": "2.5.2",
         "pinia": "2.0.3",
-        "vue-cropper": "1.0.5"
+        "vue-cropper": "1.0.5",
+        "vue-router": "^4.2.5"
     },
     "optionalDependencies": {
         "@rollup/rollup-linux-arm64-gnu": "^4.60.1"
