@@ -4,16 +4,16 @@ export const NAVBAR = [
         path: '/'
     },
     {
-        name: '产品中心',
-        path: '/products'
+        name: '核心服务',
+        path: '/services'
     },
     {
-        name: '品牌故事',
-        path: '/story'
+        name: '成功案例',
+        path: '/cases'
     },
     {
-        name: '联系我们',
-        path: '/contact'
+        name: '关于我们',
+        path: '/about'
     },
     {
         name: '资讯中心',

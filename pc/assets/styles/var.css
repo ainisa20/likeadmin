@@ -1,15 +1,15 @@
 :root body {
     --el-font-family: theme(fontFamily.sans);
-    --color-primary: #8B0000;
+    --color-primary: #4153ff;
     --el-color-primary: var(--color-primary);
-    --color-minor: #1A1A1A;
+    --color-minor: #7583ff;
     --color-btn-text: white;
-    --el-color-primary-dark-2: #6B0000;
-    --el-color-primary-light-3: #A50000;
-    --el-color-primary-light-5: #B80000;
-    --el-color-primary-light-7: #D10000;
-    --el-color-primary-light-8: #E00000;
-    --el-color-primary-light-9: #F00000;
+    --el-color-primary-dark-2: rgb(19, 153, 166);
+    --el-color-primary-light-3: rgb(93, 210, 222);
+    --el-color-primary-light-5: rgb(140, 223, 232);
+    --el-color-primary-light-7: rgb(186, 236, 241);
+    --el-color-primary-light-8: rgb(209, 242, 246);
+    --el-color-primary-light-9: rgb(232, 249, 250);
     --el-font-weight-primary: 400;
     --el-menu-item-height: 46px;
     --el-menu-sub-item-height: var(--el-menu-item-height);
