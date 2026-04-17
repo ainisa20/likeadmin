@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { getConfig } from '@/api/app'
+import { useDifyStore } from './dify'
 
 interface AppSate {
     config: Record<string, any>
@@ -26,6 +27,12 @@ export const useAppStore = defineStore({
         async getConfig() {
             const data = await getConfig()
             this.config = data
+
+            // 同步设置 Dify 配置（统一使用PC端配置）
+            if (data.dify_config) {
+                const difyStore = useDifyStore()
+                difyStore.setDifyConfig(data.dify_config)
+            }
         }
     }
 })

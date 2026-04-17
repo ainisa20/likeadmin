@@ -21,6 +21,14 @@ export interface DifyConfig {
   windowWidth: string
   /** 聊天窗口高度（rem单位） */
   windowHeight: string
+  /** 是否启用对话开场白 */
+  welcomeEnabled?: boolean
+  /** 对话开场白内容 */
+  welcomeText?: string
+  /** 是否启用推荐提问 */
+  suggestionsEnabled?: boolean
+  /** 推荐提问列表（3-5个） */
+  suggestions?: string[]
 }
 
 /**

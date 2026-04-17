@@ -11,8 +11,8 @@
         </view>
 
         <!-- #ifdef H5 -->
-        <!-- Dify 聊天组件（替换原有的 iframe 方案） -->
-        <DifyChat v-if="content.dify_url && content.dify_token" :content="content" />
+        <!-- Dify 聊天组件（统一使用后端配置） -->
+        <DifyChat v-if="difyStore.isConfigured" />
         <!-- #endif -->
 
         <!-- 全局元素：二维码展示 -->
@@ -48,11 +48,16 @@
 <script lang="ts" setup>
 // #ifdef H5
 import DifyChat from '@/components/DifyChat/index.vue'
+import { useDifyStore } from '@/stores/dify'
 // #endif
 
 import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
 import { computed } from 'vue'
+
+// #ifdef H5
+const difyStore = useDifyStore()
+// #endif
 
 const props = defineProps({
     content: {

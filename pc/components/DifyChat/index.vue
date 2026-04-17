@@ -31,6 +31,31 @@
         </div>
 
         <div class="chat-messages" ref="messagesRef">
+          <!-- 对话开场白 -->
+          <div v-if="difyStore.config.welcomeEnabled && difyStore.config.welcomeText" class="chat-welcome">
+            <div class="welcome-avatar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#3b82f6"/>
+                <circle cx="9" cy="10" r="1.5" fill="#3b82f6"/>
+                <circle cx="15" cy="10" r="1.5" fill="#3b82f6"/>
+                <path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+              </svg>
+            </div>
+            <div class="welcome-content">{{ difyStore.config.welcomeText }}</div>
+          </div>
+
+          <!-- 推荐提问 -->
+          <div v-if="difyStore.config.suggestionsEnabled && difyStore.config.suggestions && difyStore.config.suggestions.length > 0" class="chat-suggestions">
+            <div 
+              v-for="(suggestion, index) in difyStore.config.suggestions" 
+              :key="index"
+              class="suggestion-item"
+              @click="selectSuggestion(suggestion)"
+            >
+              {{ suggestion }}
+            </div>
+          </div>
+
           <div
             v-for="msg in difyStore.messages"
             :key="msg.id"
@@ -237,7 +262,7 @@
 
 <script setup lang="ts">
 import { useDifyStore } from '@/stores/dify'
-import { nextTick, onMounted, onUnmounted, ref, computed } from 'vue'
+import { nextTick, onMounted, onUnmounted, ref, computed, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const difyStore = useDifyStore()
@@ -584,15 +609,34 @@ const scrollToBottom = () => {
   }
 }
 
+// 监听聊天窗口打开状态，打开时滚动到底部
+watch(() => isOpen.value, (newVal) => {
+  if (newVal) {
+    nextTick(() => {
+      scrollToBottom()
+    })
+  }
+})
+
 const onStreamUpdate = () => {
   nextTick(() => scrollToBottom())
+}
+
+const selectSuggestion = (suggestion: string) => {
+  inputQuery.value = suggestion
+  // 聚焦到输入框
+  nextTick(() => {
+    if (inputRef.value) {
+      inputRef.value.focus()
+    }
+  })
 }
 
 onMounted(async () => {
   if (!difyStore.isConfigured) {
     await difyStore.initConfig()
   }
-  
+
   // 保存用户ID用于文件预览
   try {
     const { useDifyUser } = await import('@/composables/useDifyUser')
@@ -607,8 +651,16 @@ onMounted(async () => {
       ;(window as any).difyUserId = userId
     }
   }
-  
+
   window.addEventListener('dify-stream-update', onStreamUpdate)
+
+  // 初始化时滚动到底部（如果有历史消息）
+  nextTick(() => {
+    // 稍微延迟一下，确保 DOM 完全渲染
+    setTimeout(() => {
+      scrollToBottom()
+    }, 100)
+  })
 })
 
 onUnmounted(() => {
@@ -708,22 +760,85 @@ onUnmounted(() => {
 }
 
 .chat-messages {
-  flex: 1;
+  padding: 20px;
+  height: calc(100% - 80px);
   overflow-y: auto;
-  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: #f8fafc;
+  scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
   }
 
   &::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 2px;
   }
+}
+
+.chat-welcome {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 8px;
+  animation: welcome-glow 3s ease-in-out infinite;
+}
+
+.welcome-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-content {
+  flex: 1;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #475569;
+}
+
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.suggestion-item {
+  padding: 8px 14px;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #0369a1;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  white-space: nowrap;
+  flex: 0 1 auto;
+}
+
+.suggestion-item:hover {
+  background: #dbeafe;
+  border-color: #3b82f6;
+  transform: translateY(-1px);
 }
 
 .message {
@@ -1207,6 +1322,19 @@ onUnmounted(() => {
   50% {
     opacity: 0.5;
     transform: scale(0.8);
+  }
+}
+
+@keyframes welcome-glow {
+  0%, 100% {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    border-color: #e2e8f0;
+    background: #f8fafc;
+  }
+  50% {
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.12);
+    border-color: #bfdbfe;
+    background: #eff6ff;
   }
 }
 

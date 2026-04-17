@@ -122,6 +122,10 @@ class DecorateDataLogic extends BaseLogic
             'buttonColor' => '#1C64F2',
             'windowWidth' => '24',
             'windowHeight' => '40',
+            'welcomeEnabled' => false,
+            'welcomeText' => '',
+            'suggestionsEnabled' => false,
+            'suggestions' => ['', '', ''],
         ];
 
         if (empty($pcPage['meta'])) {
@@ -130,7 +134,24 @@ class DecorateDataLogic extends BaseLogic
 
         $meta = json_decode($pcPage['meta'], true);
         if (isset($meta['dify_config'])) {
-            return array_merge($defaultConfig, $meta['dify_config']);
+            $config = array_merge($defaultConfig, $meta['dify_config']);
+            
+            // 确保建议提问至少有3个
+            if (!isset($config['suggestions']) || !is_array($config['suggestions'])) {
+                $config['suggestions'] = ['', '', ''];
+            }
+            
+            // 确保建议提问不超过5个
+            if (count($config['suggestions']) > 5) {
+                $config['suggestions'] = array_slice($config['suggestions'], 0, 5);
+            }
+            
+            // 填充空的建议提问
+            while (count($config['suggestions']) < 3) {
+                $config['suggestions'][] = '';
+            }
+            
+            return $config;
         }
 
         return $defaultConfig;
@@ -160,14 +181,55 @@ class DecorateDataLogic extends BaseLogic
         // 保存 Dify 配置
         if (isset($params['dify_config'])) {
             $difyParams = $params['dify_config'];
-            $meta['dify_config'] = [
+            $difyConfig = [
                 'enabled' => isset($difyParams['enabled']) && ($difyParams['enabled'] === true || $difyParams['enabled'] === 'true' || $difyParams['enabled'] === 1 || $difyParams['enabled'] === '1'),
                 'token' => $difyParams['token'] ?? '',
                 'baseUrl' => $difyParams['baseUrl'] ?? 'http://localhost',
                 'buttonColor' => $difyParams['buttonColor'] ?? '#1C64F2',
                 'windowWidth' => $difyParams['windowWidth'] ?? '24',
                 'windowHeight' => $difyParams['windowHeight'] ?? '40',
+                'welcomeEnabled' => isset($difyParams['welcomeEnabled']) && ($difyParams['welcomeEnabled'] === true || $difyParams['welcomeEnabled'] === 'true' || $difyParams['welcomeEnabled'] === 1 || $difyParams['welcomeEnabled'] === '1'),
+                'welcomeText' => $difyParams['welcomeText'] ?? '',
+                'suggestionsEnabled' => isset($difyParams['suggestionsEnabled']) && ($difyParams['suggestionsEnabled'] === true || $difyParams['suggestionsEnabled'] === 'true' || $difyParams['suggestionsEnabled'] === 1 || $difyParams['suggestionsEnabled'] === '1'),
+                'suggestions' => $difyParams['suggestions'] ?? [],
             ];
+            
+            // 验证建议提问
+            if (!is_array($difyConfig['suggestions'])) {
+                self::$error = '推荐提问必须是数组';
+                return false;
+            }
+            
+            // 确保建议提问数量在 3-5 个
+            if (count($difyConfig['suggestions']) < 3) {
+                self::$error = '推荐提问至少需要 3 个';
+                return false;
+            }
+            
+            if (count($difyConfig['suggestions']) > 5) {
+                self::$error = '推荐提问最多只能有 5 个';
+                return false;
+            }
+            
+            // 验证每个建议提问的长度
+            foreach ($difyConfig['suggestions'] as $suggestion) {
+                if (mb_strlen($suggestion) > 50) {
+                    self::$error = '每个推荐提问最多 50 个字符';
+                    return false;
+                }
+            }
+            
+            // 过滤空建议提问
+            $difyConfig['suggestions'] = array_values(array_filter($difyConfig['suggestions'], function($item) {
+                return trim($item) !== '';
+            }));
+            
+            // 重新确保至少有3个
+            while (count($difyConfig['suggestions']) < 3) {
+                $difyConfig['suggestions'][] = '';
+            }
+            
+            $meta['dify_config'] = $difyConfig;
         }
 
         // 保存主题配置

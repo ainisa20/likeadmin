@@ -6,9 +6,7 @@ export default () => ({
         time: '',
         mobile: '',
         qrcode: '',
-        remark: '',
-        dify_url: '',
-        dify_token: ''
+        remark: ''
     },
     styles: {}
 })

@@ -183,6 +183,20 @@
 
                 <div class="mb-4">
                     <span class="text-lg font-medium">📦 Dify 聊天机器人配置</span>
+                    <div class="mt-2 text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
+                        <div class="flex items-start">
+                            <svg class="w-5 h-5 mr-2 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                            <div>
+                                <div class="font-medium text-blue-800 mb-1">统一配置入口</div>
+                                <div class="text-blue-700">
+                                    此配置同时应用于 <span class="font-semibold">PC端</span> 和 <span class="font-semibold">移动端（H5/小程序）</span>。
+                                    无需在其他地方重复配置，所有终端将自动使用此处的设置。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <el-form
@@ -237,6 +251,71 @@
                         <span class="ml-2 text-gray-500 text-sm">单位: rem (1rem ≈ 16px)</span>
                     </el-form-item>
 
+                    <el-divider class="my-4"></el-divider>
+
+                    <!-- 对话开场白 -->
+                    <el-form-item label="对话开场白">
+                        <el-switch v-model="difyConfig.welcomeEnabled" />
+                        <span class="ml-2 text-gray-500 text-sm">开启后用户打开聊天窗口时显示</span>
+                    </el-form-item>
+
+                    <el-form-item v-if="difyConfig.welcomeEnabled">
+                        <el-input
+                            v-model="difyConfig.welcomeText"
+                            type="textarea"
+                            :rows="3"
+                            placeholder="请输入开场白内容，例如：您好！我是智能客服，有什么可以帮您的吗？"
+                            :disabled="!difyConfig.enabled"
+                            maxlength="200"
+                            show-word-limit
+                        />
+                        <div class="text-xs text-gray-400 mt-1">建议控制在 50 字以内，显示效果更佳</div>
+                    </el-form-item>
+
+                    <!-- 推荐提问 -->
+                    <el-form-item label="推荐提问">
+                        <el-switch v-model="difyConfig.suggestionsEnabled" />
+                        <span class="ml-2 text-gray-500 text-sm">开启后显示 3-5 个推荐问题</span>
+                    </el-form-item>
+
+                    <template v-if="difyConfig.suggestionsEnabled">
+                        <el-form-item
+                            v-for="(suggestion, index) in difyConfig.suggestions"
+                            :key="index"
+                            :label="`问题 ${index + 1}`"
+                        >
+                            <div class="flex gap-2 w-full">
+                                <el-input
+                                    v-model="difyConfig.suggestions[index]"
+                                    :placeholder="`推荐问题 ${index + 1}`"
+                                    :disabled="!difyConfig.enabled"
+                                    maxlength="50"
+                                    show-word-limit
+                                />
+                                <el-button
+                                    v-if="difyConfig.suggestions.length > 3"
+                                    type="danger"
+                                    :icon="Delete"
+                                    circle
+                                    @click="removeSuggestion(index)"
+                                    :disabled="!difyConfig.enabled"
+                                />
+                            </div>
+                        </el-form-item>
+
+                        <el-form-item v-if="difyConfig.suggestions.length < 5">
+                            <el-button
+                                type="primary"
+                                :icon="Plus"
+                                @click="addSuggestion"
+                                :disabled="!difyConfig.enabled"
+                            >
+                                添加推荐问题
+                            </el-button>
+                            <span class="ml-2 text-gray-500 text-sm">最多可添加 5 个问题</span>
+                        </el-form-item>
+                    </template>
+
                     <el-form-item>
                         <el-button type="primary" @click="handleSaveDifyConfig" :loading="saving">
                             保存 Dify 配置
@@ -253,6 +332,7 @@
 import { getDecoratePc, saveDifyConfig } from '@/api/decoration'
 import { onMounted, ref, watch } from 'vue'
 import feedback from '@/utils/feedback'
+import { Delete, Plus } from '@element-plus/icons-vue'
 
 const state = ref({
     update_time: '',
@@ -264,6 +344,10 @@ const state = ref({
         buttonColor: '#1C64F2',
         windowWidth: '24',
         windowHeight: '40',
+        welcomeEnabled: false,
+        welcomeText: '',
+        suggestionsEnabled: false,
+        suggestions: ['', '', '']
     },
     theme_config: {
         mode: 'preset',
@@ -305,7 +389,13 @@ const getData = async () => {
                 ...data.dify_config,
                 enabled: data.dify_config.enabled === true || data.dify_config.enabled === 'true' || data.dify_config.enabled === '1' || data.dify_config.enabled === 1,
                 windowWidth: Number(data.dify_config.windowWidth || 24),
-                windowHeight: Number(data.dify_config.windowHeight || 40)
+                windowHeight: Number(data.dify_config.windowHeight || 40),
+                welcomeEnabled: data.dify_config.welcomeEnabled === true || data.dify_config.welcomeEnabled === 'true' || data.dify_config.welcomeEnabled === 1,
+                welcomeText: data.dify_config.welcomeText || '',
+                suggestionsEnabled: data.dify_config.suggestionsEnabled === true || data.dify_config.suggestionsEnabled === 'true' || data.dify_config.suggestionsEnabled === 1,
+                suggestions: data.dify_config.suggestions && Array.isArray(data.dify_config.suggestions) 
+                    ? data.dify_config.suggestions 
+                    : ['', '', '']
             }
         }
         
@@ -451,6 +541,24 @@ const saveConfig = async () => {
 
 const handleReset = () => {
     difyConfig.value = { ...state.value.dify_config }
+}
+
+// 添加推荐问题
+const addSuggestion = () => {
+    if (difyConfig.value.suggestions.length >= 5) {
+        feedback.msgError('最多只能添加 5 个推荐问题')
+        return
+    }
+    difyConfig.value.suggestions.push('')
+}
+
+// 删除推荐问题
+const removeSuggestion = (index: number) => {
+    if (difyConfig.value.suggestions.length <= 3) {
+        feedback.msgError('至少需要保留 3 个推荐问题')
+        return
+    }
+    difyConfig.value.suggestions.splice(index, 1)
 }
 
 getData()

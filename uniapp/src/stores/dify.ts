@@ -39,12 +39,19 @@ export const useDifyStore = defineStore('dify', {
 
   actions: {
     /**
-     * 从装修数据设置 Dify 配置（uniapp 专用）
+     * 从后端配置设置 Dify 配置（统一使用PC端配置）
      */
-    setConfig(config: { dify_url: string, dify_token: string }) {
-      this.config.baseUrl = config.dify_url || ''
-      this.config.token = config.dify_token || ''
-      this.config.enabled = !!(this.config.baseUrl && this.config.token)
+    setDifyConfig(config: Partial<DifyConfig>) {
+      if (config.enabled !== undefined) this.config.enabled = config.enabled
+      if (config.token !== undefined) this.config.token = config.token
+      if (config.baseUrl !== undefined) this.config.baseUrl = config.baseUrl
+      if (config.buttonColor !== undefined) this.config.buttonColor = config.buttonColor
+      if (config.windowWidth !== undefined) this.config.windowWidth = config.windowWidth
+      if (config.windowHeight !== undefined) this.config.windowHeight = config.windowHeight
+      if (config.welcomeEnabled !== undefined) this.config.welcomeEnabled = config.welcomeEnabled
+      if (config.welcomeText !== undefined) this.config.welcomeText = config.welcomeText
+      if (config.suggestionsEnabled !== undefined) this.config.suggestionsEnabled = config.suggestionsEnabled
+      if (config.suggestions !== undefined) this.config.suggestions = config.suggestions
 
       // 加载历史记录
       if (this.isConfigured) {
@@ -61,7 +68,8 @@ export const useDifyStore = defineStore('dify', {
         if (history && history.messages.length > 0) {
           this.currentConversationId = history.conversationId
 
-          const rawMessages = history.messages.reverse()
+          // Dify API 返回的消息默认是按创建时间从旧到新的，不需要 reverse
+          const rawMessages = history.messages
 
           this.messages = []
 
@@ -240,7 +248,8 @@ export const useDifyStore = defineStore('dify', {
       try {
         const response = await getMessages(conversationId)
         const data = await response
-        this.messages = (data.data || []).reverse()
+        // Dify API 返回的消息默认是按创建时间从旧到新的，不需要 reverse
+        this.messages = (data.data || [])
         this.currentConversationId = conversationId
       } catch (error) {
         console.error('[Dify Store] Load history failed:', error)

@@ -6,7 +6,7 @@
 
 /**
  * Dify 配置接口
- * 从后端 /api/pc/config 返回的 dify 配置对象
+ * 从后端统一配置接口返回（PC端和移动端共用）
  */
 export interface DifyConfig {
   /** 是否启用聊天功能 */
@@ -21,6 +21,14 @@ export interface DifyConfig {
   windowWidth: string
   /** 聊天窗口高度（rem单位） */
   windowHeight: string
+  /** 是否启用欢迎消息 */
+  welcomeEnabled?: boolean
+  /** 欢迎消息内容 */
+  welcomeText?: string
+  /** 是否启用建议提问 */
+  suggestionsEnabled?: boolean
+  /** 建议提问列表 */
+  suggestions?: string[]
 }
 
 /**

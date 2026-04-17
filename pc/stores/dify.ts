@@ -51,11 +51,12 @@ export const useDifyStore = defineStore('dify', {
           const history = await loadConversationHistory()
           if (history && history.messages.length > 0) {
             this.currentConversationId = history.conversationId
-            
-            const rawMessages = history.messages.reverse()
-            
+
+            // Dify API 返回的消息默认是按创建时间从旧到新的，不需要 reverse
+            const rawMessages = history.messages
+
             this.messages = []
-            
+
             for (const msg of rawMessages) {
               const userFiles = msg.message_files?.filter((f: any) => f.belongs_to === 'user') || []
               

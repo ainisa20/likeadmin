@@ -26,6 +26,11 @@
             </template>
         </view>
         <tabbar />
+        
+        <!-- #ifdef H5 -->
+        <!-- Dify 聊天组件（全局显示） -->
+        <DifyChat />
+        <!-- #endif -->
     </view>
 </template>
 

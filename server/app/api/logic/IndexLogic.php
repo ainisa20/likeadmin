@@ -145,6 +145,9 @@ class IndexLogic extends BaseLogic
         // 备案信息
         $copyright = ConfigService::get('copyright', 'config', []);
 
+        // Dify配置（统一使用PC端配置）
+        $difyConfig = self::getDifyConfig();
+
         return [
             'domain' => FileService::getFileUrl(),
             'style' => $style,
@@ -154,7 +157,59 @@ class IndexLogic extends BaseLogic
             'webPage' => $webPage,
             'version'=> config('project.version'),
             'copyright' => $copyright,
+            'dify_config' => $difyConfig,
         ];
+    }
+
+    /**
+     * @notes 获取Dify配置（复用PC端配置）
+     * @return array
+     * @author raeazL
+     * @date 2026/04/17
+     */
+    private static function getDifyConfig(): array
+    {
+        $defaultConfig = [
+            'enabled' => false,
+            'token' => '',
+            'baseUrl' => 'http://localhost',
+            'buttonColor' => '#1C64F2',
+            'windowWidth' => '24',
+            'windowHeight' => '40',
+            'welcomeEnabled' => false,
+            'welcomeText' => '',
+            'suggestionsEnabled' => false,
+            'suggestions' => ['', '', ''],
+        ];
+
+        $pcPage = DecoratePage::findOrEmpty(4);
+        if ($pcPage->isEmpty() || empty($pcPage->meta)) {
+            return $defaultConfig;
+        }
+
+        $meta = json_decode($pcPage->meta, true);
+        if (!isset($meta['dify_config'])) {
+            return $defaultConfig;
+        }
+
+        $config = array_merge($defaultConfig, $meta['dify_config']);
+
+        // 确保建议提问至少有3个
+        if (!isset($config['suggestions']) || !is_array($config['suggestions'])) {
+            $config['suggestions'] = ['', '', ''];
+        }
+
+        // 确保建议提问不超过5个
+        if (count($config['suggestions']) > 5) {
+            $config['suggestions'] = array_slice($config['suggestions'], 0, 5);
+        }
+
+        // 填充空的建议提问
+        while (count($config['suggestions']) < 3) {
+            $config['suggestions'][] = '';
+        }
+
+        return $config;
     }
 
 }
