@@ -107,7 +107,7 @@
                   </div>
                 </div>
               </div>
-              <div v-if="msg.content" class="message-content">{{ msg.content }}</div>
+              <div v-if="msg.content" class="message-content markdown-body" v-html="parseMarkdown(msg.content)"></div>
               <div v-if="(msg as any).isReplaced" class="content-replaced-badge">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -264,6 +264,8 @@
 import { useDifyStore } from '@/stores/dify'
 import { nextTick, onMounted, onUnmounted, ref, computed, watch } from 'vue'
 import { ElMessage } from 'element-plus'
+// @ts-ignore - marked uses ESM
+import { marked } from 'marked'
 
 const difyStore = useDifyStore()
 const isOpen = ref(false)
@@ -285,6 +287,50 @@ const windowStyle = computed(() => ({
   width: `${difyStore.config.windowWidth}rem`,
   height: `${difyStore.config.windowHeight}rem`
 }))
+
+// 配置 marked 选项
+try {
+  marked.setOptions({
+    breaks: true, // 支持 GFM 换行
+    gfm: true, // 启用 GitHub Flavored Markdown
+    headerIds: false,
+    mangle: false
+  })
+  console.log('[Dify] Marked initialized successfully')
+} catch (error) {
+  console.error('[Dify] Failed to initialize marked:', error)
+}
+
+// 解析 markdown 内容
+const parseMarkdown = (content: string) => {
+  if (!content) return ''
+
+  // 如果内容已经是HTML（包含<>标签），直接返回
+  if (/<[^>]+>/.test(content) && !content.startsWith('#')) {
+    return content
+  }
+
+  try {
+    // 移除可能的markdown代码块包装（```markdown ... ```）
+    let processedContent = content
+    const markdownCodeBlockRegex = /```markdown\s*\n?([\s\S]*?)\n?```/i
+    const match = content.match(markdownCodeBlockRegex)
+
+    if (match && match[1]) {
+      // 提取代码块内的实际内容
+      processedContent = match[1].trim()
+      console.log('[Dify] Removed markdown code block wrapper')
+    }
+
+    console.log('[Dify] Parsing markdown:', processedContent.substring(0, 50))
+    const html = marked.parse(processedContent)
+    console.log('[Dify] Parsed HTML:', html.substring(0, 100))
+    return html
+  } catch (error) {
+    console.error('[Dify] Markdown parse error:', error)
+    return content // 降级为纯文本
+  }
+}
 
 const toggleWindow = () => {
   isOpen.value = !isOpen.value
@@ -1400,6 +1446,131 @@ onUnmounted(() => {
         object-fit: contain;
       }
     }
+  }
+}
+
+// Markdown 样式
+.markdown-body {
+  font-size: 14px;
+  line-height: 1.6;
+  word-wrap: break-word;
+
+  // 标题
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  h1 { font-size: 1.5em; }
+  h2 { font-size: 1.3em; }
+  h3 { font-size: 1.15em; }
+  h4 { font-size: 1.05em; }
+
+  // 段落
+  p {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  // 列表
+  ul, ol {
+    padding-left: 2em;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  li {
+    margin-bottom: 4px;
+  }
+
+  // 代码块
+  code {
+    padding: 2px 6px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+  }
+
+  pre {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 10px 0;
+
+    code {
+      padding: 0;
+      background: transparent;
+      font-size: 0.9em;
+    }
+  }
+
+  // 引用块
+  blockquote {
+    padding: 8px 12px;
+    margin: 10px 0;
+    border-left: 4px solid #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
+    color: #4b5563;
+  }
+
+  // 表格
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 10px 0;
+
+    th, td {
+      padding: 8px 12px;
+      border: 1px solid #e5e7eb;
+      text-align: left;
+    }
+
+    th {
+      background: #f9fafb;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background: #f9fafb;
+    }
+  }
+
+  // 链接
+  a {
+    color: #3b82f6;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // 图片
+  img {
+    max-width: 100%;
+    border-radius: 6px;
+    margin: 8px 0;
+  }
+
+  // 水平线
+  hr {
+    height: 1px;
+    border: none;
+    background: #e5e7eb;
+    margin: 16px 0;
+  }
+
+  // 强调
+  strong {
+    font-weight: 600;
+  }
+
+  em {
+    font-style: italic;
   }
 }
 </style>

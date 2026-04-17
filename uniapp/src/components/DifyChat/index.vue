@@ -152,8 +152,10 @@
               </view>
             </view>
 
-            <!-- 消息内容 -->
-            <view v-if="msg.content" class="message-content">{{ msg.content }}</view>
+            <!-- 消息内容 - 支持 Markdown 渲染 -->
+            <view v-if="msg.content" class="message-content markdown-body">
+              <rich-text :nodes="parseMarkdown(msg.content)"></rich-text>
+            </view>
 
             <!-- 内容替换标识 -->
             <view v-if="(msg as any).isReplaced" class="content-replaced-badge">
@@ -347,6 +349,7 @@ import { ref, computed, onMounted, nextTick } from 'vue'
 import { useDifyStore } from '@/stores/dify'
 import { useDifyUser } from '@/composables/useDifyUser'
 import type { DifyMessage } from '@/types/dify'
+import { marked } from 'marked'
 
 const props = defineProps({
   content: {
@@ -372,6 +375,37 @@ const fileInputRef = ref<HTMLInputElement>()
 const canSend = computed(() => {
   return (inputQuery.value.trim() || uploadedFile.value) && !difyStore.isTyping && !isTranscribing.value
 })
+
+// 配置 marked 选项
+marked.setOptions({
+  breaks: true, // 支持 GFM 换行
+  gfm: true, // 启用 GitHub Flavored Markdown
+  headerIds: false,
+  mangle: false
+})
+
+// 解析 markdown 内容为 HTML
+const parseMarkdown = (content: string) => {
+  if (!content) return ''
+
+  try {
+    // 移除可能的markdown代码块包装（```markdown ... ```）
+    let processedContent = content
+    const markdownCodeBlockRegex = /```markdown\s*\n?([\s\S]*?)\n?```/i
+    const match = content.match(markdownCodeBlockRegex)
+
+    if (match && match[1]) {
+      // 提取代码块内的实际内容
+      processedContent = match[1].trim()
+      console.log('[Dify Mobile] Removed markdown code block wrapper')
+    }
+
+    return marked.parse(processedContent)
+  } catch (error) {
+    console.error('[Dify Mobile] Markdown parse error:', error)
+    return content // 降级为纯文本
+  }
+}
 
 const toggleChat = () => {
   isOpen.value = !isOpen.value
@@ -1127,7 +1161,6 @@ $ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   word-wrap: break-word;
   line-height: 1.6;
   font-size: 28rpx;
-  white-space: pre-wrap;
 }
 
 // ============================================
@@ -1553,6 +1586,135 @@ $ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   50% {
     box-shadow: 0 4rpx 16rpx rgba(59, 130, 246, 0.1);
     border-color: $primary-border;
+  }
+}
+
+// ============================================
+// Markdown 样式 (移动端)
+// ============================================
+.markdown-body {
+  font-size: 28rpx;
+  line-height: 1.6;
+  word-wrap: break-word;
+
+  // 标题
+  ::v-deep h1,
+  ::v-deep h2,
+  ::v-deep h3,
+  ::v-deep h4,
+  ::v-deep h5,
+  ::v-deep h6 {
+    margin-top: 24rpx;
+    margin-bottom: 16rpx;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  ::v-deep h1 { font-size: 1.5em; }
+  ::v-deep h2 { font-size: 1.3em; }
+  ::v-deep h3 { font-size: 1.15em; }
+  ::v-deep h4 { font-size: 1.05em; }
+
+  // 段落
+  ::v-deep p {
+    margin-top: 0;
+    margin-bottom: 16rpx;
+  }
+
+  // 列表
+  ::v-deep ul,
+  ::v-deep ol {
+    padding-left: 2em;
+    margin-top: 0;
+    margin-bottom: 16rpx;
+  }
+
+  ::v-deep li {
+    margin-bottom: 8rpx;
+  }
+
+  // 代码
+  ::v-deep code {
+    padding: 4rpx 12rpx;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 6rpx;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+  }
+
+  ::v-deep pre {
+    padding: 20rpx;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 12rpx;
+    overflow-x: auto;
+    margin: 16rpx 0;
+
+    code {
+      padding: 0;
+      background: transparent;
+    }
+  }
+
+  // 引用
+  ::v-deep blockquote {
+    padding: 12rpx 20rpx;
+    margin: 16rpx 0;
+    border-left: 8rpx solid $primary;
+    background: rgba(59, 130, 246, 0.05);
+    color: $gray-600;
+  }
+
+  // 表格
+  ::v-deep table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16rpx 0;
+
+    th,
+    td {
+      padding: 12rpx 20rpx;
+      border: 2rpx solid $gray-200;
+      text-align: left;
+    }
+
+    th {
+      background: $gray-50;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background: $gray-50;
+    }
+  }
+
+  // 链接
+  ::v-deep a {
+    color: $primary;
+    text-decoration: none;
+  }
+
+  // 图片
+  ::v-deep img {
+    max-width: 100%;
+    border-radius: 12rpx;
+    margin: 12rpx 0;
+  }
+
+  // 水平线
+  ::v-deep hr {
+    height: 2rpx;
+    border: none;
+    background: $gray-200;
+    margin: 24rpx 0;
+  }
+
+  // 强调
+  ::v-deep strong {
+    font-weight: 600;
+  }
+
+  ::v-deep em {
+    font-style: italic;
   }
 }
 </style>
