@@ -83,7 +83,33 @@
                 </div>
               </div>
               <div v-if="msg.content" class="message-content">{{ msg.content }}</div>
+              <div v-if="(msg as any).isReplaced" class="content-replaced-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span>内容已替换</span>
+                <button 
+                  class="view-original-btn" 
+                  @click="toggleOriginalContent(msg)"
+                  :class="{ active: (msg as any).showOriginal }"
+                  title="查看原始内容"
+                >
+                  {{ (msg as any).showOriginal ? '隐藏' : '查看原始' }}
+                </button>
+              </div>
+              <div v-if="(msg as any).isReplaced && (msg as any).showOriginal && (msg as any).originalContent" class="original-content">
+                <div class="original-content-header">原始内容（已被替换）：</div>
+                <div class="original-content-text">{{ (msg as any).originalContent }}</div>
+              </div>
               <div v-if="msg.role === 'assistant' && msg.content" class="message-actions">
+                <button v-if="difyStore.ttsIsPlaying" class="action-btn tts-playing" title="正在播放语音" disabled>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                  </svg>
+                </button>
                 <button class="action-btn" @click="feedback(msg, 'like')" :class="{ active: (msg as any).rating === 'like' }" title="点赞">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
@@ -431,6 +457,10 @@ const feedback = async (msg: any, rating: 'like' | 'dislike') => {
   } else {
     await difyStore.feedback(msg.id, rating)
   }
+}
+
+const toggleOriginalContent = (msg: any) => {
+  ;(msg as any).showOriginal = !(msg as any).showOriginal
 }
 
 const previewFile = async (file: any) => {
@@ -784,6 +814,65 @@ onUnmounted(() => {
   white-space: pre-wrap;
 }
 
+.content-replaced-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  margin-top: 4px;
+  background: #fef3c7;
+  border-radius: 12px;
+  font-size: 11px;
+  color: #d97706;
+  font-weight: 500;
+
+  .view-original-btn {
+    padding: 2px 8px;
+    margin-left: 4px;
+    background: rgba(217, 119, 6, 0.1);
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    border-radius: 6px;
+    font-size: 10px;
+    color: #d97706;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background: rgba(217, 119, 6, 0.2);
+      border-color: rgba(217, 119, 6, 0.5);
+    }
+
+    &.active {
+      background: #d97706;
+      color: white;
+      border-color: #d97706;
+    }
+  }
+}
+
+.original-content {
+  margin-top: 8px;
+  padding: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  font-size: 13px;
+
+  .original-content-header {
+    font-size: 11px;
+    font-weight: 600;
+    color: #dc2626;
+    margin-bottom: 6px;
+  }
+
+  .original-content-text {
+    color: #991b1b;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    font-style: italic;
+  }
+}
+
 .message-files {
   display: flex;
   flex-wrap: wrap;
@@ -880,6 +969,17 @@ onUnmounted(() => {
     background: #eff6ff;
     color: #3b82f6;
     border-color: #3b82f6;
+  }
+
+  &.tts-playing {
+    background: #fef3c7;
+    color: #d97706;
+    border-color: #f59e0b;
+    animation: pulse-gold 1.5s infinite;
+
+    &:disabled {
+      cursor: default;
+    }
   }
 }
 
@@ -1087,6 +1187,15 @@ onUnmounted(() => {
   }
   50% {
     opacity: 0.6;
+  }
+}
+
+@keyframes pulse-gold {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
   }
 }
 

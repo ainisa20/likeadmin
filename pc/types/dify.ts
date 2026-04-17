@@ -81,13 +81,18 @@ export interface DifyFile {
  * 流式响应事件类型
  */
 export type StreamEventType =
-  | 'message'           // 消息片段
-  | 'message_end'       // 消息结束
-  | 'error'             // 错误
-  | 'workflow_started'  // 工作流开始
-  | 'workflow_finished' // 工作流结束
-  | 'node_started'      // 节点开始
-  | 'node_finished'     // 节点结束
+  | 'message'            // 消息片段
+  | 'message_end'        // 消息结束
+  | 'message_file'       // 文件事件
+  | 'message_replace'    // 内容审查替换
+  | 'tts_message'        // TTS 音频流
+  | 'tts_message_end'    // TTS 音频流结束
+  | 'error'              // 错误
+  | 'workflow_started'   // 工作流开始
+  | 'workflow_finished'  // 工作流结束
+  | 'node_started'       // 节点开始
+  | 'node_finished'      // 节点结束
+  | 'ping'               // 连接保活
 
 /**
  * 流式响应事件接口
@@ -101,10 +106,24 @@ export interface StreamEvent {
   conversation_id?: string
   /** 消息ID（message_end事件时存在） */
   message_id?: string
-  /** 错误信息（error事件时存在） */
-  message?: string
   /** 任务ID（用于停止生成） */
   task_id?: string
+  /** 错误信息（error事件时存在） */
+  message?: string
+  /** 文件ID（message_file事件） */
+  id?: string
+  /** 文件类型（message_file事件） */
+  type?: 'image' | 'document'
+  /** 文件URL（message_file事件） */
+  url?: string
+  /** 文件名（message_file事件） */
+  filename?: string
+  /** 文件归属（message_file事件） */
+  belongs_to?: 'user' | 'assistant'
+  /** 音频数据 base64（tts_message事件） */
+  audio?: string
+  /** 创建时间戳 */
+  created_at?: number
 }
 
 /**

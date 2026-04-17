@@ -12,6 +12,8 @@ interface DifyState {
   error: string | null
   currentTaskId: string | null
   uploadedFiles: Map<string, { id: string, type: string, url: string, name: string }>
+  ttsAudioChunks: string[]
+  ttsIsPlaying: boolean
 }
 
 export const useDifyStore = defineStore('dify', {
@@ -29,7 +31,9 @@ export const useDifyStore = defineStore('dify', {
     isTyping: false,
     error: null,
     currentTaskId: null,
-    uploadedFiles: new Map()
+    uploadedFiles: new Map(),
+    ttsAudioChunks: [],
+    ttsIsPlaying: false
   }),
 
   getters: {
@@ -163,17 +167,39 @@ export const useDifyStore = defineStore('dify', {
             if (lastMsg && lastMsg.role === 'assistant') {
               lastMsg.content = (lastMsg.content || '') + (chunk.answer || '')
               lastMsg.id = chunk.message_id || lastMsg.id
-              if (chunk.file) {
-                const savedFile = this.uploadedFiles.get(chunk.file.id)
-                (lastMsg as any).files = [{
-                  id: chunk.file.id,
-                  type: chunk.file.type,
-                  url: chunk.file.url,
-                  name: savedFile?.name || chunk.file.name || '文件'
-                }]
-              } else if (files && files.length > 0 && !(lastMsg as any).files) {
-                (lastMsg as any).files = files.map(f => ({ ...f }))
-              }
+            }
+            nextTick(() => {
+              window.dispatchEvent(new Event('dify-stream-update'))
+            })
+          } else if (chunk.event === 'message_file') {
+            const lastMsg = this.messages[this.messages.length - 1]
+            if (lastMsg && lastMsg.role === 'assistant') {
+              const files = (lastMsg as any).files || []
+              files.push({
+                id: chunk.id,
+                type: chunk.type,
+                url: chunk.url,
+                name: chunk.filename || '文件',
+                belongs_to: chunk.belongs_to
+              })
+              (lastMsg as any).files = files
+            }
+            nextTick(() => {
+              window.dispatchEvent(new Event('dify-stream-update'))
+            })
+          } else if (chunk.event === 'message_replace') {
+            const lastMsg = this.messages[this.messages.length - 1]
+            if (lastMsg && lastMsg.role === 'assistant') {
+              const originalContent = lastMsg.content
+              lastMsg.content = chunk.answer || '内容已被替换'
+              ;(lastMsg as any).isReplaced = true
+              ;(lastMsg as any).originalContent = originalContent
+              
+              console.warn('[Dify Content Moderation] Message replaced:', {
+                original: originalContent,
+                replaced: lastMsg.content,
+                messageId: lastMsg.id
+              })
             }
             nextTick(() => {
               window.dispatchEvent(new Event('dify-stream-update'))
@@ -183,6 +209,15 @@ export const useDifyStore = defineStore('dify', {
             this.currentTaskId = null
           } else if (chunk.event === 'error') {
             throw new Error(chunk.message || 'Unknown error')
+          } else if (chunk.event === 'tts_message') {
+            if (chunk.audio) {
+              this.ttsAudioChunks.push(chunk.audio)
+              if (!this.ttsIsPlaying) {
+                this.playTTSAudio(chunk.audio)
+              }
+            }
+          } else if (chunk.event === 'tts_message_end') {
+            console.log('[Dify TTS] Audio stream ended, total chunks:', this.ttsAudioChunks.length)
           }
         }
       } catch (error: any) {
@@ -242,6 +277,57 @@ export const useDifyStore = defineStore('dify', {
       this.messages = []
       this.error = null
       this.uploadedFiles.clear()
+      this.ttsAudioChunks = []
+      this.ttsIsPlaying = false
+    },
+
+    base64ToBlob(base64: string, mimeType: string): Blob {
+      const byteCharacters = atob(base64)
+      const byteArrays = []
+
+      for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+        const slice = byteCharacters.slice(offset, offset + 512)
+        const byteNumbers = new Array(slice.length)
+
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i)
+        }
+
+        const byteArray = new Uint8Array(byteNumbers)
+        byteArrays.push(byteArray)
+      }
+
+      return new Blob(byteArrays, { type: mimeType })
+    },
+
+    async playTTSAudio(base64Audio: string) {
+      try {
+        const audioBlob = this.base64ToBlob(base64Audio, 'audio/mp3')
+        const audioUrl = URL.createObjectURL(audioBlob)
+        const audio = new Audio(audioUrl)
+
+        audio.onended = () => {
+          URL.revokeObjectURL(audioUrl)
+          this.ttsIsPlaying = false
+        }
+
+        audio.onerror = () => {
+          console.error('[Dify TTS] Failed to play audio')
+          URL.revokeObjectURL(audioUrl)
+          this.ttsIsPlaying = false
+        }
+
+        await audio.play()
+        this.ttsIsPlaying = true
+      } catch (error) {
+        console.error('[Dify TTS] Play error:', error)
+        this.ttsIsPlaying = false
+      }
+    },
+
+    stopTTSAudio() {
+      this.ttsIsPlaying = false
+      this.ttsAudioChunks = []
     }
   }
 })
