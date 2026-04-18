@@ -108,6 +108,33 @@
                 </div>
               </div>
               <div v-if="msg.content" class="message-content markdown-body" v-html="parseMarkdown(msg.content)"></div>
+              
+              <!-- 思考过程：节点输出 -->
+              <div v-if="msg.role === 'assistant' && msg.nodeOutputs && Object.keys(msg.nodeOutputs).length > 0" class="thinking-process">
+                <div class="thinking-header" @click="toggleThinking(msg)">
+                  <span class="thinking-icon">🤔</span>
+                  <span class="thinking-title">思考过程</span>
+                  <span class="thinking-count">({{ Object.keys(msg.nodeOutputs).length }}个节点)</span>
+                  <span class="thinking-toggle">{{ (msg as any).thinkingExpanded ? '▼ 收起' : '▶ 展开' }}</span>
+                </div>
+                <div v-if="(msg as any).thinkingExpanded" class="thinking-content">
+                  <div
+                    v-for="(output, nodeId) in msg.nodeOutputs"
+                    :key="nodeId"
+                    class="node-output-item fade-in"
+                  >
+                    <div class="node-output-header">
+                      <span class="node-output-status" :class="output.status">
+                        {{ output.status === 'succeeded' ? '✅' : output.status === 'failed' ? '❌' : '⏹️' }}
+                        {{ output.elapsedTime ? `${output.elapsedTime.toFixed(2)}s` : '' }}
+                      </span>
+                    </div>
+                    <div v-if="output.outputs" class="node-output-body">
+                      <pre>{{ formatNodeOutput(output.outputs) }}</pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div v-if="(msg as any).isReplaced" class="content-replaced-badge">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -305,30 +332,37 @@ try {
 const parseMarkdown = (content: string) => {
   if (!content) return ''
 
-  // 如果内容已经是HTML（包含<>标签），直接返回
   if (/<[^>]+>/.test(content) && !content.startsWith('#')) {
     return content
   }
 
   try {
-    // 移除可能的markdown代码块包装（```markdown ... ```）
     let processedContent = content
     const markdownCodeBlockRegex = /```markdown\s*\n?([\s\S]*?)\n?```/i
     const match = content.match(markdownCodeBlockRegex)
 
     if (match && match[1]) {
-      // 提取代码块内的实际内容
       processedContent = match[1].trim()
-      console.log('[Dify] Removed markdown code block wrapper')
     }
 
-    console.log('[Dify] Parsing markdown:', processedContent.substring(0, 50))
-    const html = marked.parse(processedContent)
-    console.log('[Dify] Parsed HTML:', html.substring(0, 100))
-    return html
+    return marked.parse(processedContent)
   } catch (error) {
     console.error('[Dify] Markdown parse error:', error)
-    return content // 降级为纯文本
+    return content
+  }
+}
+
+const toggleThinking = (msg: any) => {
+  msg.thinkingExpanded = !msg.thinkingExpanded
+}
+
+const formatNodeOutput = (outputs: any) => {
+  if (!outputs) return ''
+  if (typeof outputs === 'string') return outputs
+  try {
+    return JSON.stringify(outputs, null, 2)
+  } catch {
+    return String(outputs)
   }
 }
 
@@ -670,7 +704,6 @@ const onStreamUpdate = () => {
 
 const selectSuggestion = (suggestion: string) => {
   inputQuery.value = suggestion
-  // 聚焦到输入框
   nextTick(() => {
     if (inputRef.value) {
       inputRef.value.focus()
@@ -1384,6 +1417,17 @@ onUnmounted(() => {
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .file-preview-modal {
   position: fixed;
   top: 0;
@@ -1571,6 +1615,115 @@ onUnmounted(() => {
 
   em {
     font-style: italic;
+  }
+}
+
+// 思考过程样式
+.thinking-process {
+  margin-top: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f9fafb;
+}
+
+.thinking-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+  user-select: none;
+  background: #f3f4f6;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #e5e7eb;
+  }
+}
+
+.thinking-icon {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.thinking-title {
+  font-weight: 500;
+  color: #374151;
+  font-size: 13px;
+}
+
+.thinking-count {
+  margin-left: 6px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.thinking-toggle {
+  margin-left: auto;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.thinking-content {
+  padding: 12px;
+  border-top: 1px solid #e5e7eb;
+  background: white;
+}
+
+.node-output-item {
+  margin-bottom: 12px;
+  padding: 10px;
+  background: #f9fafb;
+  border-radius: 6px;
+  border-left: 3px solid #3b82f6;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &.fade-in {
+    animation: fade-in 0.3s ease-in;
+  }
+}
+
+.node-output-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.node-output-title {
+  font-weight: 500;
+  color: #1f2937;
+  font-size: 13px;
+}
+
+.node-output-status {
+  font-size: 11px;
+  color: #6b7280;
+
+  &.succeeded {
+    color: #10b981;
+  }
+
+  &.failed {
+    color: #ef4444;
+  }
+}
+
+.node-output-body {
+  pre {
+    margin: 0;
+    padding: 8px;
+    background: #1f2937;
+    color: #f9fafb;
+    border-radius: 4px;
+    font-size: 11px;
+    overflow-x: auto;
+    max-height: 200px;
+    white-space: pre-wrap;
+    word-break: break-all;
   }
 }
 </style>

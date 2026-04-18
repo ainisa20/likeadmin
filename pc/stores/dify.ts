@@ -4,6 +4,8 @@ import type { DifyConfig, DifyMessage } from '@/types/dify'
 import { getConfig } from '@/api/app'
 import { sendMessage, parseStream, getMessages, getConversations, loadConversationHistory, stopResponse, feedbackMessage, getAppFeedbacks } from '@/api/dify'
 
+const VISIBLE_NODE_IDS = ['1776435950853', '1776436014252']
+
 interface DifyState {
   config: DifyConfig
   currentConversationId: string | null
@@ -14,6 +16,20 @@ interface DifyState {
   uploadedFiles: Map<string, { id: string, type: string, url: string, name: string }>
   ttsAudioChunks: string[]
   ttsIsPlaying: boolean
+  workflowNodes: Map<string, {
+    node_id: string
+    node_type: string
+    title: string
+    index: number
+    status: 'running' | 'succeeded' | 'failed' | 'stopped'
+    inputs?: any
+    outputs?: any
+    error?: string
+    elapsedTime?: number
+    startedAt: number
+    finishedAt?: number
+  }>
+  currentWorkflowRunId: string | null
 }
 
 export const useDifyStore = defineStore('dify', {
@@ -33,7 +49,9 @@ export const useDifyStore = defineStore('dify', {
     currentTaskId: null,
     uploadedFiles: new Map(),
     ttsAudioChunks: [],
-    ttsIsPlaying: false
+    ttsIsPlaying: false,
+    workflowNodes: new Map(),
+    currentWorkflowRunId: null
   }),
 
   getters: {
@@ -163,7 +181,87 @@ export const useDifyStore = defineStore('dify', {
             this.currentTaskId = chunk.task_id
           }
 
-          if (chunk.event === 'message') {
+          if (chunk.event === 'node_started') {
+            const nodeData = chunk.data
+            this.workflowNodes.set(nodeData.node_id, {
+              node_id: nodeData.node_id,
+              node_type: nodeData.node_type,
+              title: nodeData.title,
+              index: nodeData.index,
+              status: 'running',
+              inputs: nodeData.inputs,
+              startedAt: nodeData.created_at * 1000
+            })
+
+            // 目标节点：node_started到达时立即显示
+            if (VISIBLE_NODE_IDS.includes(nodeData.node_id)) {
+              let lastMsg = this.messages[this.messages.length - 1]
+              if (!lastMsg || lastMsg.role !== 'assistant') {
+                lastMsg = {
+                  id: `temp_${Date.now()}`,
+                  role: 'assistant',
+                  content: '',
+                  createdAt: new Date(),
+                  nodeOutputs: {}
+                } as any
+                this.messages.push(lastMsg)
+              }
+
+              lastMsg.nodeOutputs = {}
+              lastMsg.nodeOutputs[nodeData.node_id] = {
+                title: nodeData.title,
+                node_type: nodeData.node_type,
+                status: 'running',
+                outputs: { status: '正在执行...' },
+                inputs: nodeData.inputs,
+                elapsedTime: undefined
+              }
+
+              nextTick(() => {
+                window.dispatchEvent(new Event('dify-stream-update'))
+              })
+            }
+          }
+          else if (chunk.event === 'node_finished') {
+            const nodeData = chunk.data
+
+            const node = this.workflowNodes.get(nodeData.node_id)
+            if (node) {
+              node.status = nodeData.status
+              node.outputs = nodeData.outputs
+              node.inputs = nodeData.inputs
+              node.error = nodeData.error
+              node.elapsedTime = nodeData.elapsed_time
+              node.finishedAt = Date.now()
+            }
+
+            // 只更新配置的目标节点到消息（用于UI显示）
+            if (VISIBLE_NODE_IDS.includes(nodeData.node_id)) {
+              const lastMsg = this.messages[this.messages.length - 1]
+              if (lastMsg && lastMsg.role === 'assistant') {
+                if (!lastMsg.nodeOutputs) {
+                  lastMsg.nodeOutputs = {}
+                }
+
+                lastMsg.nodeOutputs[nodeData.node_id] = {
+                  title: nodeData.title,
+                  node_type: nodeData.node_type,
+                  status: nodeData.status,
+                  outputs: nodeData.outputs,
+                  inputs: nodeData.inputs,
+                  elapsedTime: nodeData.elapsed_time
+                }
+              }
+            }
+          }
+          else if (chunk.event === 'workflow_started') {
+            this.currentWorkflowRunId = chunk.data.id
+            this.workflowNodes.clear()
+          }
+          else if (chunk.event === 'workflow_finished') {
+            // 工作流完成，静默处理
+          }
+          else if (chunk.event === 'message') {
             const lastMsg = this.messages[this.messages.length - 1]
             if (lastMsg && lastMsg.role === 'assistant') {
               lastMsg.content = (lastMsg.content || '') + (chunk.answer || '')

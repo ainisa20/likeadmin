@@ -45,6 +45,17 @@ export interface DifyMessage {
   createdAt: Date
   /** 消息状态（可选） */
   status?: 'sending' | 'sent' | 'error'
+  /** 节点输出（用于展示思考过程） */
+  nodeOutputs?: {
+    [nodeId: string]: {
+      title: string
+      node_type: string
+      status: string
+      outputs?: any
+      inputs?: any
+      elapsedTime?: number
+    }
+  }
 }
 
 /**
