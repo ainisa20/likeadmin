@@ -33,7 +33,7 @@ class BaseModel extends Model
      */
     public function getImageAttr($value)
     {
-        return trim($value) ? FileService::getFileUrl($value) : '';
+        return ($value !== null && trim($value) !== '') ? FileService::getFileUrl($value) : '';
     }
 
     /**
@@ -45,6 +45,6 @@ class BaseModel extends Model
      */
     public function setImageAttr($value)
     {
-        return trim($value) ? FileService::setFileUrl($value) : '';
+        return ($value !== null && trim($value) !== '') ? FileService::setFileUrl($value) : '';
     }
 }

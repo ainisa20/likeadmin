@@ -197,6 +197,7 @@ class PcLogic extends BaseLogic
                 $query->hidden(['content', 'click_virtual', 'click_actual'])
                     ->order(['sort' => 'desc', 'id' => 'desc'])
                     ->append(['click'])
+                    ->where(['is_show' => YesNoEnum::YES])
                     ->limit(10);
             }])
             ->where(['is_show' => YesNoEnum::YES])
