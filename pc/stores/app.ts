@@ -10,8 +10,15 @@ export const useAppStore = defineStore({
         config: {}
     }),
     getters: {
-        getImageUrl: (state) => (url: string) =>
-            url ? `${state.config.domain}${url}` : '',
+        getImageUrl: (state) => (url: string) => {
+            if (!url) return ''
+            // Already has full URL (http:// or https://)
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                return url
+            }
+            // Relative path - prepend domain
+            return `${state.config.domain}${url}`
+        },
         getWebsiteConfig: (state) => state.config.website || {},
         getLoginConfig: (state) => state.config.login || {},
         getCopyrightConfig: (state) => state.config.copyright || [],
