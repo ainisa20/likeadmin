@@ -63,6 +63,30 @@ class DecoratePageLogic extends BaseLogic
         return true;
     }
 
+    public static function getPageList(): array
+    {
+        $pages = DecoratePage::field(['id', 'type', 'name'])
+            ->whereIn('id', [4, 6, 7, 8])
+            ->order('id', 'asc')
+            ->select()
+            ->toArray();
 
+        $pathMap = [
+            4 => '/',
+            6 => '/pc/services',
+            7 => '/pc/cases',
+            8 => '/pc/about',
+        ];
 
+        $result = [];
+        foreach ($pages as $page) {
+            $id = $page['id'];
+            $result[] = [
+                'id' => $id,
+                'name' => $page['name'] ?: '页面' . $id,
+                'path' => $pathMap[$id] ?? '/pc/page' . $id,
+            ];
+        }
+        return $result;
+    }
 }

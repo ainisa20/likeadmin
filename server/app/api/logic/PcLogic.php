@@ -44,8 +44,8 @@ class PcLogic extends BaseLogic
      */
     public static function getIndexData()
     {
-        // 装修配置
-        $decoratePage = DecoratePage::findOrEmpty(4);
+        // 装修配置 - 直接返回原始 data，让前端做兼容解析
+        $decoratePage = DecoratePage::findOrEmpty(4)->toArray();
         // 最新资讯
         $newArticle = self::getLimitArticle('new', 7);
         // 全部资讯
@@ -176,7 +176,8 @@ class PcLogic extends BaseLogic
                 'mnp' => $mnpQrCode,
             ],
             'dify' => self::getDifyConfig(),
-            'theme_config' => self::getThemeConfig()
+            'theme_config' => self::getThemeConfig(),
+            'page_schema_version' => self::getPageSchemaVersion(),
         ];
     }
 
@@ -328,6 +329,82 @@ class PcLogic extends BaseLogic
             // 出错时返回默认配置
             return $defaultConfig;
         }
+    }
+
+    /**
+     * @notes 获取页面 schema 版本
+     * @return string
+     * @author raeazL
+     * @date 2026/04/25
+     */
+    private static function getPageSchemaVersion(): string
+    {
+        try {
+            // 获取 PC 页面装修数据 (id=4)
+            $pcPage = DecoratePage::findOrEmpty(4);
+
+            if ($pcPage->isEmpty() || empty($pcPage->data)) {
+                return 'legacy';
+            }
+
+            // 解析 data 字段
+            $data = json_decode($pcPage->data, true);
+
+            // 检查是否为新 schema（包含 sections 数组）
+            if (isset($data['sections']) && is_array($data['sections'])) {
+                // 返回 _meta 中的版本号，默认为 '1.0'
+                return $data['_meta']['version'] ?? '1.0';
+            }
+
+            // 旧格式
+            return 'legacy';
+        } catch (\Exception $e) {
+            return 'legacy';
+        }
+    }
+
+    public static function getPageData(int $pageId): array
+    {
+        $page = DecoratePage::findOrEmpty($pageId);
+        if ($page->isEmpty()) {
+            return [];
+        }
+        $pageData = $page->toArray();
+        $newArticle = self::getLimitArticle('new', 7);
+        $hotArticle = self::getLimitArticle('hot', 8);
+        $allArticle = self::getLimitArticle('all', 5);
+        return [
+            'page' => $pageData,
+            'new' => $newArticle,
+            'hot' => $hotArticle,
+            'all' => $allArticle,
+        ];
+    }
+
+    public static function getPageList(): array
+    {
+        $pages = DecoratePage::field(['id', 'type'])
+            ->order('id', 'asc')
+            ->select()
+            ->toArray();
+
+        $pageNames = [
+            4 => '首页',
+            6 => '核心服务',
+            7 => '成功案例',
+            8 => '关于我们',
+        ];
+
+        $result = [];
+        foreach ($pages as $page) {
+            $id = $page['id'];
+            $result[] = [
+                'id' => $id,
+                'name' => $pageNames[$id] ?? '页面' . $id,
+                'path' => $id == 4 ? '/' : '/pc/' . ($pageNames[$id] ?? 'page' . $id),
+            ];
+        }
+        return $result;
     }
 
 }

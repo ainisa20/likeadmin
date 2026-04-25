@@ -57,5 +57,11 @@ class PageController extends BaseAdminController
         return $this->success('操作成功', [], 1, 1);
     }
 
+    public function pageList()
+    {
+        $result = DecoratePageLogic::getPageList();
+        return $this->success('获取成功', $result);
+    }
+
 
 }

@@ -21,7 +21,6 @@ class AssessmentValidate extends BaseValidate
     protected $rule = [
         'name' => 'require',
         'phone' => 'require|regex:/^1[3-9]\d{9}$/',
-        'stage' => 'require|in:idea,direction,company,team',
         'content' => 'max:500',
     ];
 
@@ -29,13 +28,11 @@ class AssessmentValidate extends BaseValidate
         'name.require' => '请输入姓名',
         'phone.require' => '请输入您的手机号',
         'phone.regex' => '手机号格式不正确',
-        'stage.require' => '请选择您的当前阶段',
-        'stage.in' => '阶段选择无效',
         'content.max' => '留言内容不能超过500个字符',
     ];
 
     public function sceneSubmit()
     {
-        return $this->only(['name', 'phone', 'stage', 'content']);
+        return $this->only(['name', 'phone', 'content']);
     }
 }

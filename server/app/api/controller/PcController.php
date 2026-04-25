@@ -27,7 +27,7 @@ use think\response\Json;
 class PcController extends BaseApiController
 {
 
-    public array $notNeedLogin = ['index', 'config', 'infoCenter', 'articleDetail'];
+    public array $notNeedLogin = ['index', 'config', 'infoCenter', 'articleDetail', 'page', 'pageList'];
 
 
     /**
@@ -89,6 +89,22 @@ class PcController extends BaseApiController
         $id = $this->request->get('id/d', 0);
         $source = $this->request->get('source/s', 'default');
         $result = PcLogic::getArticleDetail($this->userId, $id, $source);
+        return $this->data($result);
+    }
+
+    public function page()
+    {
+        $id = $this->request->get('id/d', 0);
+        if (empty($id)) {
+            return $this->fail('参数错误');
+        }
+        $result = PcLogic::getPageData($id);
+        return $this->data($result);
+    }
+
+    public function pageList()
+    {
+        $result = PcLogic::getPageList();
         return $this->data($result);
     }
 

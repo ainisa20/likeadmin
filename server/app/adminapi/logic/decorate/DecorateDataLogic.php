@@ -60,6 +60,12 @@ class DecorateDataLogic extends BaseLogic
         $pcPage = DecoratePage::findOrEmpty(4)->toArray();
         $updateTime = !empty($pcPage['update_time']) ? $pcPage['update_time'] : date('Y-m-d H:i:s');
 
+        // 解析 data 字段，检测 schema 版本
+        $data = !empty($pcPage['data']) ? json_decode($pcPage['data'], true) : [];
+        $isNewSchema = isset($data['sections']) && is_array($data['sections']);
+        $schemaVersion = $isNewSchema ? ($data['_meta']['version'] ?? '1.0') : 'legacy';
+        $sectionCount = $isNewSchema ? count($data['sections']) : 0;
+
         // 获取 Dify 配置
         $difyConfig = self::getDifyConfig($pcPage);
 
@@ -70,7 +76,9 @@ class DecorateDataLogic extends BaseLogic
             'update_time' => $updateTime,
             'pc_url' => request()->domain() . '/pc/',
             'dify_config' => $difyConfig,
-            'theme_config' => $themeConfig
+            'theme_config' => $themeConfig,
+            'schema_version' => $schemaVersion,
+            'section_count' => $sectionCount,
         ];
     }
 

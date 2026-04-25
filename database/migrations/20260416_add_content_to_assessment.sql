@@ -1,33 +1,27 @@
 -- ========================================
--- 迁移文件：添加 content 字段到评估申请表
--- 文件名：20260416_add_content_to_assessment.sql
--- 描述：为 la_assessment 表添加 content 字段，用于存储用户填写的留言内容
--- 作者：CMS Editor
+-- 迁移文件：简化评估申请表，去掉 stage 字段
 -- 日期：2026-04-16
 -- ========================================
 
--- 使用 likeadmin 数据库
 USE likeadmin;
 
--- 添加 content 字段
--- 字段类型：TEXT，允许为空
--- 位置：在 stage 字段之后
--- 说明：用户填写的留言/备注内容，最多500个字符
-ALTER TABLE `la_assessment`
-ADD COLUMN `content` TEXT NULL COMMENT '用户留言内容（最多500字符）'
-AFTER `stage`;
+-- 添加 content 字段（如不存在）
+SET @exists = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'likeadmin' AND TABLE_NAME = 'la_assessment' AND COLUMN_NAME = 'content');
+SET @sql = IF(@exists = 0, 'ALTER TABLE `la_assessment` ADD COLUMN `content` TEXT NULL COMMENT ''用户留言内容（最多500字符）'' AFTER `phone`', 'SELECT 1');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
--- 验证修改
-SELECT
-    COLUMN_NAME,
-    DATA_TYPE,
-    IS_NULLABLE,
-    COLUMN_DEFAULT,
-    COLUMN_COMMENT
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_SCHEMA = 'likeadmin'
-AND TABLE_NAME = 'la_assessment'
-AND COLUMN_NAME = 'content';
+-- 删除 stage 字段
+SET @exists = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'likeadmin' AND TABLE_NAME = 'la_assessment' AND COLUMN_NAME = 'stage');
+SET @sql = IF(@exists > 0, 'ALTER TABLE `la_assessment` DROP COLUMN `stage`', 'SELECT 1');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
--- 回滚说明（如需回滚，执行以下SQL）：
--- ALTER TABLE `la_assessment` DROP COLUMN `content`;
+-- 删除 stage 索引
+SET @exists = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA = 'likeadmin' AND TABLE_NAME = 'la_assessment' AND INDEX_NAME = 'idx_stage');
+SET @sql = IF(@exists > 0, 'ALTER TABLE `la_assessment` DROP INDEX `idx_stage`', 'SELECT 1');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;

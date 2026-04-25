@@ -24,7 +24,7 @@ class AssessmentLists extends BaseAdminDataLists implements ListsSearchInterface
     public function setSearch(): array
     {
         return [
-            '=' => ['stage', 'status'],
+            '=' => ['status'],
             '%like%' => ['name', 'phone']
         ];
     }
