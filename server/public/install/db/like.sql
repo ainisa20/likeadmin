@@ -766,7 +766,6 @@ CREATE TABLE `la_assessment`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `name` varchar(50) NOT NULL COMMENT '姓名',
   `phone` varchar(11) NOT NULL COMMENT '手机号',
-  `stage` varchar(20) NOT NULL COMMENT '当前阶段：idea-刚有想法, direction-已有方向, company-已成立公司, team-已有团队',
   `content` text COMMENT '用户留言内容（最多500字符）',
   `ip` varchar(39) DEFAULT NULL COMMENT '提交IP地址',
   `user_agent` varchar(500) DEFAULT NULL COMMENT '用户代理信息',
@@ -777,6 +776,5 @@ CREATE TABLE `la_assessment`  (
   `delete_time` int(10) DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_phone` (`phone`) USING BTREE,
-  KEY `idx_stage` (`stage`) USING BTREE,
   KEY `idx_create_time` (`create_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='OPC创业评估表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='评估申请表';
