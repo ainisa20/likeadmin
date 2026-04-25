@@ -65,26 +65,24 @@ class DecoratePageLogic extends BaseLogic
 
     public static function getPageList(): array
     {
-        $pages = DecoratePage::field(['id', 'type', 'name'])
-            ->whereIn('id', [4, 6, 7, 8])
+        // PC页面：type >= 4 且非系统风格(type=5)
+        $pages = DecoratePage::field(['id', 'type', 'name', 'meta'])
+            ->where('type', '>=', 4)
+            ->where('type', '<>', 5)
             ->order('id', 'asc')
             ->select()
             ->toArray();
 
-        $pathMap = [
-            4 => '/',
-            6 => '/pc/services',
-            7 => '/pc/cases',
-            8 => '/pc/about',
-        ];
-
         $result = [];
         foreach ($pages as $page) {
             $id = $page['id'];
+            $meta = json_decode($page['meta'] ?? '', true);
+            // 首页固定路径 /，其他页面从 meta.pc_path 读取或生成默认路径
+            $path = $id == 4 ? '/' : ($meta['pc_path'] ?? '/pc/page' . $id);
             $result[] = [
                 'id' => $id,
                 'name' => $page['name'] ?: '页面' . $id,
-                'path' => $pathMap[$id] ?? '/pc/page' . $id,
+                'path' => $path,
             ];
         }
         return $result;
