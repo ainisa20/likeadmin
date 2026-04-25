@@ -2,26 +2,25 @@
     <div class="decoration-pc min-w-[1100px]">
         <el-card shadow="never" class="!border-none flex-1 flex">
             <div class="w-full">
-                <div class="text-xl font-medium mb-5">首页装修</div>
+                <div class="text-xl font-medium mb-5">PC端页面装修</div>
 
-                <router-link
-                    :to="{
-                        path: '/decoration/pc_details',
-                        query: {
-                            url: state.pc_url
-                        }
-                    }"
-                >
-                    <el-button class="mr-5" type="primary" size="large">去装修</el-button>
-                </router-link>
-
-                <el-form label-width="120px" class="mt-5">
-                    <el-form-item label="最近更新">{{ state.update_time }}</el-form-item>
-                    <el-form-item label="PC端链接">
-                        <el-input style="width: 350px" v-model="state.pc_url" disabled></el-input>
-                        <el-button type="primary" v-copy="state.pc_url" class="ml-2">复制</el-button>
-                    </el-form-item>
-                </el-form>
+                <!-- 页面列表 -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div
+                        v-for="page in pcPages"
+                        :key="page.id"
+                        class="border rounded-lg p-4 hover:shadow-md transition-all cursor-pointer"
+                        @click="goEdit(page)"
+                    >
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="font-medium text-base">{{ page.name }}</div>
+                                <div class="text-sm text-gray-400 mt-1">路径：{{ page.path }}</div>
+                            </div>
+                            <el-button type="primary" size="small">编辑</el-button>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- PC端主题配置 -->
                 <el-divider class="my-5"></el-divider>
@@ -329,7 +328,7 @@
 </template>
 
 <script lang="ts" setup name="decorationPc">
-import { getDecoratePc, saveDifyConfig } from '@/api/decoration'
+import { getDecoratePc, saveDifyConfig, getDecoratePageList } from '@/api/decoration'
 import { onMounted, ref, watch } from 'vue'
 import feedback from '@/utils/feedback'
 import { Delete, Plus } from '@element-plus/icons-vue'
@@ -364,6 +363,29 @@ const state = ref({
 
 const difyConfig = ref({ ...state.value.dify_config })
 const saving = ref(false)
+
+const pcPages = ref([
+    { id: 4, name: '首页', path: '/' },
+    { id: 6, name: '核心服务', path: '/pc/services' },
+    { id: 7, name: '成功案例', path: '/pc/cases' },
+    { id: 8, name: '关于我们', path: '/pc/about' }
+])
+
+const loadPcPages = async () => {
+    try {
+        const data = await getDecoratePageList()
+        if (Array.isArray(data) && data.length > 0) {
+            pcPages.value = data
+        }
+    } catch (e) {
+        // fallback 到默认列表
+    }
+}
+
+const router = useRouter()
+const goEdit = (page: any) => {
+    router.push({ path: '/decoration/pc_details', query: { id: page.id, name: page.name } })
+}
 
 // 主题配置
 const themeConfig = ref({ ...state.value.theme_config })
@@ -562,6 +584,7 @@ const removeSuggestion = (index: number) => {
 }
 
 getData()
+loadPcPages()
 
 // Dify 聊天机器人初始化
 const initDifyChatbot = () => {

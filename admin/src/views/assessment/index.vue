@@ -18,14 +18,6 @@
                         @keyup.enter="resetPage"
                     />
                 </el-form-item>
-                <el-form-item class="w-[280px]" label="当前阶段">
-                    <el-select v-model="queryParams.stage" placeholder="全部" clearable>
-                        <el-option label="需求了解" value="idea" />
-                        <el-option label="方案沟通" value="direction" />
-                        <el-option label="商务洽谈" value="company" />
-                        <el-option label="项目对接" value="team" />
-                    </el-select>
-                </el-form-item>
                 <el-form-item class="w-[280px]" label="处理状态">
                     <el-select v-model="queryParams.status" placeholder="全部" clearable>
                         <el-option label="待处理" :value="0" />
@@ -59,14 +51,6 @@
                 <el-table-column label="姓名" prop="name" min-width="100" />
                 <el-table-column label="手机号" prop="phone" min-width="130" />
                 <el-table-column label="留言内容" prop="content" min-width="200" show-overflow-tooltip />
-                <el-table-column label="当前阶段" min-width="120">
-                    <template #default="{ row }">
-                        <el-tag v-if="row.stage === 'idea'" type="info">需求了解</el-tag>
-                        <el-tag v-else-if="row.stage === 'direction'" type="success">方案沟通</el-tag>
-                        <el-tag v-else-if="row.stage === 'company'" type="warning">商务洽谈</el-tag>
-                        <el-tag v-else-if="row.stage === 'team'" type="danger">项目对接</el-tag>
-                    </template>
-                </el-table-column>
                 <el-table-column label="提交IP" prop="ip" min-width="130" show-overflow-tooltip />
                 <el-table-column label="处理状态" min-width="100">
                     <template #default="{ row }">
@@ -101,12 +85,6 @@
                 <el-descriptions-item label="ID">{{ detail.id }}</el-descriptions-item>
                 <el-descriptions-item label="姓名">{{ detail.name }}</el-descriptions-item>
                 <el-descriptions-item label="手机号">{{ detail.phone }}</el-descriptions-item>
-                <el-descriptions-item label="当前阶段">
-                    <span v-if="detail.stage === 'idea'">需求了解</span>
-                    <span v-else-if="detail.stage === 'direction'">方案沟通</span>
-                    <span v-else-if="detail.stage === 'company'">商务洽谈</span>
-                    <span v-else-if="detail.stage === 'team'">项目对接</span>
-                </el-descriptions-item>
                 <el-descriptions-item label="提交IP">{{ detail.ip }}</el-descriptions-item>
                 <el-descriptions-item label="提交时间">{{ detail.create_time }}</el-descriptions-item>
                 <el-descriptions-item label="留言内容" :span="2">
@@ -145,7 +123,6 @@ import { assessmentLists, assessmentDelete, assessmentUpdateStatus, assessmentUp
 const queryParams = reactive({
     name: '',
     phone: '',
-    stage: '',
     status: ''
 })
 
@@ -190,7 +167,6 @@ const resetParams = () => {
     Object.assign(queryParams, {
         name: '',
         phone: '',
-        stage: '',
         status: ''
     })
     resetPage()

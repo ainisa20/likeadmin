@@ -1,5 +1,10 @@
 import request from '@/utils/request'
 
+// 页面装修列表（动态）
+export function getDecoratePageList() {
+    return request.get({ url: '/decorate.page/pageList' })
+}
+
 // 页面装修详情
 export function getDecoratePages(params: any) {
     return request.get({ url: '/decorate.page/detail', params }, { ignoreCancelToken: true })
