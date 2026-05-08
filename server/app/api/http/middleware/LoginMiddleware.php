@@ -38,7 +38,8 @@ class LoginMiddleware
         // 临时允许 calculate 接口免登录
         $controller = $request->controller();
         $action = $request->action();
-        if ($controller === 'calculate' && $action === 'calculate') {
+        if (($controller === 'calculate' && $action === 'calculate') ||
+            ($controller === 'wizard_report' && $action === 'save')) {
             return $next($request);
         }
         

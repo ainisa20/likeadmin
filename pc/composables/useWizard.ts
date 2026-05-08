@@ -65,7 +65,7 @@ interface WizardState {
   themeData: ThemeData | null
   selectedScopeIds: string[]
 
-  identity: { name: string; identityType: string; registerArea: string }
+  identity: { name: string; phone: string; identityType: string; registerArea: string }
   team: { budget: string; employeeCount: string }
   tech: { needServer: boolean; aiCallsPerDay: string; overseas: boolean }
   plan: { registerTime: string; services: string[] }
@@ -89,7 +89,7 @@ const initialState: () => WizardState = () => ({
   themeData: null,
   selectedScopeIds: [],
 
-  identity: { name: '', identityType: '', registerArea: '' },
+  identity: { name: '', phone: '', identityType: '', registerArea: '' },
   team: { budget: '', employeeCount: '' },
   tech: { needServer: true, aiCallsPerDay: '', overseas: false },
   plan: { registerTime: '', services: [] },
@@ -400,6 +400,7 @@ async function appendSubsidyCalculation() {
 
     // 同步到聊天记录（difyStore.messages 里最后一个 assistant 消息）
     syncToChatMessages()
+    saveReport(calc)
 
     state.subsidyCalculated = true
 
@@ -415,6 +416,36 @@ function syncToChatMessages() {
       difyStore.messages[i].content = state.generatedContent
       break
     }
+  }
+}
+
+async function saveReport(calcData: any) {
+  try {
+    await fetch('/api/wizard_report/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: state.identity.name,
+        phone: state.identity.phone,
+        direction: state.directionInput,
+        identityType: state.identity.identityType,
+        region: state.identity.registerArea,
+        budget: state.team.budget,
+        employeeCount: state.team.employeeCount,
+        needServer: state.tech.needServer,
+        aiCalls: state.tech.aiCallsPerDay,
+        overseas: state.tech.overseas,
+        registerTime: state.plan.registerTime,
+        services: state.plan.services,
+        themeName: state.themeData?.themeName || '',
+        scopeIds: state.selectedScopeIds,
+        reportContent: state.generatedContent,
+        subsidyData: { total_low: calcData.total_low, total_high: calcData.total_high, subsidies: calcData.subsidies },
+        techData: calcData.tech_plan || null,
+      }),
+    })
+  } catch (e) {
+    console.error('[Wizard] saveReport failed:', e)
   }
 }
 

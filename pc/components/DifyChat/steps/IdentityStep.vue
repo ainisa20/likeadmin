@@ -8,6 +8,11 @@
     </div>
 
     <div class="form-group">
+      <label>联系方式</label>
+      <input v-model="wizard.state.identity.phone" placeholder="手机号码" class="form-input" type="tel" maxlength="11" />
+    </div>
+
+    <div class="form-group">
       <label>您的身份</label>
       <div class="radio-group">
         <label

@@ -13,6 +13,7 @@
     <div class="confirm-section">
       <h4>👤 身份信息</h4>
       <div class="confirm-row"><span>姓名</span><span>{{ wizard.state.identity.name }}</span></div>
+      <div class="confirm-row"><span>联系方式</span><span>{{ wizard.state.identity.phone }}</span></div>
       <div class="confirm-row"><span>身份</span><span>{{ identityLabel }}</span></div>
       <div class="confirm-row"><span>注册区域</span><span>{{ regionLabel }}</span></div>
     </div>
