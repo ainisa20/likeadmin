@@ -66,8 +66,8 @@ const scopeNames = computed(() => {
 })
 
 async function handleGenerate() {
-  const userMsgId = `user_opc_${Date.now()}`
-  const assistantMsgId = `assistant_opc_${Date.now()}`
+  const userMsgId = `opc_user_${Date.now()}`
+  const assistantMsgId = `opc_assistant_${Date.now()}`
 
   difyStore.messages.push({
     id: userMsgId,

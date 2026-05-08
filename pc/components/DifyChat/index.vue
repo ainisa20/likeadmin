@@ -402,8 +402,45 @@ const startWizard = () => {
 }
 
 const onReportComplete = () => {
+  // 保存 OPC 报告到 localStorage
+  const opcMessages = difyStore.messages.filter(msg => 
+    msg.id && msg.id.startsWith('opc_')
+  )
+  if (opcMessages.length > 0) {
+    const existing = JSON.parse(localStorage.getItem('opc_reports') || '[]')
+    const newReport = {
+      id: `opc_report_${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      messages: opcMessages
+    }
+    existing.unshift(newReport)
+    // 只保留最近 10 份报告
+    if (existing.length > 10) existing.pop()
+    localStorage.setItem('opc_reports', JSON.stringify(existing))
+  }
+  
   wizardActive.value = false
   nextTick(() => scrollToBottom())
+}
+
+// 加载本地保存的 OPC 报告
+function loadLocalOpcReports() {
+  try {
+    const reports = JSON.parse(localStorage.getItem('opc_reports') || '[]')
+    if (reports.length > 0) {
+      const latestReport = reports[0]
+      if (latestReport.messages && latestReport.messages.length > 0) {
+        // 添加到消息列表
+        latestReport.messages.forEach((msg: any) => {
+          if (!difyStore.messages.find(m => m.id === msg.id)) {
+            difyStore.messages.push(msg)
+          }
+        })
+      }
+    }
+  } catch (e) {
+    console.error('[Dify] Load OPC reports failed:', e)
+  }
 }
 
 const send = async () => {
@@ -745,6 +782,9 @@ onMounted(async () => {
   if (!difyStore.isConfigured) {
     await difyStore.initConfig()
   }
+
+  // 加载本地保存的 OPC 报告
+  loadLocalOpcReports()
 
   // 保存用户ID用于文件预览
   try {
