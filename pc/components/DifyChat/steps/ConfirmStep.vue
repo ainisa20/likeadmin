@@ -82,7 +82,7 @@ async function handleGenerate() {
     content: '',
     createdAt: new Date(),
   }
-difyStore.messages.push(assistantMsg)
+  difyStore.messages.push(assistantMsg)
 
   await wizard.generateReport(
     (text: string) => {
@@ -90,6 +90,18 @@ difyStore.messages.push(assistantMsg)
     },
     () => {},
   )
+}
+</script>
+
+<style scoped>
+.confirm-step { padding: 0 4px; }
+h3 { font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 16px; }
+
+.confirm-section {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  background: #f9fafb;
+  border-radius: 8px;
 }
 
 h4 {
