@@ -2,6 +2,16 @@ import { reactive, computed } from 'vue'
 import { useDifyStore } from '@/stores/dify'
 import { useDifyUser } from '@/composables/useDifyUser'
 
+function getBasePath(): string {
+  try {
+    const { public: config } = useRuntimeConfig()
+    const base = config.baseUrl || '/'
+    return base.endsWith('/') ? base : base + '/'
+  } catch {
+    return '/'
+  }
+}
+
 interface ThemeMatchItem {
   themeName: string
   category: string
@@ -93,7 +103,8 @@ function getUserId(): string {
 
 async function loadThemeIndex() {
   try {
-    const response = await fetch('/themes/index.json')
+    const base = getBasePath()
+    const response = await fetch(`${base}themes/index.json`)
     if (!response.ok) throw new Error('Failed to load theme index')
     state.themeIndex = await response.json()
   } catch (e: any) {
@@ -166,7 +177,8 @@ async function selectTheme(themeId: string) {
   state.selectedScopeIds = []
 
   try {
-    const response = await fetch(`/themes/${themeId}.json`)
+    const base = getBasePath()
+    const response = await fetch(`${base}themes/${themeId}.json`)
     if (!response.ok) throw new Error('Failed to load theme data')
     state.themeData = await response.json()
   } catch (e: any) {
