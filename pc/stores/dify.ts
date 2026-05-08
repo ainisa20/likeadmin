@@ -254,14 +254,18 @@ export const useDifyStore = defineStore('dify', {
                 }
 
                 if (nodeData.node_type === 'llm' && nodeData.outputs) {
+                  console.log('[Dify] LLM node outputs:', JSON.stringify(nodeData.outputs))
                   const outputs = nodeData.outputs
-                  if (outputs.text) {
-                    lastMsg.content = outputs.text?.text || ''
-                  } else if (outputs.markdown) {
+                  if (outputs?.text?.text) {
+                    lastMsg.content = outputs.text.text
+                  } else if (outputs?.markdown) {
                     lastMsg.content = outputs.markdown
+                  } else if (outputs?.output) {
+                    lastMsg.content = outputs.output
                   } else if (typeof outputs === 'string') {
                     lastMsg.content = outputs
                   }
+                  console.log('[Dify] Set content:', lastMsg.content.substring(0, 100))
                 }
               }
             }
@@ -274,10 +278,12 @@ export const useDifyStore = defineStore('dify', {
             // 工作流完成，静默处理
           }
           else if (chunk.event === 'message') {
+            console.log('[Dify] message event:', chunk.answer ? chunk.answer.substring(0, 100) : 'no answer')
             const lastMsg = this.messages[this.messages.length - 1]
             if (lastMsg && lastMsg.role === 'assistant') {
               lastMsg.content = (lastMsg.content || '') + (chunk.answer || '')
               lastMsg.id = chunk.message_id || lastMsg.id
+              console.log('[Dify] message content now:', lastMsg.content.substring(0, 100))
             }
             nextTick(() => {
               window.dispatchEvent(new Event('dify-stream-update'))
