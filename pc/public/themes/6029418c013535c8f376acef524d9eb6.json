@@ -1,0 +1,21 @@
+{
+  "themeName": "我要开供应链管理公司",
+  "category": "交通物流运输",
+  "items": [
+    {
+      "scopeId": "beda86c124ce4a7cbb2f33c1f9aaefda",
+      "standardItem": "供应链管理服务",
+      "scopeCode": "L2023",
+      "description": "指从事基于现代信息技术对供应链中的物流、商流、信息流和资金流进行设计、规划、控制和优化，将单一、分散的订单管理、采购执行、报关退税、物流管理、资金融通、数据管理、贸易商务、结算等进行一体化整合的服务活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "农产品供应链管理服务；矿产品供应链管理服务；油气产品供应链管理服务；制造业产品供应链管理服务；流通供应链管理服务；供应链管理企业提供的在线资源规划服务",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

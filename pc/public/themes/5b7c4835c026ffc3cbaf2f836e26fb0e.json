@@ -1,0 +1,21 @@
+{
+  "themeName": "我要开劳务派遣公司",
+  "category": "生活服务",
+  "items": [
+    {
+      "scopeId": "6c33b6434d6c43bd9aa1bde724b5e6fe",
+      "standardItem": "劳务派遣服务",
+      "scopeCode": "L2044",
+      "description": "指依据《中华人民共和国劳动合同法》，从事劳务派遣服务的活动。不包括海员外派、劳务境外派送",
+      "permitType": 2,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "向用工单位的临时性、辅助性、替代性岗位派遣劳动者；国内劳务派遣服务；劳务派遣；海船船员服务；",
+        "notIncluded": "职业中介服务；海员外派；对外劳务合作；人力资源服务外包；",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

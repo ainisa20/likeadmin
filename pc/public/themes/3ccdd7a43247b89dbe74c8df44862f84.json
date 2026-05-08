@@ -1,0 +1,36 @@
+{
+  "themeName": "我要开石油化工公司",
+  "category": "加工制造",
+  "items": [
+    {
+      "scopeId": "36cb9b4e60c4476d8692ea362e89f7d8",
+      "standardItem": "海洋石油开采",
+      "scopeCode": "B2002",
+      "description": "指依据《中华人民共和国矿产资源法》，从事海洋石油开采的活动。",
+      "permitType": 2,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "海洋石油开采；海上石油开采；从石油气中提取甲烷",
+        "notIncluded": "",
+        "remarks": "《外商投资准入特别管理措施（负面清单）》（2021 年版）：禁止投资稀土、放射性矿产、钨勘查、开采及选矿。《自由贸易试验区外商投资准入特别管理措施（负面清单）》（2021 年版）：禁止投资稀土、放射性矿产、钨勘查、开采及选矿。（未经允许，禁止进入稀土矿区或取得矿山地质资料、矿石样品及生产工艺技术。）",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "c03c0283fdf56cd91ef0f3344d5ed9a1",
+      "standardItem": "陆地石油和天然气开采",
+      "scopeCode": "B2004",
+      "description": "指从事陆地石油和天然气开采的经营活动。",
+      "permitType": 2,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "陆地石油；陆地天然气；煤层气；页岩气",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

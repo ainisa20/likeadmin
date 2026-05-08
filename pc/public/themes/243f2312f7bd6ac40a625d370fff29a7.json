@@ -1,0 +1,36 @@
+{
+  "themeName": "我要开健康管理店",
+  "category": "生活服务",
+  "items": [
+    {
+      "scopeId": "5b913e031f3347049c7676904701f1de",
+      "standardItem": "远程健康管理服务",
+      "scopeCode": "I2014",
+      "description": "指从事社区和家庭远程健康管理服务的活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "社区远程健康管理服务；家庭远程健康管理服务；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "721ed32496fa47bbb9caebcffa00adf6",
+      "standardItem": "体育健康服务",
+      "scopeCode": "R4012",
+      "description": "指从事国民体质监测与康体服务，以及科学健身调理、社会体育指导员、运动康复按摩、体育健康指导等体育健康服务的活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "健康体质测试、监测服务；运动理疗康复按摩服务；科学健身调理服务；科学健身指导服务；运动减重服务；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

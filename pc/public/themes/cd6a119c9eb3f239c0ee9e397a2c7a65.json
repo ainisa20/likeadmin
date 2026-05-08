@@ -1,0 +1,21 @@
+{
+  "themeName": "我要开企业管理公司",
+  "category": "生活服务",
+  "items": [
+    {
+      "scopeId": "9b6aba68bed641718e0f5a7ea8226ad2",
+      "standardItem": "企业管理",
+      "scopeCode": "L2012",
+      "description": "指不具体从事对外经营业务，只负责企业的重大决策、资产管理，协调管理下属各机构和内部日常工作的企业管理的活动",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "指不具体从事对外经营业务，只负责企业的重大决策、资产管理，协调管理下属各机构和内部日常工作的企业管理的活动，包括校办企业管理服务；民办企业管理服务；对企业内部或其下属分支机构进行的经济责任、内部控制、风险管理审计活动等；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

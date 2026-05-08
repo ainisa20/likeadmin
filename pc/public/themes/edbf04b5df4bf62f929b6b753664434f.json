@@ -1,0 +1,21 @@
+{
+  "themeName": "我要开建筑劳务公司",
+  "category": "建筑工程",
+  "items": [
+    {
+      "scopeId": "41a759e5b56f1467ba31ee00618e88ac",
+      "standardItem": "建筑劳务分包",
+      "scopeCode": "E4004",
+      "description": null,
+      "permitType": 2,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "",
+        "notIncluded": "",
+        "remarks": "根据《建筑法》第二十九条规定，   建筑工程总承包单位可以将承包工程中的部分工程发包给具有相应资质条件的分包单位。",
+        "specialTips": ""
+      }
+    }
+  ]
+}
