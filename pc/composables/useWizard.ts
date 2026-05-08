@@ -273,7 +273,30 @@ async function appendSubsidyCalculation() {
 
     subsidyHtml += `> 💳 **可叠加创业担保贷款：** ${calc.loan_info}\n`
 
-    state.generatedContent += subsidyHtml
+    // 替换占位符而非追加到末尾
+    if (state.generatedContent.includes('<!-- SUBSIDY_PLACEHOLDER -->')) {
+      state.generatedContent = state.generatedContent.replace('<!-- SUBSIDY_PLACEHOLDER -->', subsidyHtml)
+    } else if (state.generatedContent.includes('SUBSIDY_PLACEHOLDER')) {
+      state.generatedContent = state.generatedContent.replace('SUBSIDY_PLACEHOLDER', subsidyHtml)
+    } else {
+      // fallback: 如果AI没写占位符，插入到第二部分之后
+      const markers = ['## 二、', '## 二、', '二、经营范围']
+      let inserted = false
+      for (const marker of markers) {
+        const idx = state.generatedContent.indexOf(marker)
+        if (idx === -1) continue
+        // 找到第二部分之后的下一个 ## 标题
+        const afterSection2 = state.generatedContent.indexOf('\n## ', idx + marker.length)
+        if (afterSection2 !== -1) {
+          state.generatedContent = state.generatedContent.slice(0, afterSection2) + '\n\n' + subsidyHtml + state.generatedContent.slice(afterSection2)
+          inserted = true
+          break
+        }
+      }
+      if (!inserted) {
+        state.generatedContent += subsidyHtml
+      }
+    }
     state.subsidyCalculated = true
 
   } catch (e) {
@@ -331,10 +354,15 @@ AI日均调用：${state.tech.aiCallsPerDay}
 ## 报告结构要求
 一、公司命名建议（推荐3个名称+寓意+核名提示）
 二、经营范围建议及冲突预检（表格列出规范表述|是否需前置许可|匹配度|风险提示 + 冲突预警 + 结论）
-三、技术方案（云服务器配置建议 + AI工具链部署方案 + 成本估算）
-四、运营规划（获客渠道 + 变现路径 + 里程碑计划）
-五、下一步行动清单（含时间节点）
-末尾加声明：本报告由九章数智人工智能（深圳）有限责任公司出具，基于提供的信息及现行政策分析。`
+三、请直接输出以下占位符（不要输出其他内容）：<!-- SUBSIDY_PLACEHOLDER -->
+四、技术方案（云服务器配置建议表格 + AI工具链文字说明 + 成本估算表格）
+五、运营规划（获客渠道 + 变现路径 + 里程碑计划）
+六、下一步行动清单（含时间节点）
+末尾加声明：本报告由九章数智人工智能（深圳）有限责任公司出具，基于提供的信息及现行政策分析。
+
+## 格式要求
+- 使用Markdown表格，不要输出mermaid/flowchart/graph代码
+- 所有图表用Markdown表格或列表呈现`
 
     const response = await fetch(`${config.baseUrl.replace(/\/$/, '')}/v1/chat-messages`, {
       method: 'POST',
