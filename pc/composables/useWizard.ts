@@ -382,10 +382,28 @@ async function appendSubsidyCalculation() {
     replacePlaceholder('SUBSIDY_PLACEHOLDER', subsidyHtml, '## 二、')
     replacePlaceholder('TECH_PLACEHOLDER', techHtml, '## 三、')
 
+    // 清理 AI 输出的裸章节标题（如 "三、\n" 紧邻 "## 三：" 会导致重复）
+    state.generatedContent = state.generatedContent
+      .replace(/^[三四]、\s*\n(?=\n*## [三四])/gm, '')
+      .replace(/\n[三四]、\s*\n(?=\n*## [三四])/g, '\n')
+
+    // 同步到聊天记录（difyStore.messages 里最后一个 assistant 消息）
+    syncToChatMessages()
+
     state.subsidyCalculated = true
 
   } catch (e) {
     console.error('[Wizard] appendSubsidyCalculation failed:', e)
+  }
+}
+
+function syncToChatMessages() {
+  const difyStore = useDifyStore()
+  for (let i = difyStore.messages.length - 1; i >= 0; i--) {
+    if (difyStore.messages[i].role === 'assistant') {
+      difyStore.messages[i].content = state.generatedContent
+      break
+    }
   }
 }
 
@@ -473,7 +491,9 @@ AI日均调用：${state.tech.aiCallsPerDay}
 
 ## 格式要求
 - 使用Markdown表格，不要输出mermaid/flowchart/graph代码
-- 所有图表用Markdown表格或列表呈现`
+- 所有图表用Markdown表格或列表呈现
+- 绝对禁止输出任何以graph、flowchart、sequenceDiagram开头的代码块，所有流程图用文字列表或表格代替
+- 不要在占位符前后输出"三、"或"四、"等章节标题，占位符本身就是完整内容`
 
     const response = await fetch(`${config.baseUrl.replace(/\/$/, '')}/v1/chat-messages`, {
       method: 'POST',
