@@ -73,6 +73,7 @@ interface WizardState {
   isGenerating: boolean
   generatedContent: string
   generationComplete: boolean
+  subsidyCalculated: boolean
 }
 
 const initialState: () => WizardState = () => ({
@@ -96,6 +97,7 @@ const initialState: () => WizardState = () => ({
   isGenerating: false,
   generatedContent: '',
   generationComplete: false,
+  subsidyCalculated: false,
 })
 
 const state = reactive<WizardState>(initialState())
@@ -272,6 +274,7 @@ async function appendSubsidyCalculation() {
     subsidyHtml += `> 💳 **可叠加创业担保贷款：** ${calc.loan_info}\n`
 
     state.generatedContent += subsidyHtml
+    state.subsidyCalculated = true
 
   } catch (e) {
     console.error('[Wizard] appendSubsidyCalculation failed:', e)
@@ -376,7 +379,7 @@ AI日均调用：${state.tech.aiCallsPerDay}
             } else if (chunk.event === 'message_end' && chunk.conversation_id) {
               state.generationComplete = true
               onComplete(chunk.conversation_id)
-              appendSubsidyCalculation()
+              setTimeout(() => appendSubsidyCalculation(), 2000)
             }
           } catch {
             // SSE chunks may be incomplete mid-stream, skip them

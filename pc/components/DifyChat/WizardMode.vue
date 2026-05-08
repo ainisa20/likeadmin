@@ -41,15 +41,32 @@
           <div class="gen-header complete">
             <div class="gen-icon">✅</div>
             <h3>报告生成完成</h3>
+            <p v-if="!wizard.state.subsidyCalculated" class="gen-hint">正在计算补贴明细...</p>
           </div>
           <div class="gen-actions">
-            <button class="btn-export" @click="exportPDF">
-              <span class="btn-icon">📄</span>导出 PDF
+            <button 
+              class="btn-export" 
+              @click="exportPDF"
+              :disabled="!wizard.state.subsidyCalculated"
+            >
+              <span class="btn-icon">📄</span>{{ wizard.state.subsidyCalculated ? '导出 PDF' : '计算中...' }}
             </button>
-            <button class="btn-done" @click="$emit('complete')">完成</button>
+            <button 
+              class="btn-done" 
+              @click="$emit('complete')"
+              :disabled="!wizard.state.subsidyCalculated"
+            >
+              {{ wizard.state.subsidyCalculated ? '完成' : '计算中...' }}
+            </button>
           </div>
           <div class="gen-content final">
             <div id="report-content" class="stream-content" v-html="parseMarkdown(wizard.state.generatedContent)"></div>
+          </div>
+          <div v-if="!wizard.state.subsidyCalculated" class="subsidy-loading">
+            <span class="loading-dot"></span>
+            <span class="loading-dot"></span>
+            <span class="loading-dot"></span>
+            <span>正在计算可申领补贴与收益预估...</span>
           </div>
         </template>
         
@@ -622,5 +639,24 @@ function exportPDF() {
   padding: 12px 16px;
   margin: 12px 0;
   color: #475569;
+}
+
+.subsidy-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: #f0f9ff;
+  border-radius: 8px;
+  color: #0369a1;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.btn-export:disabled,
+.btn-done:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>
