@@ -34,6 +34,14 @@ class LoginMiddleware
     public function handle($request, \Closure $next)
     {
         $token = $request->header('token');
+        
+        // 临时允许 calculate 接口免登录
+        $controller = $request->controller();
+        $action = $request->action();
+        if ($controller === 'calculate' && $action === 'calculate') {
+            return $next($request);
+        }
+        
         //判断接口是否免登录
         $isNotNeedLogin = $request->controllerObject->isNotNeedLogin();
 
