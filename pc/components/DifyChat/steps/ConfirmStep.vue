@@ -19,7 +19,6 @@
 
     <div class="confirm-section">
       <h4>👥 团队与资金</h4>
-      <div class="confirm-row"><span>团队人数</span><span>{{ wizard.state.team.size }}人</span></div>
       <div class="confirm-row"><span>启动资金</span><span>{{ wizard.state.team.budget }}</span></div>
       <div class="confirm-row"><span>带动就业</span><span>{{ employeeCountText }}</span></div>
     </div>

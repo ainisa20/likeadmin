@@ -1,0 +1,51 @@
+{
+  "themeName": "我要开旅行社",
+  "category": "文体传媒",
+  "items": [
+    {
+      "scopeId": "a180422fb5de49b68368265274a5db76",
+      "standardItem": "旅游业务",
+      "scopeCode": "L2055",
+      "description": "指依据《中华人民共和国旅游法》，从事境内旅游、入境旅游、出境旅游、边境旅游，以及其他旅游业务的活动。",
+      "permitType": 2,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "境内旅游业务；入境旅游业务；出境旅游业务；边境旅游业务；旅行社（除台湾地区以外的出境旅游业务）；旅行社；生态旅游；森林旅游观光；体育旅游；海洋旅游；购物旅游；康养旅游；文化旅游；会展旅游；乡村旅游；房车露营旅游；婚庆旅游；红色旅游；研学旅游；滨海旅游",
+        "notIncluded": "餐饮服务；住宿服务；教育培训业务",
+        "remarks": "依据：《旅行社条例》2017年修订         第六条    申请经营国内旅游业务和入境旅游业务的，应当取得企业法人资格，并且注册资本不少于30万元。",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "40d653b9ce0440ccb524decbae722e4d",
+      "standardItem": "旅行社服务网点旅游招徕、咨询服务",
+      "scopeCode": "L2056",
+      "description": "指从事境内旅游、入境旅游、出境旅游、边境旅游，其他旅游的招徕、咨询服务活动。",
+      "permitType": 4,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "国内旅游招徕、咨询服务；入境旅游招徕、咨询服务；出境旅游招徕、咨询服务；边境旅游招徕、咨询服务；旅游咨询；旅游项目策划服务；研学旅行活动组织策划服务；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "0982522040db8f83c7fdd592582a78f4",
+      "standardItem": "旅游开发项目策划咨询",
+      "scopeCode": "L2125",
+      "description": "指从事旅游开发项目策划咨询的活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "",
+        "permitExplain": "",
+        "includedItems": "旅游创意服务(数字创意在旅游领域的应用，包括旅游项目策划服务、旅游咨询服务等)；旅游项目策划、管理；生态旅游和森林旅游的策划；生态旅游和森林旅游的管理；康养产业和项目的策划、运营管理；智慧旅游规划；高科技主题娱乐项目策划；高科技主题娱乐项目运营管理咨询；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

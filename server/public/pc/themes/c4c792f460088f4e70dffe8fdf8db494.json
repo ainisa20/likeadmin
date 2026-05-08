@@ -1,0 +1,36 @@
+{
+  "themeName": "我要开文化科技公司",
+  "category": "科技服务",
+  "items": [
+    {
+      "scopeId": "b47bad197f0a423aad21978558bad824",
+      "standardItem": "组织文化艺术交流活动",
+      "scopeCode": "R5014",
+      "description": "指各类文化、晚会、娱乐、演出、庆典、节日等活动组织、策划服务的经营活动。从事演出经纪、营业性演出、旅游业务、旅行社服务的，需办理相关许可审批，并登记相关经营范围。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "服装、摄影、广告、艺术等模特的表演活动的组织、策划活动；专业艺术人员、团体的演出、交流、大赛的组织、策划活动；为文艺演出、晚会、艺术节、大赛组织、策划活动；外语、计算机等知识类赛事的组织、策划活动；低空文化交流",
+        "notIncluded": "演员挑选、推荐人服务，艺术家、作家经纪人服务，演员经纪人服务，模特经纪人服务，其他演员、艺术家经纪人服务；文化娱乐经纪人服务等演出经纪服务；营业性演出；旅游项目策划服务等旅行社及相关服务；\n",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "9ae92b1455854ba0ace098cbd08b9e9e",
+      "standardItem": "数字文化创意内容应用服务",
+      "scopeCode": "I2015",
+      "description": "指从事数字文化创意内容应用服务的活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "地理信息加工处理服务；三维城市展示；可视化城市基础设施管理；数字图书馆；智慧博物馆；数字设计服务",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

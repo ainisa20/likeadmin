@@ -3,15 +3,6 @@
     <h3>团队与资金</h3>
 
     <div class="form-group">
-      <label>初期团队人数（含自己）</label>
-      <div class="number-input">
-        <button class="num-btn" @click="wizard.state.team.size = Math.max(1, wizard.state.team.size - 1)">−</button>
-        <input type="number" v-model.number="wizard.state.team.size" min="1" max="50" class="form-input num-value" />
-        <button class="num-btn" @click="wizard.state.team.size = Math.min(50, wizard.state.team.size + 1)">+</button>
-      </div>
-    </div>
-
-    <div class="form-group">
       <label>启动资金预算</label>
       <div class="radio-group">
         <label
@@ -41,7 +32,7 @@
 
     <button
       class="btn-primary"
-      :disabled="!wizard.state.team.budget || !wizard.state.team.employeeCount || wizard.state.team.size < 1"
+      :disabled="!wizard.state.team.budget || !wizard.state.team.employeeCount"
       @click="wizard.nextStep()"
     >
       下一步 →

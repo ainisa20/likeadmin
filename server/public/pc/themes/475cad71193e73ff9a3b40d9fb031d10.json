@@ -1,0 +1,36 @@
+{
+  "themeName": "我要开美甲店",
+  "category": "生活服务",
+  "items": [
+    {
+      "scopeId": "1afc5be52134447e944f3e1678ca9ce0",
+      "standardItem": "美甲服务",
+      "scopeCode": "O1010",
+      "description": "指从事专业美甲的服务活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "美甲服务；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "30926a77f48d4eb1aeb9f5e390043a4d",
+      "standardItem": "生活美容服务",
+      "scopeCode": "O1008",
+      "description": "指运用手法技术、器械设备并借助于美容护肤、化妆等用品，为消费者提供人体表面无创伤性、非入侵性的皮肤清洁、皮肤保养、皮肤抗衰老、化妆修饰等服务的经营性活动。",
+      "permitType": 2,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "美容知识咨询与指导；皮肤护理；化妆修饰；形象设计；美体服务；非创伤性和非侵入性的纹身美容服务（除面向未成年人）、睫毛化妆服务；面部美容护理；美体塑身；SPA；美甲（部分地区）；化妆；",
+        "notIncluded": "医疗美容服务；纹睫毛；睫毛种植等创伤性和侵入性的服务；创伤性和侵入性的纹身服务；",
+        "remarks": "根据《关于加强美容服务管理的通知》：二、......医疗美容和生活美容是两类不同性质的美容，在技术标准和管理 上都有不同要求。生活美容服务由内贸行政主管部门按开 业标准和《职业技能鉴定规范》进行监督管理......。",
+        "specialTips": ""
+      }
+    }
+  ]
+}

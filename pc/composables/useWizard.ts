@@ -66,7 +66,7 @@ interface WizardState {
   selectedScopeIds: string[]
 
   identity: { name: string; identityType: string; registerArea: string }
-  team: { size: number; budget: string; employeeCount: string }
+  team: { budget: string; employeeCount: string }
   tech: { needServer: boolean; aiCallsPerDay: string; overseas: boolean }
   plan: { registerTime: string; services: string[] }
 
@@ -89,7 +89,7 @@ const initialState: () => WizardState = () => ({
   selectedScopeIds: [],
 
   identity: { name: '', identityType: '', registerArea: '' },
-  team: { size: 1, budget: '', employeeCount: '' },
+  team: { budget: '', employeeCount: '' },
   tech: { needServer: true, aiCallsPerDay: '', overseas: false },
   plan: { registerTime: '', services: [] },
 
@@ -226,7 +226,6 @@ ${scopeDetails}
 注册区域：${state.identity.registerArea}
 
 ## 团队与资金
-团队人数：${state.team.size}人
 启动资金：${state.team.budget}
 预计带动就业人数：${state.team.employeeCount}
 
@@ -337,7 +336,7 @@ const canProceedFromStep = computed(() => {
     case 2:
       return !!(state.identity.name && state.identity.identityType && state.identity.registerArea)
     case 3:
-      return !!(state.team.size && state.team.budget && state.team.employeeCount)
+      return !!(state.team.budget && state.team.employeeCount)
     case 4:
       return !!state.tech.aiCallsPerDay
     case 5:

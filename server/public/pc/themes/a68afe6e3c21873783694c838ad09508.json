@@ -1,0 +1,36 @@
+{
+  "themeName": "我要开国际贸易公司",
+  "category": "商贸",
+  "items": [
+    {
+      "scopeId": "e680d0cef6ad4620a51e916928aa119a",
+      "standardItem": "货物进出口",
+      "scopeCode": "F4001",
+      "description": "指依据《中华人民共和国对外贸易法》，从事货物进出口的活动。",
+      "permitType": 4,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "货物进出口（国家禁止或涉及行政审批的货物和技术进出口除外）；",
+        "notIncluded": "农作物种子进出口；食用菌菌种进出口；水产苗种进出口；林木种子进出口；草种进出口；出版物进口；艺术品进出口；药品进出口；有毒化学品进出口；新化学物质进口；新型铁路机车车辆进口；黄金及其制品进出口；弩进口；军品出口；可用作原料的固体废物进口；烟草专卖品进出口；",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "d004fbc4df4d4fc7b972c6a59b2ddd40",
+      "standardItem": "技术进出口",
+      "scopeCode": "F4002",
+      "description": "指依据《中华人民共和国对外贸易法》，从事技术进出口的活动。",
+      "permitType": 4,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "技术进出口（国家禁止或涉及行政审批的货物和技术进出口除外）；以技术开发、交流、推广的名义，实际从事商品买卖的",
+        "notIncluded": "国家限定公司经营或禁止进出口的技术",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

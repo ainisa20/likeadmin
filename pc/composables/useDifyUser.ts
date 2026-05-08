@@ -1,4 +1,5 @@
 import { SystemVariables } from '@/types/dify'
+import { generateUUID } from '@/utils/util'
 
 export function useDifyUser() {
   const STORAGE_KEY = 'dify_user_id'
@@ -11,13 +12,8 @@ export function useDifyUser() {
     let userId = sessionStorage.getItem(STORAGE_KEY)
 
     if (!userId) {
-      try {
-        userId = crypto.randomUUID()
-        sessionStorage.setItem(STORAGE_KEY, userId)
-      } catch (error) {
-        userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-        sessionStorage.setItem(STORAGE_KEY, userId)
-      }
+      userId = generateUUID()
+      sessionStorage.setItem(STORAGE_KEY, userId)
     }
 
     return userId

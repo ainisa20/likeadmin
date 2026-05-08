@@ -1,0 +1,96 @@
+{
+  "themeName": "我要开珠宝店",
+  "category": "商业零售",
+  "items": [
+    {
+      "scopeId": "add44c4aa86aed096d83819f34e1b08a",
+      "standardItem": "金银制品销售",
+      "scopeCode": "F3258",
+      "description": null,
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "矿藏生产金银和冶炼副产金银；金银条、块、锭、粉；金银铸币；金银制品和金基、银基合金制品；化工产品中含的金银；金银边角余料及废渣、废液、废料中含的金银",
+        "notIncluded": "金银制品进出口；金银质地纪念币的铸造、发行；铂（即白金），按照国家有关规定管理；属于金银质地的文物，按照《中华人民共和国文物保护法》的规定管理。《中华人民共和国金银管理条例》第七条：在中华人民共和国境内，一切单位和个人不得计价使用金银，禁止私相买卖和借贷抵押金银。",
+        "remarks": "《国务院关于取消第二批行政审批项目和改变一批行政审批项目管理方式的决定》",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "638aa036e6d14f7b8d06d52353c6986f",
+      "standardItem": "黄金及其制品进出口",
+      "scopeCode": "F1013",
+      "description": "指依据《黄金及黄金制品进出口管理办法》，从事黄金及其制品进出口的活动",
+      "permitType": 2,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "黄金；黄金制品；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "c0dd717a29b44e65b914afbe9e9f7cc7",
+      "standardItem": "珠宝首饰制造",
+      "scopeCode": "CC004",
+      "description": "指从事以金、银、铂等贵金属及其合金以及钻石、宝石、玉石、翡翠、珍珠等为原料，经金属加工和连结组合、镶嵌等工艺加工制作各种图案的装饰品的制作活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "珠宝首饰及有关物品制造；贵金属摆件；金摆件；银摆件；铂摆件；贵金属首饰；金首饰；银首饰；铂首饰；玉石首饰；翡翠首饰；珍珠首饰；珠宝首饰类似品；珍珠类似品；珠宝首饰及类似品半成品；钻石；已加工钻石；未加工钻石；玉石；已加工翡翠；已加工相关玉石；未加工玉石；珍珠；天然珍珠；养殖珍珠；红宝石；蓝宝石；祖母绿；珠宝首饰的加工；珐琅首饰；白银饰品加工；黄金饰品加工；铜饰品加工；手工耳饰品；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "d99d2ba59d82443fa04eaa1dc8ee295b",
+      "standardItem": "艺术品进出口",
+      "scopeCode": "F1008",
+      "description": "指依据《国务院对确需保留的行政审批项目设定行政许可的决定》，按照《艺术品经营管理办法》，从事绘画作品、书法篆刻作品、雕塑雕刻作品、艺术摄影作品、装置艺术作品、工艺美术作品等及上述作品的有限复制品的进出口活动。不包括文物进出口。",
+      "permitType": 2,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "绘画作品；书法篆刻作品；雕塑雕刻作品；艺术摄影作品；装置艺术作品；工艺美术作品；上述作品的有限复制品；",
+        "notIncluded": "文物;石刻;壁画;近代现代重要史迹;近代现代重要实物;近代现代代表性建筑;历史上各时代珍贵的艺术品;历史上各时代珍贵的工艺美术品;历史上各时代重要的文献资料;具有历史价值的手稿;具有历史价值的图书资料;具有艺术价值的手稿;具有艺术价值的图书资料;具有科学价值的手稿;具有科学价值的图书资料",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "5473f41b8bc5424592b4dcd556a6da47",
+      "standardItem": "珠宝首饰批发",
+      "scopeCode": "F1059",
+      "description": "指从事首饰等文化创意及礼仪用品批发的活动。从事文物销售（F1061）的，需办理相关许可审批，并登记相关经营范围。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "珠宝首饰；金银首饰；金首饰；银首饰；钻石首饰；钻戒；钻石项链；珠宝翡翠首饰；宝石首饰；玉石首饰；翡翠首饰；玛瑙首饰；水晶首饰；珍珠；养殖的珍珠及其饰品；流行饰品",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "fb676e944bcf4ae7979dd8d6af69181e",
+      "standardItem": "珠宝首饰零售",
+      "scopeCode": "F2027",
+      "description": "指从事珠宝首饰零售的活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "珠宝首饰；金首饰；银首饰；钻石首饰；珠宝翡翠首饰；流行饰品；珍珠；养殖的珍珠及其饰品；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

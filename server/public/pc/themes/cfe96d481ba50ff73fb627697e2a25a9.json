@@ -1,0 +1,36 @@
+{
+  "themeName": "我要开家居店",
+  "category": "商业零售",
+  "items": [
+    {
+      "scopeId": "7b7893dadb92d86d6cd37acde94c18b8",
+      "standardItem": "家居用品制造",
+      "scopeCode": "CT005",
+      "description": null,
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "指生产制造被褥、被套、床单、床罩、床笠、枕套、枕芯、毯子、凉席、蚊帐、炒锅、煎锅、蒸锅、奶锅、汤煲、锅盖架，铲子、刀具，碗、盘子、筷子勺子、叉子、餐刀、酒杯、餐垫、餐巾纸、纸巾架、沙发、桌子、椅子，茶几、 地柜 、酒柜、 装饰柜、 间厅柜 、鞋柜 、饰物架 、玄关台、 衣柜、 梳妆台、茶几等家具、床上用品、厨卫用具、室内配饰及日常生活需要的不涉及行政许可审批项目的商品",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "f7b34f61912b22ec57150a7cec9eba83",
+      "standardItem": "家居用品销售",
+      "scopeCode": "F1233",
+      "description": null,
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "销售：被褥、被套、床单、床罩、床笠、枕套、枕芯、毯子、凉席、蚊帐、炒锅、煎锅、蒸锅、奶锅、汤煲、锅盖架，铲子、刀具，碗、盘子、筷子勺子、叉子、餐刀、酒杯、餐垫、餐巾纸、纸巾架、电视机、电脑、冰箱、微波炉、电磁炉、豆浆机、榨汁机、消毒柜、洗衣机、浴霸、电热水器、台灯、电饼铛、电饭煲、电饭锅、电风扇、空调等、沙发、各种类型的桌子椅子，茶几、 地柜 、酒柜、 装饰柜、 间厅柜 、鞋柜 、饰物架 、玄关台、 衣柜、 梳妆台、茶几、床垫",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

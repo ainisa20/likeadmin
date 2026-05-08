@@ -1,0 +1,21 @@
+{
+  "themeName": "我要开餐饮管理公司",
+  "category": "餐饮服务",
+  "items": [
+    {
+      "scopeId": "d7f8226e54994c5e952309bbde7e9b90",
+      "standardItem": "餐饮管理",
+      "scopeCode": "L2015",
+      "description": "指从事餐饮管理的活动。不包括餐饮服务、食品经营管理。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "家宴管理服务",
+        "notIncluded": "餐饮服务；食品经营管理",
+        "remarks": "依据《食品经营许可和备案管理办法》第十一条  申请食品经营许可，应当按照食品经营主体业态和经营项目分类提出。食品经营项目分为食品销售、餐饮服务、食品经营管理三类。食品经营项目可以复选。食品经营管理，包括食品销售连锁管理、餐饮服务连锁管理、餐饮服务管理等。",
+        "specialTips": ""
+      }
+    }
+  ]
+}

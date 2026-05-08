@@ -1,0 +1,21 @@
+{
+  "themeName": "我要开理发店",
+  "category": "生活服务",
+  "items": [
+    {
+      "scopeId": "4bc2f18fc31848419d47efdf492f7445",
+      "standardItem": "理发服务",
+      "scopeCode": "O1007",
+      "description": "指从事专业理发、美发的服务活动。",
+      "permitType": 2,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "男士理发服务；女士理发服务；儿童理发服务；美发设计；养发、护发服务",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

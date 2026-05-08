@@ -1,0 +1,21 @@
+{
+  "themeName": "我要开棋牌室",
+  "category": "生活服务",
+  "items": [
+    {
+      "scopeId": "56512285d77a279b5510adf1acd2209b",
+      "standardItem": "棋牌室服务",
+      "scopeCode": "R4015",
+      "description": "指从事棋牌室服务的活动",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "棋牌室；棋牌类运动全民健身活动；围棋；国际象棋；中国象棋；跳棋；桥牌；麻将；扑克牌；象棋；五子棋；黑白棋；桌游",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

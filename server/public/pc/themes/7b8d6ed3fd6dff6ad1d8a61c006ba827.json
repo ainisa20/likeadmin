@@ -1,0 +1,66 @@
+{
+  "themeName": "我要开数字科技公司",
+  "category": "科技服务",
+  "items": [
+    {
+      "scopeId": "1ffe7a4a4ba34474ae4dd32e4872ac04",
+      "standardItem": "大数据服务",
+      "scopeCode": "I3005",
+      "description": "指从事利用分布式并行计算、人工智能等技术对海量异构数据进行计算、分析和挖掘，并将由此产生的信息和知识应用于实际的生产生活中的活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "数据探矿；数据化学；数据材料；数据制药；电子数据服务",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "9ae92b1455854ba0ace098cbd08b9e9e",
+      "standardItem": "数字文化创意内容应用服务",
+      "scopeCode": "I2015",
+      "description": "指从事数字文化创意内容应用服务的活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "地理信息加工处理服务；三维城市展示；可视化城市基础设施管理；数字图书馆；智慧博物馆；数字设计服务",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "a3ec2ed3ce0842cfbb410a65b39048c2",
+      "standardItem": "数据处理和存储支持服务",
+      "scopeCode": "I3025",
+      "description": "指从事提供的信息和数据的分析、整理、计算、编辑、存储等加工处理的服务，以及应用软件、信息系统基础设施等租用的服务。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "信息和数据的存储、分析、整理、计算、编辑、转发、传输、备份加工处理服务；数据集成服务；多元数据管理规模化、信息处理系统；因特网数据中心服务、存储转发类服务；数据处理服务；数据加工服务；业务流程外包；网站内容更新服务；信息系统基础设施运营服务（IaaS）；服务器/机柜租用服务；服务器托管服务；计算能力租用和虚拟主机服务；企业对个人（B2C）电子商务服务；软件运营服务（SaaS）；软件支持与运行平台服务（PaaS）；在线IT企业资源规划服务、在线杀毒服务；客户交互服务；数据中心解决方案-模块化数据中心产品；信息处理和存储支持服务；企业环境影响数据库建设",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "fe44425ef968455b959c4fcbae89054f",
+      "standardItem": "数字文化创意软件开发",
+      "scopeCode": "I3014",
+      "description": "指从事数字文化创意软件开发的活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "虚拟现实处理软件；动漫游戏制作引擎软件；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

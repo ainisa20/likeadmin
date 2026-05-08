@@ -1,0 +1,21 @@
+{
+  "themeName": "我要开品牌管理公司",
+  "category": "生活服务",
+  "items": [
+    {
+      "scopeId": "abd411cb6fd1efac63b607bed679756e",
+      "standardItem": "品牌管理",
+      "scopeCode": "L2084",
+      "description": "指为企业培育品牌资产而展开的以消费者为中心的规划、传播、提升和评估等一系列战略决策和策略执行活动",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

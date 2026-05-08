@@ -1,0 +1,21 @@
+{
+  "themeName": "我要开家政服务公司",
+  "category": "生活服务",
+  "items": [
+    {
+      "scopeId": "7418e3384ae04a3686b823b6b6c057e1",
+      "standardItem": "家政服务",
+      "scopeCode": "O1001",
+      "description": "指从事家政服务的活动。",
+      "permitType": 0,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "家政服务；保姆服务；家庭洗衣服务；家庭保洁服务；家庭产妇与新生儿照护；雇用家庭雇工的家庭住户的活动；家庭户的自营活动；整理收纳服务",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

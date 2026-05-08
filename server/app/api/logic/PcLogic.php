@@ -258,7 +258,7 @@ class PcLogic extends BaseLogic
         $defaultConfig = [
             'enabled' => false,
             'token' => '',
-            'baseUrl' => 'http://localhost',
+            'baseUrl' => '/dify-api',  // 使用 nginx 代理路径，避免 CORS 跨域
             'buttonColor' => '#1C64F2',
             'windowWidth' => '24',
             'windowHeight' => '40',

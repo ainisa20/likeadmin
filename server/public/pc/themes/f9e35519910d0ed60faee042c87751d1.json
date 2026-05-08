@@ -1,0 +1,51 @@
+{
+  "themeName": "我要开养生馆",
+  "category": "生活服务",
+  "items": [
+    {
+      "scopeId": "1950fdd22374422db4d4b7a50fc07305",
+      "standardItem": "洗浴服务",
+      "scopeCode": "O1011",
+      "description": "指从事专业洗浴以及温泉、水疗等服务活动。",
+      "permitType": 2,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "普通洗浴服务；洗澡服务；搓澡服务；温泉洗浴服务；桑拿洗浴服务；水疗保健服务；公共浴室；婴儿洗浴服务",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "b0b38b6f1b9f9a3444f4d79828d5e7c9",
+      "standardItem": "盲人医疗按摩服务",
+      "scopeCode": "Q1006",
+      "description": null,
+      "permitType": 2,
+      "detail": {
+        "isPermission": "是",
+        "permitExplain": "",
+        "includedItems": "盲人医疗按摩；盲人推拿",
+        "notIncluded": "推拿科（盲人医疗按摩）以外的诊疗科目，床位，药房（柜）；盲人医疗按摩以外的医疗、预防、保健活动。",
+        "remarks": "《外商投资准入特别管理措施（负面清单）》（2024 年版）、《自由贸易试验区外商投资准入特别管理措施（负面清单）》（2021 年版）： 医疗机构限于合资。1、《盲人医疗按摩管理办法》第二条：盲人医疗按摩属于医疗行为，应当在医疗机构中开展。盲人医疗按摩人员属于卫生技术人员，应当具备良好的职业道德和执业水平，其依法履行职责，受法律保护；第七条 盲人医疗按摩所由县级卫生行政部门审批，符合条件的发给《医疗机构执业许可证》，登记名称为识别名称+盲人医疗按摩所，诊疗科目为推拿科（盲人医疗按摩）。盲人医疗按摩所不登记推拿科（盲人医疗按摩）以外的诊疗科目，不设床位，不设药房（柜）。2、《中医药法》  第六十二条 盲人按照国家有关规定取得盲人医疗按摩人员资格的，可以以个人开业的方式或者在医疗机构内提供医疗按摩服务。",
+        "specialTips": ""
+      }
+    },
+    {
+      "scopeId": "4bb110a180a844278c682f12ed691997",
+      "standardItem": "足浴服务",
+      "scopeCode": "O1012",
+      "description": "指从事洗脚、修脚、足底按摩等足浴服务的活动。",
+      "permitType": 2,
+      "detail": {
+        "isPermission": "否",
+        "permitExplain": "",
+        "includedItems": "洗脚服务；修脚服务；足底按摩；中医足疗保健（非医疗）；",
+        "notIncluded": "",
+        "remarks": "",
+        "specialTips": ""
+      }
+    }
+  ]
+}

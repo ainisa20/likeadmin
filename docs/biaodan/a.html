@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>深圳创业补贴计算器 · OPC创业服务</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px;
+        }
+        .container {
+            width: 100%; max-width: 440px; background: #ffffff; border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0, 20, 60, 0.12), 0 8px 20px rgba(0, 0, 0, 0.05);
+            padding: 28px 20px 24px; position: relative; overflow: hidden;
+        }
+        .container::before {
+            content: ""; position: absolute; top: -40px; right: -40px; width: 150px; height: 150px;
+            background: radial-gradient(circle, rgba(0,122,255,0.08) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+        h1 { font-size: 26px; font-weight: 700; color: #0B1E3C; margin-bottom: 6px; position: relative; z-index: 1; }
+        .sub { font-size: 14px; color: #5A6B87; margin-bottom: 28px; display: flex; align-items: center; gap: 6px; position: relative; z-index: 1; }
+        .step-indicator { display: flex; align-items: center; margin-bottom: 24px; gap: 6px; }
+        .step-dot { width: 10px; height: 10px; border-radius: 10px; background: #D9E2F0; transition: all 0.3s; }
+        .step-dot.active { width: 32px; background: #007AFF; }
+        .step-dot.done { background: #007AFF; }
+        .step-line { flex: 1; height: 2px; background: #D9E2F0; border-radius: 2px; }
+        .step-line.done { background: #007AFF; }
+        .form-step { display: none; animation: fadeIn 0.3s ease; }
+        .form-step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .question { font-size: 18px; font-weight: 600; color: #0B1E3C; margin-bottom: 16px; line-height: 1.4; }
+        .option-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .option {
+            background: #F4F7FC; border: 1.5px solid #E9EFF6; border-radius: 16px;
+            padding: 14px 16px; display: flex; align-items: center; cursor: pointer;
+            transition: all 0.2s; font-size: 15px; color: #1E2B45; font-weight: 500;
+        }
+        .option:hover { border-color: #B0C8E0; background: #EDF2FA; }
+        .option.selected { border-color: #007AFF; background: rgba(0,122,255,0.04); box-shadow: 0 4px 12px rgba(0,122,255,0.1); }
+        .option input[type="radio"] {
+            appearance: none; width: 20px; height: 20px; border: 2px solid #CBD5E1;
+            border-radius: 50%; margin-right: 12px; cursor: pointer; flex-shrink: 0;
+        }
+        .option input[type="radio"]:checked { border-color: #007AFF; background: #007AFF; }
+        .option input[type="radio"]:checked::after {
+            content: ""; position: absolute; top: 4px; left: 4px; width: 8px; height: 8px;
+            background: white; border-radius: 50%;
+        }
+        .select-box {
+            width: 100%; padding: 14px 16px; border: 1.5px solid #E9EFF6; border-radius: 16px;
+            font-size: 15px; background: #F4F7FC; color: #1E2B45; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%235A6B87' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 16px center; margin-bottom: 18px; font-weight: 500;
+        }
+        .btn {
+            background: #007AFF; color: white; border: none; border-radius: 30px;
+            padding: 16px 24px; font-size: 17px; font-weight: 600; width: 100%;
+            cursor: pointer; transition: all 0.2s; box-shadow: 0 8px 18px rgba(0,122,255,0.25);
+            letter-spacing: 0.3px; margin-top: 8px;
+        }
+        .btn:active { background: #0060CC; transform: scale(0.98); }
+        .btn.secondary { background: transparent; color: #007AFF; box-shadow: none; border: 1.5px solid #007AFF; margin-top: 12px; }
+        .btn:disabled { background: #B0C8E0; cursor: not-allowed; box-shadow: none; }
+        .result-card {
+            background: linear-gradient(135deg, #F0F7FF 0%, #E8F2FF 100%);
+            border-radius: 24px; padding: 24px 20px; margin: 20px 0 16px;
+            border: 1px solid #CDE2FF; text-align: center;
+        }
+        .estimation-range { font-size: 36px; font-weight: 800; color: #007AFF; line-height: 1.2; margin: 8px 0; }
+        .estimation-note { font-size: 13px; color: #5A6B87; margin-top: 8px; }
+        .detail-panel { margin: 16px 0; }
+        .accordion { background: #F8FAFD; border: 1px solid #E5ECF6; border-radius: 16px; margin-bottom: 10px; overflow: hidden; }
+        .accordion-header {
+            padding: 14px 16px; font-weight: 600; color: #0B1E3C; display: flex;
+            justify-content: space-between; align-items: center; cursor: pointer;
+            background: #F4F8FE; border-bottom: 1px solid transparent; font-size: 15px;
+        }
+        .accordion-header.open { border-bottom-color: #E5ECF6; }
+        .accordion-arrow { transition: transform 0.3s; font-size: 18px; color: #5A6B87; }
+        .accordion-arrow.open { transform: rotate(180deg); }
+        .accordion-body { padding: 0 16px; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s; }
+        .accordion-body.open { max-height: 3000px; padding: 16px; }
+        .subsidy-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 12px; }
+        .subsidy-table th { background: #EBF2FC; padding: 8px; text-align: left; color: #1E2B45; }
+        .subsidy-table td { padding: 8px; border-bottom: 1px solid #EDF2F9; color: #334155; }
+        .highlight-positive { color: #007AFF; font-weight: 600; }
+        .source-link { font-size: 12px; color: #007AFF; text-decoration: underline; text-underline-offset: 2px; margin-left: 4px; }
+        .source-link:hover { color: #0056CC; }
+        .input-field { width: 100%; padding: 14px 16px; border: 1.5px solid #E9EFF6; border-radius: 16px; font-size: 15px; background: #F4F7FC; margin-bottom: 12px; }
+        .disclaimer { font-size: 11px; color: #8896AB; text-align: center; margin-top: 16px; line-height: 1.4; }
+        .small-note { font-size: 12px; color: #8896AB; margin-top: 6px; }
+        .cost-breakdown { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; border-bottom: 1px dashed #E2E8F0; }
+        .cost-breakdown:last-child { border-bottom: none; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; background: #E3F2FD; color: #007AFF; font-size: 12px; font-weight: 600; }
+        .badge-warning { background: #FFF3E0; color: #E65100; }
+        .ref-list { background: #F8FAFD; border-radius: 12px; padding: 12px; margin-top: 12px; font-size: 12px; color: #5A6B87; max-height: 150px; overflow-y: auto; }
+        .ref-list a { color: #007AFF; text-decoration: none; display: block; margin-bottom: 4px; word-break: break-all; }
+        .service-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+        .service-table th { background: #EBF2FC; padding: 8px; text-align: left; color: #1E2B45; }
+        .service-table td { padding: 8px; border-bottom: 1px solid #EDF2F9; color: #334155; }
+        .price-tag { background: #FFF3E0; color: #E65100; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .section-title { font-weight: 700; margin: 12px 0 8px; color: #0B1E3C; }
+        .advanced-badge { background: #FFF3E0; color: #E65100; font-size: 11px; padding: 2px 6px; border-radius: 8px; margin-left: 6px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 创业补贴计算器</h1>
+        <div class="sub"><i>🧮</i> 30秒获取你的专属补贴清单+投入产出明细</div>
+
+        <div class="step-indicator" id="stepIndicator">
+            <div class="step-dot active" id="dot1"></div>
+            <div class="step-line" id="line1"></div>
+            <div class="step-dot" id="dot2"></div>
+            <div class="step-line" id="line2"></div>
+            <div class="step-dot" id="dot3"></div>
+        </div>
+
+        <div class="form-step active" id="step1">
+            <div class="question">1. 您目前的身份是？</div>
+            <div class="option-group">
+                <label class="option">
+                    <input type="radio" name="identity" value="graduate"> 🧑‍🎓 应届/毕业5年内
+                </label>
+                <label class="option">
+                    <input type="radio" name="identity" value="opc"> 🤖 OPC/AI创业者
+                </label>
+                <label class="option">
+                    <input type="radio" name="identity" value="student"> 🎓 在校大学生（2026届毕业生）
+                </label>
+                <label class="option">
+                    <input type="radio" name="identity" value="both"> 🚀 大学生+OPC创业双重身份
+                </label>
+            </div>
+            <div class="small-note">
+                💡 <strong>身份说明：</strong>前两项对应深圳人社条线（普惠型补贴）；第三项对应科技/产业条线（OPC专项）；第四项同时满足两条线条件，可叠加申领。
+            </div>
+            <button class="btn" id="toStep2" disabled>下一步 →</button>
+        </div>
+
+        <div class="form-step" id="step2">
+            <div class="question">2. 创业状态与计划</div>
+            <select class="select-box" id="regionSelect">
+                <option value="">请选择公司注册所在区</option>
+                <option value="luohu">罗湖区</option>
+                <option value="longgang">龙岗区</option>
+                <option value="guangming">光明区</option>
+                <option value="nanshan">南山区</option>
+                <option value="other">其他区/暂未确定</option>
+            </select>
+            <select class="select-box" id="employeeSelect">
+                <option value="">预计带动就业人数（含自己）</option>
+                <option value="0">只有我自己（0人带动）</option>
+                <option value="1-3">1-3人</option>
+                <option value="4+">4人及以上</option>
+            </select>
+            <div style="display: flex; gap: 12px; margin-top: 8px;">
+                <button class="btn secondary" id="backStep1">← 返回</button>
+                <button class="btn" id="calculateBtn">查看我的补贴清单 & 投入产出</button>
+            </div>
+        </div>
+
+        <div class="form-step" id="step3">
+            <div class="question" style="text-align:center;">🎉 您的专属补贴估算报告</div>
+
+            <div class="result-card" id="resultCard">
+                <div style="font-size:15px; color:#1E2B45;">保守估算（普惠易得）</div>
+                <div class="estimation-range" id="estimationText">--</div>
+                <div style="font-weight:600; margin-top:4px;" id="breakdownText"></div>
+                <div class="estimation-note" id="noteText"></div>
+            </div>
+
+            <div class="detail-panel">
+                <div class="accordion">
+                    <div class="accordion-header open" id="subsidyHeader">
+                        📋 你可申领的补贴明细清单
+                        <span class="accordion-arrow open">▼</span>
+                    </div>
+                    <div class="accordion-body open" id="subsidyBody">
+                        <div id="subsidyDetailContent"></div>
+                        <div class="small-note">* 以上标准依据深圳市及各区人社局、发改局公开发布的政策文件，点击来源可查验</div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" id="costHeader">
+                        💸 前期6个月必要投入成本
+                        <span class="accordion-arrow">▼</span>
+                    </div>
+                    <div class="accordion-body" id="costBody">
+                        <div id="costDetailContent"></div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" id="roiHeader">
+                        📊 投入产出分析（净收益）
+                        <span class="accordion-arrow">▼</span>
+                    </div>
+                    <div class="accordion-body" id="roiBody">
+                        <div id="roiContent"></div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" id="serviceHeader">
+                        🎁 OPC创业·全栈服务包（仅需3200元）
+                        <span class="accordion-arrow">▼</span>
+                    </div>
+                    <div class="accordion-body" id="serviceBody">
+                        <table class="service-table">
+                            <tr><th>服务模块</th><th>服务内容</th><th>市场价</th></tr>
+                            <tr><td>🏢 企业代注册</td><td>核名、工商登记、执照领取、印章刻制、银行开户咨询</td><td class="price-tag">1000元/套</td></tr>
+                            <tr><td>📊 代记账报税</td><td>账务处理、纳税申报、年度汇算清缴</td><td class="price-tag">2200元/年</td></tr>
+                            <tr><td>🦞 基础OPC部署</td><td>环境配置、工具链安装、私有化部署、安全加固建议</td><td class="price-tag">0元</td></tr>
+                            <tr><td>📈 营销获客渠道建设</td><td>新媒体账号搭建、内容策略指导、AI获客工具配置</td><td class="price-tag">899元/套</td></tr>
+                            <tr><td>🎓 创业辅导服务</td><td>商业计划书优化、补贴申请指导、财税合规咨询</td><td class="price-tag">399元起/年</td></tr>
+                            <tr><td colspan="3" style="text-align:center; font-weight:700; color:#007AFF;">⭐ 增值服务：全程免费指导各项政府补贴申请，直至补贴到账</td></tr>
+                            <tr><td colspan="3" style="text-align:center; font-weight:700;">以上基础服务包价仅需 <span style="color:#E65100; font-size:16px;">3200元</span></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div style="font-size:15px; font-weight:600; margin: 12px 0 8px; color:#0B1E3C;">📱 获取一对一申领指导 + 定制方案</div>
+            <input class="input-field" type="text" id="nameInput" placeholder="您的称呼">
+            <input class="input-field" type="tel" id="phoneInput" placeholder="手机号码（微信同号）">
+            <button class="btn" id="submitLead">免费获取详细申领方案</button>
+            <div class="disclaimer" id="disclaimerBox">
+                * 以上为基于当前政策的快速估算，最终以官方审核为准。深圳市人社局咨询热线：12333<br>
+                <strong>⚠️ 贷款提示：</strong>个人基础额度最高30万元，带动5人以上就业可提至60万元（申请前12个月内）
+            </div>
+
+            <div class="ref-list" id="refListContainer">
+                <strong>🔗 数据来源依据（点击可验证）：</strong>
+                <div id="refLinks"></div>
+            </div>
+
+            <button class="btn secondary" id="recalculate" style="margin-top:16px;">⟳ 重新测算</button>
+        </div>
+    </div>
+
+    <script>
+    var _0xBase64 = {
+        _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+        encode: function(input) {
+            var output = "";
+            var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+            var i = 0;
+            input = _0xBase64._utf8_encode(input);
+            while (i < input.length) {
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+                if (isNaN(chr2)) { enc3 = enc4 = 64; }
+                else if (isNaN(chr3)) { enc4 = 64; }
+                output = output + _0xBase64._keyStr.charAt(enc1) + _0xBase64._keyStr.charAt(enc2) + _0xBase64._keyStr.charAt(enc3) + _0xBase64._keyStr.charAt(enc4);
+            }
+            return output;
+        },
+        decode: function(input) {
+            var output = "";
+            var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+            var i = 0;
+            input = input.replace(/[^A-Za-z0-9+/=]/g, "");
+            while (i < input.length) {
+                enc1 = _0xBase64._keyStr.indexOf(input.charAt(i++));
+                enc2 = _0xBase64._keyStr.indexOf(input.charAt(i++));
+                enc3 = _0xBase64._keyStr.indexOf(input.charAt(i++));
+                enc4 = _0xBase64._keyStr.indexOf(input.charAt(i++));
+                chr1 = (enc1 << 2) | (enc2 >> 4);
+                chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+                chr3 = ((enc3 & 3) << 6) | enc4;
+                output = output + String.fromCharCode(chr1);
+                if (enc3 !== 64) { output = output + String.fromCharCode(chr2); }
+                if (enc4 !== 64) { output = output + String.fromCharCode(chr3); }
+            }
+            output = _0xBase64._utf8_decode(output);
+            return output;
+        },
+        _utf8_encode: function(string) {
+            string = string.replace(/\r\n/g, "\n");
+            var utf8 = "";
+            for (var n = 0; n < string.length; n++) {
+                var c = string.charCodeAt(n);
+                if (c < 128) { utf8 += String.fromCharCode(c); }
+                else if ((c > 127) && (c < 2048)) {
+                    utf8 += String.fromCharCode((c >> 6) | 192);
+                    utf8 += String.fromCharCode((c & 63) | 128);
+                } else {
+                    utf8 += String.fromCharCode((c >> 12) | 224);
+                    utf8 += String.fromCharCode(((c >> 6) & 63) | 128);
+                    utf8 += String.fromCharCode((c & 63) | 128);
+                }
+            }
+            return utf8;
+        },
+        _utf8_decode: function(utf8) {
+            var string = "";
+            var i = 0;
+            var c = 0, c2 = 0, c3 = 0;
+            while (i < utf8.length) {
+                c = utf8.charCodeAt(i);
+                if (c < 128) { string += String.fromCharCode(c); i++; }
+                else if ((c > 191) && (c < 224)) {
+                    c2 = utf8.charCodeAt(i + 1);
+                    string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+                    i += 2;
+                } else {
+                    c2 = utf8.charCodeAt(i + 1);
+                    c3 = utf8.charCodeAt(i + 2);
+                    string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+                    i += 3;
+                }
+            }
+            return string;
+        }
+    };
+
+    (function() {
+        var _0x4a2f = function(_0x1b3c) {
+            document.addEventListener(_0x1b3c, function(_0x5d8e) {
+                _0x5d8e.preventDefault();
+                _0x5d8e.stopPropagation();
+            }, { capture: true });
+        };
+        ['copy', 'cut', 'contextmenu', 'selectstart', 'dragstart', 'drop'].forEach(_0x4a2f);
+
+        var _0x7f1a = function(_0x2c4d) {
+            document.addEventListener(_0x2c4d, function(_0x9e6b) {
+                _0x9e6b.preventDefault();
+            });
+        };
+        ['copy', 'cut'].forEach(_0x7f1a);
+
+        document.addEventListener('keydown', function(_0x8c3d) {
+            if (_0x8c3d.key === 'F12') { _0x8c3d.preventDefault(); }
+            if ((_0x8c3d.ctrlKey || _0x8c3d.metaKey) && (_0x8c3d.key === 's' || _0x8c3d.key === 'S' || _0x8c3d.key === 'u' || _0x8c3d.key === 'U' || _0x8c3d.key === 'i' || _0x8c3d.key === 'I')) { _0x8c3d.preventDefault(); }
+            if (_0x8c3d.ctrlKey && _0x8c3d.shiftKey && (_0x8c3d.key === 'I' || _0x8c3d.key === 'J' || _0x8c3d.key === 'M')) { _0x8c3d.preventDefault(); }
+        });
+
+        // 移动端检测 - 移动端不需要DevTools检测
+        var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ('ontouchstart' in window);
+
+        if (!isMobile) {
+            // DevTools检测 - 仅在PC端执行
+            var _0x9d2e = function() {
+                var _0x3f5c = window.outerWidth - window.innerWidth;
+                var _0x6b8a = window.outerHeight - window.innerHeight;
+                if ((_0x3f5c > 160 || _0x6b8a > 160) && document.location.href.indexOf('debug') < 0) {
+                    window.close();
+                    window.location.href = 'about:blank';
+                }
+            };
+            setInterval(_0x9d2e, 1000);
+
+            // resize检测 - 仅在PC端执行
+            var _0x2e1f = 0;
+            window.addEventListener('resize', function() {
+                if (_0x2e1f > 5) { // 增加容错次数
+                    window.location.href = 'about:blank';
+                }
+                _0x2e1f++;
+            });
+        }
+    })();
+    </script>
+
+    <script>
+    (function() {
+        var DOM = {};
+        DOM.step1 = document.getElementById('step1');
+        DOM.step2 = document.getElementById('step2');
+        DOM.step3 = document.getElementById('step3');
+        DOM.dot1 = document.getElementById('dot1');
+        DOM.dot2 = document.getElementById('dot2');
+        DOM.dot3 = document.getElementById('dot3');
+        DOM.line1 = document.getElementById('line1');
+        DOM.line2 = document.getElementById('line2');
+        DOM.identityRadios = document.getElementsByName('identity');
+        DOM.toStep2 = document.getElementById('toStep2');
+        DOM.backStep1 = document.getElementById('backStep1');
+        DOM.calculateBtn = document.getElementById('calculateBtn');
+        DOM.regionSelect = document.getElementById('regionSelect');
+        DOM.employeeSelect = document.getElementById('employeeSelect');
+        DOM.estimationText = document.getElementById('estimationText');
+        DOM.breakdownText = document.getElementById('breakdownText');
+        DOM.noteText = document.getElementById('noteText');
+        DOM.submitLead = document.getElementById('submitLead');
+        DOM.recalculate = document.getElementById('recalculate');
+        DOM.nameInput = document.getElementById('nameInput');
+        DOM.phoneInput = document.getElementById('phoneInput');
+        DOM.refLinks = document.getElementById('refLinks');
+        var selectedIdentity = '';
+        var _0xPolicyCache = null;
+
+        function getPolicyUrl(name) {
+            if (!_0xPolicyCache) return '';
+            if (name.indexOf('求职创业补贴') >= 0) return _0xPolicyCache.jobSeeking || '';
+            if (name.indexOf('初创企业补贴') >= 0) return _0xPolicyCache.startupSubsidy || '';
+            if (name.indexOf('创业带动就业补贴') >= 0) return _0xPolicyCache.employmentSubsidy || '';
+            if (name.indexOf('社会保险补贴') >= 0) return _0xPolicyCache.socialInsurance || '';
+            if (name.indexOf('青年人才') >= 0 || name.indexOf('入户补贴') >= 0) return _0xPolicyCache.youthPolicy || '';
+            if (name.indexOf('创业担保贷款') >= 0) return _0xPolicyCache.guaranteeLoan || '';
+            if (name.indexOf('团队奖励') >= 0) return _0xPolicyCache.luohuTeamReward || '';
+            if (name.indexOf('股权跟投') >= 0) return _0xPolicyCache.luohuEquity || '';
+            if (name.indexOf('关键代码') >= 0) return _0xPolicyCache.longgangKeyCode || '';
+            if (name.indexOf('AIGC') >= 0 || name.indexOf('模型调用') >= 0) return _0xPolicyCache.longgangAIGC || '';
+            if (name.indexOf('示范应用') >= 0) return _0xPolicyCache.longgangDemo || '';
+            if (name.indexOf('黑客松') >= 0 || name.indexOf('大赛获奖') >= 0) return _0xPolicyCache.longgangHackathon || '';
+            if (name.indexOf('算力券') >= 0) return _0xPolicyCache.guangmingCompute || '';
+            if (name.indexOf('训力券') >= 0 || name.indexOf('模型券') >= 0) return _0xPolicyCache.cityAIMeasures || '';
+            if (name.indexOf('语料券') >= 0) return _0xPolicyCache.cityCorpusTicket || '';
+            return '';
+        }
+
+        function renderSubsidyLink(name) {
+            var url = getPolicyUrl(name);
+            return url ? ' <a href="' + url + '" target="_blank" class="source-link">[来源]</a>' : '';
+        }
+
+        function fmt(n) {
+            if (n >= 10000) return (n / 10000).toFixed(1) + '万元';
+            return n.toLocaleString() + '元';
+        }
+
+        function getPolicyLink(name) {
+            if (name.indexOf('求职创业补贴') >= 0) return '/api/policy?key=jobSeeking';
+            if (name.indexOf('初创企业补贴') >= 0) return '/api/policy?key=startupSubsidy';
+            if (name.indexOf('创业带动就业补贴') >= 0) return '/api/policy?key=employmentSubsidy';
+            if (name.indexOf('社会保险补贴') >= 0) return '/api/policy?key=socialInsurance';
+            if (name.indexOf('青年人才') >= 0) return '/api/policy?key=youthPolicy';
+            if (name.indexOf('创业担保贷款') >= 0) return '/api/policy?key=guaranteeLoan';
+            if (name.indexOf('团队奖励') >= 0) return '/api/policy?key=luohuTeamReward';
+            if (name.indexOf('股权跟投') >= 0) return '/api/policy?key=luohuEquity';
+            if (name.indexOf('关键代码') >= 0) return '/api/policy?key=longgangKeyCode';
+            if (name.indexOf('AIGC') >= 0 || name.indexOf('模型调用') >= 0) return '/api/policy?key=longgangAIGC';
+            if (name.indexOf('示范应用') >= 0) return '/api/policy?key=longgangDemo';
+            if (name.indexOf('黑客松') >= 0) return '/api/policy?key=longgangHackathon';
+            if (name.indexOf('算力券') >= 0) return '/api/policy?key=guangmingCompute';
+            if (name.indexOf('训力券') >= 0) return '/api/policy?key=cityAIMeasures';
+            if (name.indexOf('模型券') >= 0) return '/api/policy?key=cityAIMeasures';
+            if (name.indexOf('语料券') >= 0) return '/api/policy?key=cityCorpusTicket';
+            return null;
+        }
+
+        function makeLink(url, text) {
+            return '<a href="' + url + '" target="_blank" rel="noopener" class="source-link">' + text + '</a>';
+        }
+
+        function populateRefLinks(refs) {
+            var html = '';
+            html += makeLink(refs.jobSeeking, '📌 求职创业补贴（市人社局公告）') + '<br>';
+            html += makeLink(refs.startupSubsidy, '📌 初创企业补贴（市人社局办事指南）') + '<br>';
+            html += makeLink(refs.employmentSubsidy, '📌 创业带动就业补贴（市人社局办事指南）') + '<br>';
+            html += makeLink(refs.socialInsurance, '📌 社会保险补贴（市人社局办事指南）') + '<br>';
+            html += makeLink(refs.youthPolicy, '📌 青年人才场租+入户补贴（市人社局政策文件）') + '<br>';
+            html += makeLink(refs.guaranteeLoan, '📌 创业担保贷款（市政府政策）') + '<br>';
+            html += makeLink(refs.alicloudPrice, '📌 阿里云服务器选购指南2026') + '<br>';
+            html += makeLink(refs.tencentCloudPrice, '📌 腾讯云优惠活动汇总2026') + '<br>';
+            DOM.refLinks.innerHTML = html;
+        }
+
+        document.querySelectorAll('.accordion-header').forEach(function(header) {
+            header.addEventListener('click', function() {
+                var body = this.nextElementSibling;
+                var arrow = this.querySelector('.accordion-arrow');
+                this.classList.toggle('open');
+                body.classList.toggle('open');
+                arrow.classList.toggle('open');
+            });
+        });
+
+        function checkIdentitySelection() {
+            selectedIdentity = document.querySelector('input[name="identity"]:checked')?.value;
+            DOM.toStep2.disabled = !selectedIdentity;
+        }
+        DOM.identityRadios.forEach(function(radio) {
+            radio.addEventListener('change', checkIdentitySelection);
+        });
+
+        DOM.toStep2.addEventListener('click', function() {
+            if (!selectedIdentity) return;
+            DOM.step1.classList.remove('active');
+            DOM.step2.classList.add('active');
+            DOM.dot1.classList.remove('active');
+            DOM.dot1.classList.add('done');
+            DOM.dot2.classList.add('active');
+            DOM.line1.classList.add('done');
+        });
+
+        DOM.backStep1.addEventListener('click', function() {
+            DOM.step2.classList.remove('active');
+            DOM.step1.classList.add('active');
+            DOM.dot2.classList.remove('active');
+            DOM.dot1.classList.add('active');
+            DOM.dot1.classList.remove('done');
+            DOM.line1.classList.remove('done');
+        });
+
+        DOM.calculateBtn.addEventListener('click', async function() {
+            var identity = selectedIdentity;
+            var region = DOM.regionSelect.value;
+            var employee = DOM.employeeSelect.value;
+
+            if (!identity || !region || employee === '') {
+                alert('请完整填写所有选项');
+                return;
+            }
+
+            DOM.calculateBtn.disabled = true;
+            DOM.calculateBtn.textContent = '计算中...';
+
+            try {
+                var reqData = JSON.stringify({identity: identity, region: region, employee: employee});
+                var encodedReq = _0xBase64.encode(reqData);
+                var res = await fetch('/api/calculate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'text/plain'},
+                    body: encodedReq
+                });
+                var encodedRes = await res.text();
+                var data = JSON.parse(_0xBase64.decode(encodedRes));
+
+                // Fetch policy links FIRST, then render results
+                var policyRes = await fetch('/api/policy', {method: 'GET'});
+                var encodedPolicy = await policyRes.text();
+                _0xPolicyCache = JSON.parse(_0xBase64.decode(encodedPolicy));
+
+                DOM.estimationText.innerText = fmt(data.total_low) + ' ~ ' + fmt(data.total_high);
+                DOM.breakdownText.innerText = '普惠易得：' + data.basic_count + ' 项' +
+                    (data.advanced_count > 0 ? ' （另有 ' + data.advanced_count + ' 项高难度专项可争取）' : '');
+                DOM.noteText.innerText = (data.advanced_count > 0) ?
+                    '若满足条件，总补贴上限可达 ' + fmt(data.total_high_all) : '';
+
+                var subsidyHTML = '';
+                var basicSubsidies = data.subsidies.filter(function(s) { return !s.is_advanced; });
+                var advancedSubsidies = data.subsidies.filter(function(s) { return s.is_advanced; });
+
+                if (basicSubsidies.length > 0) {
+                    subsidyHTML += '<div class="section-title">🏆 普惠易得补贴</div>';
+                    subsidyHTML += '<table class="subsidy-table"><tr><th>补贴项目</th><th>估算金额</th><th>条件/备注</th></tr>';
+                    basicSubsidies.forEach(function(s) {
+                        var link = renderSubsidyLink(s.name);
+                        subsidyHTML += '<tr><td>' + s.name + '</td><td class="highlight-positive">' + fmt(s.amount_low) + ' ~ ' + fmt(s.amount_high) + '</td><td>' + s.condition + link + '</td></tr>';
+                    });
+                    subsidyHTML += '</table>';
+                }
+                if (advancedSubsidies.length > 0) {
+                    subsidyHTML += '<div class="section-title">🚀 高难度专项补贴 <span class="advanced-badge">条件苛刻/竞争激烈</span></div>';
+                    subsidyHTML += '<table class="subsidy-table"><tr><th>补贴项目</th><th>估算金额</th><th>条件/备注</th></tr>';
+                    advancedSubsidies.forEach(function(s) {
+                        var link = renderSubsidyLink(s.name);
+                        subsidyHTML += '<tr><td>' + s.name + '</td><td class="highlight-positive">' + fmt(s.amount_low) + ' ~ ' + fmt(s.amount_high) + '</td><td>' + s.condition + link + '</td></tr>';
+                    });
+                    subsidyHTML += '</table>';
+                }
+                if (data.subsidies.length === 0) {
+                    subsidyHTML = '<p>当前选择暂无匹配补贴，请尝试其他身份或区域。</p>';
+                }
+                document.getElementById('subsidyDetailContent').innerHTML = subsidyHTML;
+
+                var costHTML = '';
+                data.costs.forEach(function(c) {
+                    costHTML += '<div class="cost-breakdown"><span>' + c.name + '</span> <span class="badge">' + c.amount + '</span></div>';
+                    costHTML += '<div class="source-ref">' + c.note + '</div>';
+                });
+                costHTML += '<div style="margin-top:10px; font-weight:600;">💡 最低总投入约 <span style="color:#007AFF;">37,339元</span>，其中硬性支出不到4,000元</div>';
+                document.getElementById('costDetailContent').innerHTML = costHTML;
+
+                var roiHTML = '<div style="padding: 8px 0;">';
+                roiHTML += '<p><strong>您的总投入（最低配置）：</strong>约37,339元（6个月）</p>';
+                roiHTML += '<p><strong>减去普惠补贴：</strong>-' + fmt(data.total_low) + '</p>';
+                roiHTML += '<p style="color:#007AFF; font-size:16px; font-weight:700;">净收益（保守）：' + data.net_benefit + '</p>';
+                if (data.advanced_count > 0) {
+                    roiHTML += '<p class="small-note">若成功申请高难度专项，净收益可达 ' + fmt(data.total_high_all - 37339) + ' 以上</p>';
+                }
+                roiHTML += '<p class="small-note"><strong>💳 可叠加创业担保贷款（50%财政贴息）：</strong></p>';
+                roiHTML += '<p class="small-note">• 个人：基础最高30万元，带动5人以上就业可提至60万元</p>';
+                roiHTML += '<p class="small-note">• 小微企业：基础最高400万元，带动5人以上就业可提至500万元</p>';
+                roiHTML += '</div>';
+                document.getElementById('roiContent').innerHTML = roiHTML;
+
+                var policyRes = await fetch('/api/policy', {method: 'GET'});
+                var encodedPolicy = await policyRes.text();
+                _0xPolicyCache = JSON.parse(_0xBase64.decode(encodedPolicy));
+                populateRefLinks(_0xPolicyCache);
+
+                DOM.step2.classList.remove('active');
+                DOM.step3.classList.add('active');
+                DOM.dot2.classList.remove('active');
+                DOM.dot2.classList.add('done');
+                DOM.dot3.classList.add('active');
+                DOM.line2.classList.add('done');
+
+            } catch(e) {
+                alert('计算出错，请稍后重试');
+                console.error(e);
+            }
+
+            DOM.calculateBtn.disabled = false;
+            DOM.calculateBtn.textContent = '查看我的补贴清单 & 投入产出';
+        });
+
+        DOM.recalculate.addEventListener('click', function() {
+            DOM.step3.classList.remove('active');
+            DOM.step1.classList.add('active');
+            DOM.dot1.classList.add('active');
+            DOM.dot1.classList.remove('done');
+            DOM.dot2.classList.remove('active', 'done');
+            DOM.dot3.classList.remove('active');
+            DOM.line1.classList.remove('done');
+            DOM.line2.classList.remove('done');
+            DOM.regionSelect.value = '';
+            DOM.employeeSelect.value = '';
+            var checkedRadio = document.querySelector('input[name="identity"]:checked');
+            if (checkedRadio) checkedRadio.checked = false;
+            selectedIdentity = '';
+            DOM.toStep2.disabled = true;
+            document.querySelectorAll('.accordion-header').forEach(function(h) { h.classList.remove('open'); });
+            document.querySelectorAll('.accordion-body').forEach(function(b) { b.classList.remove('open'); });
+            document.querySelectorAll('.accordion-arrow').forEach(function(a) { a.classList.remove('open'); });
+        });
+
+        DOM.submitLead.addEventListener('click', async function() {
+            var name = DOM.nameInput.value.trim();
+            var phone = DOM.phoneInput.value.trim();
+            if (!name || !phone) { alert('请填写您的称呼和手机号码'); return; }
+            DOM.submitLead.disabled = true;
+            DOM.submitLead.textContent = '提交中...';
+            try {
+                var reqData = JSON.stringify({name: name, phone: phone});
+                var encodedReq = _0xBase64.encode(reqData);
+                var res = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'text/plain'},
+                    body: encodedReq
+                });
+                var encodedRes = await res.text();
+                var data = JSON.parse(_0xBase64.decode(encodedRes));
+                alert(data.message);
+                if(data.success){ DOM.nameInput.value=''; DOM.phoneInput.value=''; }
+            } catch(e) {
+                alert('网络错误，请重试');
+            }
+            DOM.submitLead.disabled = false;
+            DOM.submitLead.textContent = '免费获取详细申领方案';
+        });
+
+        checkIdentitySelection();
+    })();
+    </script>
+</body>
