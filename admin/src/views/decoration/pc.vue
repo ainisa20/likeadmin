@@ -225,6 +225,15 @@
                         />
                     </el-form-item>
 
+                    <el-form-item label="OPC Token">
+                        <el-input
+                            v-model="difyConfig.opcToken"
+                            placeholder="OPC创业分析专用Token (独立应用)"
+                            :disabled="!difyConfig.enabled"
+                        />
+                        <div class="text-gray-500 text-sm mt-1">用于 OPC 创业落地分析引导流程</div>
+                    </el-form-item>
+
                     <el-form-item label="按钮颜色">
                         <el-color-picker v-model="difyConfig.buttonColor" :disabled="!difyConfig.enabled" />
                         <span class="ml-2 text-gray-500 text-sm">聊天按钮的背景颜色</span>
