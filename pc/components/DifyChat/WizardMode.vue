@@ -122,39 +122,101 @@ function exportPDF() {
       <meta charset="utf-8">
       <title>OPC创业落地分析报告</title>
       <style>
+        @page {
+          size: A4;
+          margin: 15mm 20mm;
+        }
+        * {
+          box-sizing: border-box;
+        }
         body { 
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          padding: 40px;
-          max-width: 800px;
-          margin: 0 auto;
-          line-height: 1.6;
-          color: #333;
+          width: 100%;
+          max-width: none;
+          margin: 0;
+          padding: 0;
+          line-height: 1.5;
+          color: #1a1a1a;
+          font-size: 10pt;
         }
-        h1 { color: #1a1a1a; border-bottom: 2px solid #3b82f6; padding-bottom: 10px; }
-        h2 { color: #2d3748; margin-top: 30px; }
-        h3 { color: #4a5568; }
-        table { border-collapse: collapse; width: 100%; margin: 15px 0; }
-        th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
-        th { background: #f7fafc; }
-        ul, ol { padding-left: 20px; }
-        li { margin: 5px 0; }
-        strong { color: #1a1a1a; }
+        .report-wrapper {
+          width: 100%;
+          max-width: 100%;
+        }
+        h1 { 
+          color: #1a1a1a; 
+          font-size: 18pt;
+          border-bottom: 2px solid #3b82f6; 
+          padding-bottom: 8px; 
+          margin: 0 0 16px 0;
+        }
+        h2 { 
+          color: #2d3748; 
+          font-size: 14pt;
+          margin: 20px 0 10px 0;
+          padding-left: 8px;
+          border-left: 3px solid #3b82f6;
+        }
+        h3 { 
+          color: #4a5568; 
+          font-size: 11pt;
+          margin: 12px 0 6px 0;
+        }
+        p { margin: 6px 0; }
+        table { 
+          border-collapse: collapse; 
+          width: 100%; 
+          margin: 10px 0;
+          font-size: 9pt;
+        }
+        th, td { 
+          border: 1px solid #cbd5e0; 
+          padding: 6px 8px; 
+          text-align: left;
+        }
+        th { 
+          background: #edf2f7; 
+          font-weight: 600;
+        }
+        tr:nth-child(even) td {
+          background: #f7fafc;
+        }
+        ul, ol { 
+          padding-left: 18px; 
+          margin: 6px 0;
+        }
+        li { margin: 3px 0; }
+        strong { color: #1a1a1a; font-weight: 600; }
+        em { color: #4a5568; }
+        code {
+          background: #edf2f7;
+          padding: 1px 4px;
+          border-radius: 3px;
+          font-size: 9pt;
+          color: #c53030;
+        }
+        blockquote {
+          border-left: 3px solid #3b82f6;
+          background: #f7fafc;
+          padding: 8px 12px;
+          margin: 10px 0;
+          color: #4a5568;
+        }
         .footer { 
-          margin-top: 40px; 
-          padding-top: 20px; 
-          border-top: 1px solid #e2e8f0;
-          font-size: 12px;
+          margin-top: 30px; 
+          padding-top: 12px; 
+          border-top: 1px solid #cbd5e0;
+          font-size: 9pt;
           color: #718096;
           text-align: center;
-        }
-        @media print {
-          body { padding: 20px; }
-          .footer { position: fixed; bottom: 0; width: 100%; }
+          page-break-after: avoid;
         }
       </style>
     </head>
     <body>
-      ${printContent.innerHTML}
+      <div class="report-wrapper">
+        ${printContent.innerHTML}
+      </div>
       <div class="footer">本报告由九章数智人工智能（深圳）有限责任公司出具</div>
     </body>
     </html>
