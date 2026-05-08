@@ -51,7 +51,6 @@
 import { computed } from 'vue'
 import { useWizard } from '@/composables/useWizard'
 import { useDifyStore } from '@/stores/dify'
-import { nextTick } from 'vue'
 
 const emit = defineEmits<{
   (e: 'complete'): void
@@ -70,7 +69,6 @@ async function handleGenerate() {
   const userMsgId = `user_opc_${Date.now()}`
   const assistantMsgId = `assistant_opc_${Date.now()}`
 
-  // Add user message to chat
   difyStore.messages.push({
     id: userMsgId,
     role: 'user',
@@ -78,7 +76,6 @@ async function handleGenerate() {
     createdAt: new Date(),
   })
 
-  // Add empty assistant message for streaming
   const assistantMsg: any = {
     id: assistantMsgId,
     role: 'assistant',
@@ -87,22 +84,14 @@ async function handleGenerate() {
   }
   difyStore.messages.push(assistantMsg)
 
-  // Exit wizard mode
-  wizard.state.active = false
-
-  await nextTick()
-
   await wizard.generateReport(
     (text: string) => {
       assistantMsg.content += text
-      window.dispatchEvent(new Event('dify-stream-update'))
     },
     (conversationId: string) => {
       difyStore.currentConversationId = conversationId
     },
   )
-
-  emit('complete')
 }
 </script>
 

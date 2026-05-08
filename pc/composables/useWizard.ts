@@ -71,6 +71,8 @@ interface WizardState {
   plan: { registerTime: string; services: string[] }
 
   isGenerating: boolean
+  generatedContent: string
+  generationComplete: boolean
 }
 
 const initialState: () => WizardState = () => ({
@@ -92,6 +94,8 @@ const initialState: () => WizardState = () => ({
   plan: { registerTime: '', services: [] },
 
   isGenerating: false,
+  generatedContent: '',
+  generationComplete: false,
 })
 
 const state = reactive<WizardState>(initialState())
@@ -280,8 +284,10 @@ AI日均调用：${state.tech.aiCallsPerDay}
           try {
             const chunk = JSON.parse(jsonStr)
             if (chunk.event === 'message' && chunk.answer) {
+              state.generatedContent += chunk.answer
               onChunk(chunk.answer)
             } else if (chunk.event === 'message_end' && chunk.conversation_id) {
+              state.generationComplete = true
               onComplete(chunk.conversation_id)
             }
           } catch {
