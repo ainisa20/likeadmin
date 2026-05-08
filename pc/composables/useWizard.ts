@@ -214,10 +214,18 @@ async function appendSubsidyCalculation() {
     const region = regionMap[state.identity.registerArea] || 'other'
     const employee = state.team.employeeCount || '0'
 
+    const reqBody: any = { identity, region, employee }
+    if (state.tech.aiCallsPerDay) {
+      reqBody.needServer = state.tech.needServer
+      reqBody.aiCallsPerDay = state.tech.aiCallsPerDay
+      reqBody.overseas = state.tech.overseas
+      reqBody.budget = state.team.budget
+    }
+
     const res = await fetch('/api/calculate/calculate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ identity, region, employee }),
+      body: JSON.stringify(reqBody),
     })
 
     const data = await res.json()
@@ -230,6 +238,7 @@ async function appendSubsidyCalculation() {
     const calc = data.data
     const fmt = (n: number) => n >= 10000 ? `${(n/10000).toFixed(1)}万` : `${n.toLocaleString()}元`
 
+    // ========== 构建第三节：补贴计算 ==========
     let subsidyHtml = `\n\n## 三、可申领补贴与收益预估\n\n`
     subsidyHtml += `**保守估算（普惠易得）：** ${fmt(calc.total_low)} ~ ${fmt(calc.total_high)}\n\n`
     subsidyHtml += `> 💡 若满足条件，总补贴上限可达 ${fmt(calc.total_high_all)}\n\n`
@@ -271,36 +280,138 @@ async function appendSubsidyCalculation() {
     subsidyHtml += `- **减去普惠补贴：** -${fmt(calc.total_low)}\n`
     subsidyHtml += `- **净收益（保守）：** ${calc.net_benefit}\n\n`
 
-    subsidyHtml += `> 💳 **可叠加创业担保贷款：** ${calc.loan_info}\n`
+    subsidyHtml += `> 💳 **可叠加创业担保贷款：** ${calc.loan_info}`
 
-    // 替换占位符而非追加到末尾
-    if (state.generatedContent.includes('<!-- SUBSIDY_PLACEHOLDER -->')) {
-      state.generatedContent = state.generatedContent.replace('<!-- SUBSIDY_PLACEHOLDER -->', subsidyHtml)
-    } else if (state.generatedContent.includes('SUBSIDY_PLACEHOLDER')) {
-      state.generatedContent = state.generatedContent.replace('SUBSIDY_PLACEHOLDER', subsidyHtml)
-    } else {
-      // fallback: 如果AI没写占位符，插入到第二部分之后
-      const markers = ['## 二、', '## 二、', '二、经营范围']
-      let inserted = false
-      for (const marker of markers) {
-        const idx = state.generatedContent.indexOf(marker)
-        if (idx === -1) continue
-        // 找到第二部分之后的下一个 ## 标题
-        const afterSection2 = state.generatedContent.indexOf('\n## ', idx + marker.length)
-        if (afterSection2 !== -1) {
-          state.generatedContent = state.generatedContent.slice(0, afterSection2) + '\n\n' + subsidyHtml + state.generatedContent.slice(afterSection2)
-          inserted = true
-          break
+    // ========== 构建第四节：技术方案 ==========
+    let techHtml = ''
+    if (calc.tech_plan) {
+      const tp = calc.tech_plan
+      techHtml = `\n\n## 四、技术方案与成本估算\n\n`
+
+      // 云服务器推荐
+      if (tp.need_server && tp.servers) {
+        const rec = tp.servers.recommended
+        techHtml += `### ☁️ 推荐云服务器配置\n\n`
+        techHtml += `> 基于 ${rec.provider} 实际定价推荐\n\n`
+        techHtml += `| 配置项 | 详情 |\n`
+        techHtml += `|-------|------|\n`
+        techHtml += `| 推荐方案 | **${rec.name}** |\n`
+        techHtml += `| 规格 | ${rec.spec} |\n`
+        techHtml += `| 年费 | ${rec.yearly_cost}元/年（约${rec.monthly_cost}元/月） |\n`
+        techHtml += `| 适用场景 | ${rec.suitable_for} |\n`
+        techHtml += `\n`
+
+        // 备选方案表格
+        techHtml += `#### 其他可选配置\n\n`
+        techHtml += `| 方案 | 规格 | 年费 | 适用场景 |\n`
+        techHtml += `|------|------|------|----------|\n`
+        for (const [, cfg] of Object.entries(tp.servers.all_configs as Record<string, any>)) {
+          techHtml += `| ${cfg.name} | ${cfg.spec} | ${cfg.yearly_cost}元/年 | ${cfg.suitable_for} |\n`
+        }
+        techHtml += `\n`
+      } else {
+        techHtml += `### ☁️ 云服务器\n\n`
+        techHtml += `当前阶段暂不需要云服务器，建议先使用免费开发环境验证业务模型。\n\n`
+      }
+
+      // AI 工具链
+      if (tp.ai_tools) {
+        const ai = tp.ai_tools
+        const recModel = ai.models[ai.recommended_model]
+        techHtml += `### 🤖 AI 模型与工具链\n\n`
+        techHtml += `> 推荐模型：**${recModel.name}**（${recModel.provider}）\n\n`
+        techHtml += `| 模型 | 提供商 | 输入价(元/百万Token) | 输出价(元/百万Token) | 适用场景 |\n`
+        techHtml += `|------|-------|--------------------|--------------------|----------|\n`
+        for (const [, m] of Object.entries(ai.models as Record<string, any>)) {
+          const isRec = m.name === recModel.name ? ' ⭐推荐' : ''
+          techHtml += `| ${m.name}${isRec} | ${m.provider} | ${m.input_price} | ${m.output_price} | ${m.suitable_for} |\n`
+        }
+        techHtml += `\n`
+
+        if (ai.monthly_cost > 0) {
+          techHtml += `> 💰 按日均调用估算，月费约 **${ai.monthly_cost}元/月**\n\n`
+        }
+
+        if (ai.free_options && ai.free_options.length > 0) {
+          techHtml += `**省钱提示：**\n`
+          for (const opt of ai.free_options) {
+            techHtml += `- ${opt}\n`
+          }
+          techHtml += `\n`
         }
       }
-      if (!inserted) {
-        state.generatedContent += subsidyHtml
+
+      // 海外市场工具
+      if (tp.overseas_tools && (tp.overseas_tools as any).items) {
+        const ot = tp.overseas_tools as any
+        techHtml += `### 🌍 海外市场基础设施\n\n`
+        techHtml += `| 工具 | 月费 | 用途 |\n`
+        techHtml += `|------|------|------|\n`
+        for (const item of ot.items) {
+          techHtml += `| ${item.name} | ${item.cost} | ${item.purpose} |\n`
+        }
+        techHtml += `\n`
       }
+
+      // 开发工具
+      if (tp.dev_tools) {
+        const dt = tp.dev_tools
+        techHtml += `### 🛠️ 开发工具链\n\n`
+        techHtml += `| 工具 | 费用 | 说明 |\n`
+        techHtml += `|------|------|------|\n`
+        for (const item of dt.items) {
+          techHtml += `| ${item.name} | ${item.cost} | ${item.note} |\n`
+        }
+        techHtml += `\n`
+      }
+
+      // 月度成本汇总
+      techHtml += `### 💰 技术方案月度成本汇总\n\n`
+      techHtml += `| 项目 | 月费 |\n`
+      techHtml += `|------|------|\n`
+      for (const item of tp.monthly_breakdown) {
+        techHtml += `| ${item.item} | ${item.cost}元/月 |\n`
+      }
+      techHtml += `| **合计** | **${tp.monthly_cost}元/月（${tp.yearly_cost}元/年）** |\n`
+    } else {
+      // 没有技术方案数据时的兜底
+      techHtml = `\n\n## 四、技术方案\n\n> 技术方案需根据实际云服务配置和AI调用量定制，请联系顾问获取详细方案。\n`
     }
+
+    // ========== 替换占位符 ==========
+    replacePlaceholder('SUBSIDY_PLACEHOLDER', subsidyHtml, '## 二、')
+    replacePlaceholder('TECH_PLACEHOLDER', techHtml, '## 三、')
+
     state.subsidyCalculated = true
 
   } catch (e) {
     console.error('[Wizard] appendSubsidyCalculation failed:', e)
+  }
+}
+
+/**
+ * 占位符替换（带 fallback）
+ * 1. 优先替换 <!-- XXX_PLACEHOLDER -->
+ * 2. 其次替换裸 XXX_PLACEHOLDER
+ * 3. 最后 fallback: 插入到前一个章节之后
+ */
+function replacePlaceholder(tag: string, content: string, prevSectionMarker: string) {
+  const htmlTag = `<!-- ${tag} -->`
+  if (state.generatedContent.includes(htmlTag)) {
+    state.generatedContent = state.generatedContent.replace(htmlTag, content)
+  } else if (state.generatedContent.includes(tag)) {
+    state.generatedContent = state.generatedContent.replace(tag, content)
+  } else {
+    // fallback: 找到前一个章节标题，在下一个 ## 标题前插入
+    const idx = state.generatedContent.indexOf(prevSectionMarker)
+    if (idx !== -1) {
+      const afterPrevSection = state.generatedContent.indexOf('\n## ', idx + prevSectionMarker.length)
+      if (afterPrevSection !== -1) {
+        state.generatedContent = state.generatedContent.slice(0, afterPrevSection) + '\n\n' + content + state.generatedContent.slice(afterPrevSection)
+        return
+      }
+    }
+    state.generatedContent += content
   }
 }
 
@@ -355,7 +466,7 @@ AI日均调用：${state.tech.aiCallsPerDay}
 一、公司命名建议（推荐3个名称+寓意+核名提示）
 二、经营范围建议及冲突预检（表格列出规范表述|是否需前置许可|匹配度|风险提示 + 冲突预警 + 结论）
 三、请直接输出以下占位符（不要输出其他内容）：<!-- SUBSIDY_PLACEHOLDER -->
-四、技术方案（云服务器配置建议表格 + AI工具链文字说明 + 成本估算表格）
+四、请直接输出以下占位符（不要输出其他内容）：<!-- TECH_PLACEHOLDER -->
 五、运营规划（获客渠道 + 变现路径 + 里程碑计划）
 六、下一步行动清单（含时间节点）
 末尾加声明：本报告由九章数智人工智能（深圳）有限责任公司出具，基于提供的信息及现行政策分析。

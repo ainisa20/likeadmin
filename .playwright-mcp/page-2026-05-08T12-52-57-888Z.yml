@@ -1,0 +1,357 @@
+- generic [ref=e5]:
+  - generic [ref=e7]:
+    - link [ref=e8] [cursor=pointer]:
+      - /url: /pc/
+      - img [ref=e9]
+    - navigation [ref=e10]:
+      - menubar [ref=e11]:
+        - link "首页" [ref=e13] [cursor=pointer]:
+          - /url: /pc/
+          - menuitem "首页" [ref=e14]:
+            - generic [ref=e15]: 首页
+        - link "核心服务" [ref=e17] [cursor=pointer]:
+          - /url: /pc/services
+          - menuitem "核心服务" [ref=e18]:
+            - generic [ref=e19]: 核心服务
+        - link "成功案例" [ref=e21] [cursor=pointer]:
+          - /url: /pc/cases
+          - menuitem "成功案例" [ref=e22]:
+            - generic [ref=e23]: 成功案例
+        - link "关于我们" [ref=e25] [cursor=pointer]:
+          - /url: /pc/about
+          - menuitem "关于我们" [ref=e26]:
+            - generic [ref=e27]: 关于我们
+        - button "资讯中心" [ref=e31] [cursor=pointer]:
+          - link "资讯中心" [ref=e32]:
+            - /url: /pc/information
+            - menuitem "资讯中心" [ref=e33]:
+              - generic [ref=e34]: 资讯中心
+          - img [ref=e37]
+        - link "管理后台" [ref=e41] [cursor=pointer]:
+          - /url: http://47.239.24.30:18088/admin/
+          - menuitem "管理后台" [ref=e42]:
+            - generic [ref=e43]: 管理后台
+    - generic [ref=e46]:
+      - textbox "请输入关键词" [ref=e47]
+      - img [ref=e50]
+    - generic [ref=e53] [cursor=pointer]: 登录/注册
+  - generic [ref=e54]:
+    - main [ref=e55]:
+      - generic [ref=e57]:
+        - generic [ref=e62]:
+          - generic [ref=e63]:
+            - generic [ref=e65]:
+              - img [ref=e67]
+              - generic [ref=e68]: 以数智赋能一人创业，以九章成就万千可能
+            - generic [ref=e70]:
+              - img [ref=e72]
+              - generic [ref=e73]: 打造深圳领先的AI+OPC产业集聚高地
+            - generic [ref=e75]:
+              - img [ref=e77]
+              - generic [ref=e78]: 助力龙岗建设全球AI+OPC产业创新中心
+          - list [ref=e79]:
+            - listitem [ref=e80] [cursor=pointer]:
+              - button [ref=e81]
+            - listitem [ref=e82] [cursor=pointer]:
+              - button [ref=e83]
+            - listitem [ref=e84] [cursor=pointer]:
+              - button [ref=e85]
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]: 🏢
+            - generic [ref=e93]: 1.2万㎡
+            - generic [ref=e94]: 社区面积
+          - generic [ref=e95]:
+            - generic [ref=e96]: 🎯
+            - generic [ref=e97]: 100+
+            - generic [ref=e98]: 首批入驻企业
+          - generic [ref=e99]:
+            - generic [ref=e100]: 📅
+            - generic [ref=e101]: 2026年12月
+            - generic [ref=e102]: 正式开园
+          - generic [ref=e103]:
+            - generic [ref=e104]: ⚡
+            - generic [ref=e105]: 全链条
+            - generic [ref=e106]: 产业生态
+        - generic [ref=e110]:
+          - heading "为什么选择九章数智" [level=2] [ref=e111]
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - generic [ref=e114]: 🏛️
+              - heading "官方资质" [level=3] [ref=e115]
+              - paragraph [ref=e116]: 严格按照《龙岗区支持OPC高质量发展若干措施》标准建设运营，首批OPC创业社区认定机构
+            - generic [ref=e117]:
+              - generic [ref=e118]: 📜
+              - heading "政策对接" [level=3] [ref=e119]
+              - paragraph [ref=e120]: 连续行业创业服务团队，与政府部门建立常态化沟通机制，提供精准政策解读和申报指导
+            - generic [ref=e121]:
+              - generic [ref=e122]: 🤖
+              - heading "技术服务" [level=3] [ref=e123]
+              - paragraph [ref=e124]: 专业AI技术团队，核心成员来自头部企业，具备OpenClaw智能体开发及数字员工运营经验
+            - generic [ref=e125]:
+              - generic [ref=e126]: 🔗
+              - heading "资源整合" [level=3] [ref=e127]
+              - paragraph [ref=e128]: 整合算力、资本、人才、市场等核心产业资源，提供全生命周期资源支持
+        - generic [ref=e132]:
+          - heading "最新资讯" [level=2] [ref=e133]
+          - generic [ref=e134]:
+            - link "企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要 企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要" [ref=e135] [cursor=pointer]:
+              - /url: /pc/information/3
+              - img "企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要" [ref=e137]
+              - heading "企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要" [level=3] [ref=e139]
+            - link "OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！ OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！" [ref=e140] [cursor=pointer]:
+              - /url: /pc/information/2
+              - img "OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！" [ref=e142]
+              - heading "OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！" [level=3] [ref=e144]
+            - link "我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工 我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工" [ref=e145] [cursor=pointer]:
+              - /url: /pc/information/1
+              - img "我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工" [ref=e147]
+              - heading "我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工" [level=3] [ref=e149]
+        - generic [ref=e154]:
+          - heading "联系我们" [level=2] [ref=e155]
+          - paragraph [ref=e156]: 留下您的联系方式，我们将尽快与您取得联系
+          - generic [ref=e157]:
+            - generic [ref=e158]:
+              - generic [ref=e159]:
+                - generic [ref=e160]: "*姓名"
+                - textbox "*姓名" [ref=e164]:
+                  - /placeholder: 请输入您的姓名
+              - generic [ref=e165]:
+                - generic [ref=e166]: "*手机号"
+                - textbox "*手机号" [ref=e170]:
+                  - /placeholder: 请输入您的手机号
+              - generic [ref=e171]:
+                - generic [ref=e172]: 备注
+                - generic [ref=e174]:
+                  - textbox "备注" [ref=e175]:
+                    - /placeholder: 请输入备注信息
+                  - generic [ref=e176]: 0 / 500
+            - button "提交" [ref=e179] [cursor=pointer]:
+              - generic [ref=e180]: 提交
+        - generic [ref=e184]:
+          - generic [ref=e185]:
+            - heading "准备好加入OPC创业社区了吗？" [level=2] [ref=e186]
+            - paragraph [ref=e187]: 立即联系我们，获取免费咨询和专属入驻方案
+          - link "立即咨询" [ref=e189] [cursor=pointer]:
+            - /url: /pc/#form-contact
+    - generic [ref=e191]:
+      - link "用户协议" [ref=e192] [cursor=pointer]:
+        - /url: /pc/policy/service
+      - text: ｜
+      - link "隐私政策" [ref=e193] [cursor=pointer]:
+        - /url: /pc/policy/privacy
+      - text: ｜
+      - link "会员中心" [ref=e194] [cursor=pointer]:
+        - /url: /pc/user/info
+  - generic [ref=e195]:
+    - img [ref=e197] [cursor=pointer]
+    - generic [ref=e201]:
+      - generic [ref=e202]:
+        - generic [ref=e203]: 智能助手
+        - generic [ref=e204]:
+          - button "新建对话" [ref=e205] [cursor=pointer]:
+            - img [ref=e206]
+          - button "关闭" [ref=e208] [cursor=pointer]:
+            - img [ref=e209]
+      - generic [ref=e211]:
+        - generic [ref=e212]:
+          - img [ref=e214]
+          - generic [ref=e219]: 我是小助手
+        - generic [ref=e220]:
+          - generic [ref=e221] [cursor=pointer]: 怎么注册
+          - generic [ref=e222] [cursor=pointer]: 怎么申请补贴
+        - generic [ref=e245]:
+          - generic [ref=e246]:
+            - generic [ref=e247]:
+              - generic [ref=e248]: "1"
+              - generic [ref=e249]: 创业方向
+            - generic [ref=e250]:
+              - generic [ref=e251]: "2"
+              - generic [ref=e252]: 身份信息
+            - generic [ref=e253]:
+              - generic [ref=e254]: "3"
+              - generic [ref=e255]: 团队资金
+            - generic [ref=e256]:
+              - generic [ref=e257]: "4"
+              - generic [ref=e258]: 技术需求
+            - generic [ref=e259]:
+              - generic [ref=e260]: "5"
+              - generic [ref=e261]: 规划
+            - generic [ref=e262]:
+              - generic [ref=e263]: "6"
+              - generic [ref=e264]: 生成报告
+          - generic [ref=e298]:
+            - generic [ref=e299]:
+              - heading "选择经营范围" [level=3] [ref=e300]
+              - paragraph [ref=e301]: 主题：我要开智能科技公司（科技服务）
+            - generic [ref=e302]:
+              - generic [ref=e303] [cursor=pointer]:
+                - checkbox "人工智能行业应用系统集成服务 I3022 无需许可 指从事制造、健康医疗、教育、环境、交通、商业、金融、物流、文化、网络安全、社会治理、 益民服务等重要生产性及公共服务领域的人工智能系统的集成服务。" [checked] [active] [ref=e304]
+                - generic [ref=e305]:
+                  - generic [ref=e306]: 人工智能行业应用系统集成服务
+                  - generic [ref=e307]: I3022
+                  - generic [ref=e308]: 无需许可
+                - generic [ref=e309]: 指从事制造、健康医疗、教育、环境、交通、商业、金融、物流、文化、网络安全、社会治理、 益民服务等重要生产性及公共服务领域的人工智能系统的集成服务。
+              - generic [ref=e310] [cursor=pointer]:
+                - checkbox "技术服务、技术开发、技术咨询、技术交流、技术转让、技术推广 M2070 无需许可 指从事技术开发、技术咨询、技术交流、技术转让、技术推广、技术服务的活动。" [ref=e311]
+                - generic [ref=e312]:
+                  - generic [ref=e313]: 技术服务、技术开发、技术咨询、技术交流、技术转让、技术推广
+                  - generic [ref=e314]: M2070
+                  - generic [ref=e315]: 无需许可
+                - generic [ref=e316]: 指从事技术开发、技术咨询、技术交流、技术转让、技术推广、技术服务的活动。
+              - generic [ref=e317] [cursor=pointer]:
+                - checkbox "人工智能基础资源与技术平台 I3004 无需许可 指从事人工智能基础资源与技术平台的服务。" [ref=e318]
+                - generic [ref=e319]:
+                  - generic [ref=e320]: 人工智能基础资源与技术平台
+                  - generic [ref=e321]: I3004
+                  - generic [ref=e322]: 无需许可
+                - generic [ref=e323]: 指从事人工智能基础资源与技术平台的服务。
+              - generic [ref=e324] [cursor=pointer]:
+                - checkbox "文化场馆用智能设备制造 CR030 无需许可 指从事文化场馆用智能设备制造的活动。" [ref=e325]
+                - generic [ref=e326]:
+                  - generic [ref=e327]: 文化场馆用智能设备制造
+                  - generic [ref=e328]: CR030
+                  - generic [ref=e329]: 无需许可
+                - generic [ref=e330]: 指从事文化场馆用智能设备制造的活动。
+              - generic [ref=e331] [cursor=pointer]:
+                - checkbox "智能仪器仪表制造 CS006 无需许可 指从事智能仪器仪表制造的活动。智能仪器指的是用于离散制造和流程工业装备中，连续测量温度、压力、流量、物位等变量，或者测量物体位置、倾斜、旋转等物性参数以及物质成分的仪器和仪表。" [ref=e332]
+                - generic [ref=e333]:
+                  - generic [ref=e334]: 智能仪器仪表制造
+                  - generic [ref=e335]: CS006
+                  - generic [ref=e336]: 无需许可
+                - generic [ref=e337]: 指从事智能仪器仪表制造的活动。智能仪器指的是用于离散制造和流程工业装备中，连续测量温度、压力、流量、物位等变量，或者测量物体位置、倾斜、旋转等物性参数以及物质成分的仪器和仪表。
+              - generic [ref=e338] [cursor=pointer]:
+                - checkbox "智能机器人的研发 I3013 无需许可 指从事智能机器人研发的活动。" [ref=e339]
+                - generic [ref=e340]:
+                  - generic [ref=e341]: 智能机器人的研发
+                  - generic [ref=e342]: I3013
+                  - generic [ref=e343]: 无需许可
+                - generic [ref=e344]: 指从事智能机器人研发的活动。
+              - generic [ref=e345] [cursor=pointer]:
+                - checkbox "人工智能公共数据平台 I3003 无需许可 指从事面向社会开放的文本、语音、图像、视频、地图及行业应用数据等多类型人工智能海量训练资源库和标准测试数据集服务的活动。" [ref=e346]
+                - generic [ref=e347]:
+                  - generic [ref=e348]: 人工智能公共数据平台
+                  - generic [ref=e349]: I3003
+                  - generic [ref=e350]: 无需许可
+                - generic [ref=e351]: 指从事面向社会开放的文本、语音、图像、视频、地图及行业应用数据等多类型人工智能海量训练资源库和标准测试数据集服务的活动。
+              - generic [ref=e352] [cursor=pointer]:
+                - checkbox "人工智能理论与算法软件开发 I3012 无需许可 指从事人工智能理论算法软件开发的活动。" [ref=e353]
+                - generic [ref=e354]:
+                  - generic [ref=e355]: 人工智能理论与算法软件开发
+                  - generic [ref=e356]: I3012
+                  - generic [ref=e357]: 无需许可
+                - generic [ref=e358]: 指从事人工智能理论算法软件开发的活动。
+              - generic [ref=e359] [cursor=pointer]:
+                - checkbox "智能车载设备制造 CR024 无需许可 指从事包含具备汽车联网、自动驾驶、车内及车际通讯、智能交通基础设施通信等功能要素，融合了传感器、雷达、卫星定位、导航、人工智能等技术，使汽车具备智能环境感知能力，自动分析汽车行驶的安全及危险状态目的的车载终端产品及相关配套设备制造的活动。" [ref=e360]
+                - generic [ref=e361]:
+                  - generic [ref=e362]: 智能车载设备制造
+                  - generic [ref=e363]: CR024
+                  - generic [ref=e364]: 无需许可
+                - generic [ref=e365]: 指从事包含具备汽车联网、自动驾驶、车内及车际通讯、智能交通基础设施通信等功能要素，融合了传感器、雷达、卫星定位、导航、人工智能等技术，使汽车具备智能环境感知能力，自动分析汽车行驶的安全及危险状态目的的车载终端产品及相关配套设备制造的活动。
+              - generic [ref=e366] [cursor=pointer]:
+                - checkbox "智能控制系统集成 I3017 无需许可 指从事智能控制系统集成服务的活动。不包括涉密信息系统集成服务。" [ref=e367]
+                - generic [ref=e368]:
+                  - generic [ref=e369]: 智能控制系统集成
+                  - generic [ref=e370]: I3017
+                  - generic [ref=e371]: 无需许可
+                - generic [ref=e372]: 指从事智能控制系统集成服务的活动。不包括涉密信息系统集成服务。
+              - generic [ref=e373] [cursor=pointer]:
+                - checkbox "人工智能双创服务平台 I2010 无需许可 指从事提供人工智能领域的研发工具、检验评测、安全、标准、知识产权、创业咨询等专业化创新创业服务的公共平台活动。" [ref=e374]
+                - generic [ref=e375]:
+                  - generic [ref=e376]: 人工智能双创服务平台
+                  - generic [ref=e377]: I2010
+                  - generic [ref=e378]: 无需许可
+                - generic [ref=e379]: 指从事提供人工智能领域的研发工具、检验评测、安全、标准、知识产权、创业咨询等专业化创新创业服务的公共平台活动。
+              - generic [ref=e380] [cursor=pointer]:
+                - checkbox "智能基础制造装备制造 CS002 无需许可 指从事智能基础制造装备制造的活动。智能基础制造装备指的是用于各种成形、连接、热处理、表面处理的智能装备和系统及自动生产线。" [ref=e381]
+                - generic [ref=e382]:
+                  - generic [ref=e383]: 智能基础制造装备制造
+                  - generic [ref=e384]: CS002
+                  - generic [ref=e385]: 无需许可
+                - generic [ref=e386]: 指从事智能基础制造装备制造的活动。智能基础制造装备指的是用于各种成形、连接、热处理、表面处理的智能装备和系统及自动生产线。
+              - generic [ref=e387] [cursor=pointer]:
+                - checkbox "建筑智能化系统设计 E2007 需要许可" [ref=e388]
+                - generic [ref=e389]:
+                  - generic [ref=e390]: 建筑智能化系统设计
+                  - generic [ref=e391]: E2007
+                  - generic [ref=e392]: 需要许可
+              - generic [ref=e393] [cursor=pointer]:
+                - checkbox "智能农业管理 A5017 无需许可 指从事利用大数据、物联网、互联网等现代信息技术对种农业、林业、种畜牧养殖、种渔业养殖等生产经营进行管理的活动" [ref=e394]
+                - generic [ref=e395]:
+                  - generic [ref=e396]: 智能农业管理
+                  - generic [ref=e397]: A5017
+                  - generic [ref=e398]: 无需许可
+                - generic [ref=e399]: 指从事利用大数据、物联网、互联网等现代信息技术对种农业、林业、种畜牧养殖、种渔业养殖等生产经营进行管理的活动
+              - generic [ref=e400] [cursor=pointer]:
+                - checkbox "智能无人飞行器制造 CR025 无需许可 指从事按照国家有关安全规定标准，经允许生产并主要用于娱乐、科普等的智能无人飞行器制造的活动。" [ref=e401]
+                - generic [ref=e402]:
+                  - generic [ref=e403]: 智能无人飞行器制造
+                  - generic [ref=e404]: CR025
+                  - generic [ref=e405]: 无需许可
+                - generic [ref=e406]: 指从事按照国家有关安全规定标准，经允许生产并主要用于娱乐、科普等的智能无人飞行器制造的活动。
+              - generic [ref=e407] [cursor=pointer]:
+                - checkbox "可穿戴智能设备制造 CR023 无需许可 指从事由用户穿戴和控制，并且自然、持续地运行和交互的个人移动计算设备产品的制造，包括可穿戴运动监测设备制造活动。" [ref=e408]
+                - generic [ref=e409]:
+                  - generic [ref=e410]: 可穿戴智能设备制造
+                  - generic [ref=e411]: CR023
+                  - generic [ref=e412]: 无需许可
+                - generic [ref=e413]: 指从事由用户穿戴和控制，并且自然、持续地运行和交互的个人移动计算设备产品的制造，包括可穿戴运动监测设备制造活动。
+              - generic [ref=e414] [cursor=pointer]:
+                - checkbox "人工智能公共服务平台技术咨询服务 I3002 无需许可 指从事人工智能开放数据平台、人工智能基础资源与技术平台、人工智能双创服务平台服务的活动。" [ref=e415]
+                - generic [ref=e416]:
+                  - generic [ref=e417]: 人工智能公共服务平台技术咨询服务
+                  - generic [ref=e418]: I3002
+                  - generic [ref=e419]: 无需许可
+                - generic [ref=e420]: 指从事人工智能开放数据平台、人工智能基础资源与技术平台、人工智能双创服务平台服务的活动。
+              - generic [ref=e421] [cursor=pointer]:
+                - checkbox "智能水务系统开发 I3009 无需许可 指从事智能水务系统开发的活动。" [ref=e422]
+                - generic [ref=e423]:
+                  - generic [ref=e424]: 智能水务系统开发
+                  - generic [ref=e425]: I3009
+                  - generic [ref=e426]: 无需许可
+                - generic [ref=e427]: 指从事智能水务系统开发的活动。
+              - generic [ref=e428] [cursor=pointer]:
+                - checkbox "体育消费用智能设备制造 CR029 无需许可 指从事体育场馆、健身房等体育场所用智能设备，体育训练、竞赛、健身等活动用智能设备等体育场所、活动用智能设备制造的活动。" [ref=e429]
+                - generic [ref=e430]:
+                  - generic [ref=e431]: 体育消费用智能设备制造
+                  - generic [ref=e432]: CR029
+                  - generic [ref=e433]: 无需许可
+                - generic [ref=e434]: 指从事体育场馆、健身房等体育场所用智能设备，体育训练、竞赛、健身等活动用智能设备等体育场所、活动用智能设备制造的活动。
+              - generic [ref=e435] [cursor=pointer]:
+                - checkbox "智能家庭消费设备制造 CR027 无需许可 指从事智能健康管理设备、智能居家养老设备、智能信息服务设备、智能互动教育设备、智能家居设备等智能家庭消费设备制造的活动。" [ref=e436]
+                - generic [ref=e437]:
+                  - generic [ref=e438]: 智能家庭消费设备制造
+                  - generic [ref=e439]: CR027
+                  - generic [ref=e440]: 无需许可
+                - generic [ref=e441]: 指从事智能健康管理设备、智能居家养老设备、智能信息服务设备、智能互动教育设备、智能家居设备等智能家庭消费设备制造的活动。
+              - generic [ref=e442] [cursor=pointer]:
+                - checkbox "人工智能应用软件开发 I3008 无需许可 指从事人工智能应用软件开发的活动。" [ref=e443]
+                - generic [ref=e444]:
+                  - generic [ref=e445]: 人工智能应用软件开发
+                  - generic [ref=e446]: I3008
+                  - generic [ref=e447]: 无需许可
+                - generic [ref=e448]: 指从事人工智能应用软件开发的活动。
+              - generic [ref=e449] [cursor=pointer]:
+                - checkbox "人工智能通用应用系统 I3021 无需许可 指从事生物验证系统、智能搜索系统、智能翻译系统、智能客服系统等人工智能通用应用系统的服务。" [ref=e450]
+                - generic [ref=e451]:
+                  - generic [ref=e452]: 人工智能通用应用系统
+                  - generic [ref=e453]: I3021
+                  - generic [ref=e454]: 无需许可
+                - generic [ref=e455]: 指从事生物验证系统、智能搜索系统、智能翻译系统、智能客服系统等人工智能通用应用系统的服务。
+              - generic [ref=e456] [cursor=pointer]:
+                - checkbox "人工智能基础软件开发 I3007 无需许可 指从事人工智能基础软件开发的活动。" [ref=e457]
+                - generic [ref=e458]:
+                  - generic [ref=e459]: 人工智能基础软件开发
+                  - generic [ref=e460]: I3007
+                  - generic [ref=e461]: 无需许可
+                - generic [ref=e462]: 指从事人工智能基础软件开发的活动。
+            - generic [ref=e466]:
+              - heading "已选经营范围详情" [level=4] [ref=e467]
+              - generic [ref=e468]:
+                - generic [ref=e469]: 人工智能行业应用系统集成服务
+                - generic [ref=e470]: "包含: 智能家居；智能汽车；智能无人系统；智能安防；智慧健康；智能生产线；工业人工智能网络系统服务；生产领域人工智能系统；智能安防系统；智能医疗；医疗影像辅助诊断系统；视频图像身份识别系统；智能交通；智能运载工具；智能教育；智慧城市；智能农业；智能口岸建设"
+                - generic [ref=e471]: 许可:无需前置许可
+            - generic [ref=e463]:
+              - button "← 返回选择主题" [ref=e464] [cursor=pointer]
+              - button "确认，继续 →" [ref=e465] [cursor=pointer]
+          - button "取消" [ref=e273] [cursor=pointer]

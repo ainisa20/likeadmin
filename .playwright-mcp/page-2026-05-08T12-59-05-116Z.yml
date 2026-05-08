@@ -1,0 +1,477 @@
+- generic [ref=e5]:
+  - generic [ref=e7]:
+    - link [ref=e8] [cursor=pointer]:
+      - /url: /pc/
+      - img [ref=e9]
+    - navigation [ref=e10]:
+      - menubar [ref=e11]:
+        - link "首页" [ref=e13] [cursor=pointer]:
+          - /url: /pc/
+          - menuitem "首页" [ref=e14]:
+            - generic [ref=e15]: 首页
+        - link "核心服务" [ref=e17] [cursor=pointer]:
+          - /url: /pc/services
+          - menuitem "核心服务" [ref=e18]:
+            - generic [ref=e19]: 核心服务
+        - link "成功案例" [ref=e21] [cursor=pointer]:
+          - /url: /pc/cases
+          - menuitem "成功案例" [ref=e22]:
+            - generic [ref=e23]: 成功案例
+        - link "关于我们" [ref=e25] [cursor=pointer]:
+          - /url: /pc/about
+          - menuitem "关于我们" [ref=e26]:
+            - generic [ref=e27]: 关于我们
+        - button "资讯中心" [ref=e31] [cursor=pointer]:
+          - link "资讯中心" [ref=e32]:
+            - /url: /pc/information
+            - menuitem "资讯中心" [ref=e33]:
+              - generic [ref=e34]: 资讯中心
+          - img [ref=e37]
+        - link "管理后台" [ref=e41] [cursor=pointer]:
+          - /url: http://47.239.24.30:18088/admin/
+          - menuitem "管理后台" [ref=e42]:
+            - generic [ref=e43]: 管理后台
+    - generic [ref=e46]:
+      - textbox "请输入关键词" [ref=e47]
+      - img [ref=e50]
+    - generic [ref=e53] [cursor=pointer]: 登录/注册
+  - generic [ref=e54]:
+    - main [ref=e55]:
+      - generic [ref=e57]:
+        - generic [ref=e62]:
+          - generic [ref=e63]:
+            - generic [ref=e65]:
+              - img [ref=e67]
+              - generic [ref=e68]: 以数智赋能一人创业，以九章成就万千可能
+            - generic [ref=e70]:
+              - img [ref=e72]
+              - generic [ref=e73]: 打造深圳领先的AI+OPC产业集聚高地
+            - generic [ref=e75]:
+              - img [ref=e77]
+              - generic [ref=e78]: 助力龙岗建设全球AI+OPC产业创新中心
+          - list [ref=e79]:
+            - listitem [ref=e80] [cursor=pointer]:
+              - button [ref=e81]
+            - listitem [ref=e82] [cursor=pointer]:
+              - button [ref=e83]
+            - listitem [ref=e84] [cursor=pointer]:
+              - button [ref=e85]
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]: 🏢
+            - generic [ref=e93]: 1.2万㎡
+            - generic [ref=e94]: 社区面积
+          - generic [ref=e95]:
+            - generic [ref=e96]: 🎯
+            - generic [ref=e97]: 100+
+            - generic [ref=e98]: 首批入驻企业
+          - generic [ref=e99]:
+            - generic [ref=e100]: 📅
+            - generic [ref=e101]: 2026年12月
+            - generic [ref=e102]: 正式开园
+          - generic [ref=e103]:
+            - generic [ref=e104]: ⚡
+            - generic [ref=e105]: 全链条
+            - generic [ref=e106]: 产业生态
+        - generic [ref=e110]:
+          - heading "为什么选择九章数智" [level=2] [ref=e111]
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - generic [ref=e114]: 🏛️
+              - heading "官方资质" [level=3] [ref=e115]
+              - paragraph [ref=e116]: 严格按照《龙岗区支持OPC高质量发展若干措施》标准建设运营，首批OPC创业社区认定机构
+            - generic [ref=e117]:
+              - generic [ref=e118]: 📜
+              - heading "政策对接" [level=3] [ref=e119]
+              - paragraph [ref=e120]: 连续行业创业服务团队，与政府部门建立常态化沟通机制，提供精准政策解读和申报指导
+            - generic [ref=e121]:
+              - generic [ref=e122]: 🤖
+              - heading "技术服务" [level=3] [ref=e123]
+              - paragraph [ref=e124]: 专业AI技术团队，核心成员来自头部企业，具备OpenClaw智能体开发及数字员工运营经验
+            - generic [ref=e125]:
+              - generic [ref=e126]: 🔗
+              - heading "资源整合" [level=3] [ref=e127]
+              - paragraph [ref=e128]: 整合算力、资本、人才、市场等核心产业资源，提供全生命周期资源支持
+        - generic [ref=e132]:
+          - heading "最新资讯" [level=2] [ref=e133]
+          - generic [ref=e134]:
+            - link "企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要 企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要" [ref=e135] [cursor=pointer]:
+              - /url: /pc/information/3
+              - img "企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要" [ref=e137]
+              - heading "企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要" [level=3] [ref=e139]
+            - link "OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！ OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！" [ref=e140] [cursor=pointer]:
+              - /url: /pc/information/2
+              - img "OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！" [ref=e142]
+              - heading "OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！" [level=3] [ref=e144]
+            - link "我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工 我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工" [ref=e145] [cursor=pointer]:
+              - /url: /pc/information/1
+              - img "我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工" [ref=e147]
+              - heading "我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工" [level=3] [ref=e149]
+        - generic [ref=e154]:
+          - heading "联系我们" [level=2] [ref=e155]
+          - paragraph [ref=e156]: 留下您的联系方式，我们将尽快与您取得联系
+          - generic [ref=e157]:
+            - generic [ref=e158]:
+              - generic [ref=e159]:
+                - generic [ref=e160]: "*姓名"
+                - textbox "*姓名" [ref=e164]:
+                  - /placeholder: 请输入您的姓名
+              - generic [ref=e165]:
+                - generic [ref=e166]: "*手机号"
+                - textbox "*手机号" [ref=e170]:
+                  - /placeholder: 请输入您的手机号
+              - generic [ref=e171]:
+                - generic [ref=e172]: 备注
+                - generic [ref=e174]:
+                  - textbox "备注" [ref=e175]:
+                    - /placeholder: 请输入备注信息
+                  - generic [ref=e176]: 0 / 500
+            - button "提交" [ref=e179] [cursor=pointer]:
+              - generic [ref=e180]: 提交
+        - generic [ref=e184]:
+          - generic [ref=e185]:
+            - heading "准备好加入OPC创业社区了吗？" [level=2] [ref=e186]
+            - paragraph [ref=e187]: 立即联系我们，获取免费咨询和专属入驻方案
+          - link "立即咨询" [ref=e189] [cursor=pointer]:
+            - /url: /pc/#form-contact
+    - generic [ref=e191]:
+      - link "用户协议" [ref=e192] [cursor=pointer]:
+        - /url: /pc/policy/service
+      - text: ｜
+      - link "隐私政策" [ref=e193] [cursor=pointer]:
+        - /url: /pc/policy/privacy
+      - text: ｜
+      - link "会员中心" [ref=e194] [cursor=pointer]:
+        - /url: /pc/user/info
+  - generic [ref=e195]:
+    - img [ref=e197] [cursor=pointer]
+    - generic [ref=e201]:
+      - generic [ref=e202]:
+        - generic [ref=e203]: 智能助手
+        - generic [ref=e204]:
+          - button "新建对话" [ref=e205] [cursor=pointer]:
+            - img [ref=e206]
+          - button "关闭" [ref=e208] [cursor=pointer]:
+            - img [ref=e209]
+      - generic [ref=e211]:
+        - generic [ref=e212]:
+          - img [ref=e214]
+          - generic [ref=e219]: 我是小助手
+        - generic [ref=e220]:
+          - generic [ref=e221] [cursor=pointer]: 怎么注册
+          - generic [ref=e222] [cursor=pointer]: 怎么申请补贴
+        - generic [ref=e245]:
+          - generic [ref=e246]:
+            - generic [ref=e247]:
+              - generic [ref=e248]: ✓
+              - generic [ref=e249]: 创业方向
+            - generic [ref=e250]:
+              - generic [ref=e251]: ✓
+              - generic [ref=e252]: 身份信息
+            - generic [ref=e253]:
+              - generic [ref=e254]: ✓
+              - generic [ref=e255]: 团队资金
+            - generic [ref=e256]:
+              - generic [ref=e257]: ✓
+              - generic [ref=e258]: 技术需求
+            - generic [ref=e259]:
+              - generic [ref=e260]: ✓
+              - generic [ref=e261]: 规划
+            - generic [ref=e262]:
+              - generic [ref=e263]: "6"
+              - generic [ref=e264]: 生成报告
+          - generic [ref=e602]:
+            - generic [ref=e848]:
+              - generic [ref=e849]: ✅
+              - heading "报告生成完成" [level=3] [ref=e850]
+            - generic [ref=e851]:
+              - button "📄 导出 PDF" [ref=e852] [cursor=pointer]:
+                - generic [ref=e853]: 📄
+                - text: 导出 PDF
+              - button "完成" [ref=e854] [cursor=pointer]
+            - generic [ref=e856]:
+              - heading "《九章数智·OPC创业落地分析报告》" [level=1] [ref=e857]
+              - heading "一、公司命名建议" [level=2] [ref=e858]
+              - table [ref=e859]:
+                - rowgroup [ref=e860]:
+                  - row "推荐名称 寓意解析 核名提示" [ref=e861]:
+                    - columnheader "推荐名称" [ref=e862]
+                    - columnheader "寓意解析" [ref=e863]
+                    - columnheader "核名提示" [ref=e864]
+                - rowgroup [ref=e865]:
+                  - row "深美智联科技 \"深\"代表深圳地域，\"美\"指向美妆行业，\"智联\"体现AI连接能力 名称重复率较低，需注意\"智联\"可能被大型科技公司注册" [ref=e866]:
+                    - cell "深美智联科技" [ref=e867]
+                    - cell "\"深\"代表深圳地域，\"美\"指向美妆行业，\"智联\"体现AI连接能力" [ref=e868]
+                    - cell "名称重复率较低，需注意\"智联\"可能被大型科技公司注册" [ref=e869]
+                  - row "容曜AI解决方案 \"容\"暗喻美妆，\"曜\"象征智能光芒，专业感强 需检查\"解决方案\"是否可作为字号使用" [ref=e870]:
+                    - cell "容曜AI解决方案" [ref=e871]
+                    - cell "\"容\"暗喻美妆，\"曜\"象征智能光芒，专业感强" [ref=e872]
+                    - cell "需检查\"解决方案\"是否可作为字号使用" [ref=e873]
+                  - row "妆点未来智能科技 双关\"妆点\"既指美妆又含技术赋能，符合行业特性 名称较长可能增加注册难度" [ref=e874]:
+                    - cell "妆点未来智能科技" [ref=e875]
+                    - cell "双关\"妆点\"既指美妆又含技术赋能，符合行业特性" [ref=e876]
+                    - cell "名称较长可能增加注册难度" [ref=e877]
+              - heading "二、经营范围建议及冲突预检" [level=2] [ref=e878]
+              - heading "核心经营范围（表格）" [level=3] [ref=e879]
+              - table [ref=e880]:
+                - rowgroup [ref=e881]:
+                  - row "规范表述 许可要求 匹配度 风险提示" [ref=e882]:
+                    - columnheader "规范表述" [ref=e883]
+                    - columnheader "许可要求" [ref=e884]
+                    - columnheader "匹配度" [ref=e885]
+                    - columnheader "风险提示" [ref=e886]
+                - rowgroup [ref=e887]:
+                  - row "人工智能应用软件开发(I3008) 无需 ★★★★★ 需注意软件著作权保护" [ref=e888]:
+                    - cell "人工智能应用软件开发(I3008)" [ref=e889]
+                    - cell "无需" [ref=e890]
+                    - cell "★★★★★" [ref=e891]
+                    - cell "需注意软件著作权保护" [ref=e892]
+                  - row "人工智能行业应用系统集成服务(I3022) 无需 ★★★★☆ 避免涉及医疗等特殊领域集成" [ref=e893]:
+                    - cell "人工智能行业应用系统集成服务(I3022)" [ref=e894]
+                    - cell "无需" [ref=e895]
+                    - cell "★★★★☆" [ref=e896]
+                    - cell "避免涉及医疗等特殊领域集成" [ref=e897]
+                  - row "信息技术咨询服务(I0205) 无需 ★★★★☆ 不可混同于认证服务" [ref=e898]:
+                    - cell "信息技术咨询服务(I0205)" [ref=e899]
+                    - cell "无需" [ref=e900]
+                    - cell "★★★★☆" [ref=e901]
+                    - cell "不可混同于认证服务" [ref=e902]
+                  - row "互联网数据服务(I0124) 无需 ★★★☆☆ 需备案但无许可要求" [ref=e903]:
+                    - cell "互联网数据服务(I0124)" [ref=e904]
+                    - cell "无需" [ref=e905]
+                    - cell "★★★☆☆" [ref=e906]
+                    - cell "需备案但无许可要求" [ref=e907]
+              - heading "冲突预警" [level=3] [ref=e908]
+              - list [ref=e909]:
+                - listitem [ref=e910]:
+                  - strong [ref=e911]: 数据安全风险
+                  - text: ：营销文案生成可能涉及用户数据收集，需遵守《个人信息保护法》
+                - listitem [ref=e912]:
+                  - strong [ref=e913]: 行业准入风险
+                  - text: ：美妆行业部分营销话术受《广告法》限制，AI生成内容需人工审核
+                - listitem [ref=e914]:
+                  - strong [ref=e915]: 竞品分析
+                  - text: ：深圳现有37家同类AI客服服务商，建议聚焦美妆垂直领域
+              - heading "结论建议" [level=3] [ref=e916]
+              - paragraph [ref=e917]:
+                - text: ✔️ 优先选择前两项核心经营范围
+                - text: ✔️ 补充"互联网数据服务"增强业务延展性
+                - text: ✖️ 避免添加"广告设计"等需许可项目
+              - heading "三、技术方案" [level=2] [ref=e918]
+              - heading "云服务器配置（腾讯云方案）" [level=3] [ref=e919]
+              - table [ref=e920]:
+                - rowgroup [ref=e921]:
+                  - row "组件 配置建议 年成本（首年优惠）" [ref=e922]:
+                    - columnheader "组件" [ref=e923]
+                    - columnheader "配置建议" [ref=e924]
+                    - columnheader "年成本（首年优惠）" [ref=e925]
+                - rowgroup [ref=e926]:
+                  - row "计算资源 标准型S5（4核8G） ¥3,600" [ref=e927]:
+                    - cell "计算资源" [ref=e928]
+                    - cell "标准型S5（4核8G）" [ref=e929]
+                    - cell "¥3,600" [ref=e930]
+                  - row "存储系统 高性能云硬盘500GB ¥1,200" [ref=e931]:
+                    - cell "存储系统" [ref=e932]
+                    - cell "高性能云硬盘500GB" [ref=e933]
+                    - cell "¥1,200" [ref=e934]
+                  - row "网络带宽 固定带宽5Mbps ¥1,500" [ref=e935]:
+                    - cell "网络带宽" [ref=e936]
+                    - cell "固定带宽5Mbps" [ref=e937]
+                    - cell "¥1,500" [ref=e938]
+                  - row "安全防护 基础版DDoS防护+WAF ¥0（免费套餐）" [ref=e939]:
+                    - cell "安全防护" [ref=e940]
+                    - cell "基础版DDoS防护+WAF" [ref=e941]
+                    - cell "¥0（免费套餐）" [ref=e942]
+              - heading "AI工具链部署" [level=3] [ref=e943]
+              - code [ref=e945]: "graph TD A[客户系统] -->|API调用| B(智能路由层) B --> C{NLP引擎} C -->|中文处理| D[腾讯云TI平台] C -->|英文处理| E[Azure Cognitive] D --> F[话术模板库] E --> F F --> G[合规审查模块] G --> H[输出接口]"
+              - heading "成本估算（年运营）" [level=3] [ref=e946]
+              - table [ref=e947]:
+                - rowgroup [ref=e948]:
+                  - row "项目 金额（万元）" [ref=e949]:
+                    - columnheader "项目" [ref=e950]
+                    - columnheader "金额（万元）" [ref=e951]
+                - rowgroup [ref=e952]:
+                  - row "基础设施 0.8-1.2" [ref=e953]:
+                    - cell "基础设施" [ref=e954]
+                    - cell "0.8-1.2" [ref=e955]
+                  - row "AI接口调用（按量） 1.5-3" [ref=e956]:
+                    - cell "AI接口调用（按量）" [ref=e957]
+                    - cell "1.5-3" [ref=e958]
+                  - row "数据标注/训练 0.5-1" [ref=e959]:
+                    - cell "数据标注/训练" [ref=e960]
+                    - cell "0.5-1" [ref=e961]
+                  - row "技术维护 0.3-0.6" [ref=e962]:
+                    - cell "技术维护" [ref=e963]
+                    - cell "0.3-0.6" [ref=e964]
+                  - row "合计 3.1-5.8" [ref=e965]:
+                    - cell "合计" [ref=e966]:
+                      - strong [ref=e967]: 合计
+                    - cell "3.1-5.8" [ref=e968]:
+                      - strong [ref=e969]: 3.1-5.8
+              - heading "四、运营规划" [level=2] [ref=e970]
+              - heading "获客双渠道" [level=3] [ref=e971]
+              - list [ref=e972]:
+                - listitem [ref=e973]:
+                  - paragraph [ref=e974]:
+                    - strong [ref=e975]: 线上渗透
+                  - list [ref=e976]:
+                    - listitem [ref=e977]: 腾讯云服务市场入驻（技术背书）
+                    - listitem [ref=e978]: 小红书美妆博主合作（案例展示）
+                - listitem [ref=e979]:
+                  - paragraph [ref=e980]:
+                    - strong [ref=e981]: 线下突击
+                  - list [ref=e982]:
+                    - listitem [ref=e983]: 华强北美妆档口地推（免费试用装）
+                    - listitem [ref=e984]: 深圳美博会参展（2024年3月）
+              - heading "三级变现路径" [level=3] [ref=e985]
+              - code [ref=e987]: "journey title 收入演进路线 section 第一阶段(0-6月) 基础SaaS订阅: 80% 定制开发: 20% section 第二阶段(7-12月) 智能分润: 30% 数据增值: 15% section 第三阶段(13+月) 行业解决方案: 60%"
+              - heading "里程碑计划" [level=3] [ref=e988]
+              - table [ref=e989]:
+                - rowgroup [ref=e990]:
+                  - row "时间节点 关键目标 成功指标" [ref=e991]:
+                    - columnheader "时间节点" [ref=e992]
+                    - columnheader "关键目标" [ref=e993]
+                    - columnheader "成功指标" [ref=e994]
+                - rowgroup [ref=e995]:
+                  - row "2023Q4 完成公司注册+首单签约 3家付费客户" [ref=e996]:
+                    - cell "2023Q4" [ref=e997]
+                    - cell "完成公司注册+首单签约" [ref=e998]
+                    - cell "3家付费客户" [ref=e999]
+                  - row "2024Q1 上线标准化SaaS产品 日活商户≥20" [ref=e1000]:
+                    - cell "2024Q1" [ref=e1001]
+                    - cell "上线标准化SaaS产品" [ref=e1002]
+                    - cell "日活商户≥20" [ref=e1003]
+                  - row "2024Q3 建立美妆行业语料库 覆盖80%常见场景" [ref=e1004]:
+                    - cell "2024Q3" [ref=e1005]
+                    - cell "建立美妆行业语料库" [ref=e1006]
+                    - cell "覆盖80%常见场景" [ref=e1007]
+                  - row "2025Q1 实现收支平衡 MRR突破5万元" [ref=e1008]:
+                    - cell "2025Q1" [ref=e1009]
+                    - cell "实现收支平衡" [ref=e1010]
+                    - cell "MRR突破5万元" [ref=e1011]
+              - heading "五、下一步行动清单" [level=2] [ref=e1012]
+              - table [ref=e1013]:
+                - rowgroup [ref=e1014]:
+                  - row "事项 责任方 时间节点 关联资源" [ref=e1015]:
+                    - columnheader "事项" [ref=e1016]
+                    - columnheader "责任方" [ref=e1017]
+                    - columnheader "时间节点" [ref=e1018]
+                    - columnheader "关联资源" [ref=e1019]
+                - rowgroup [ref=e1020]:
+                  - row "工商核名 代办机构 2023.10.15 准备3个备选名称" [ref=e1021]:
+                    - cell "工商核名" [ref=e1022]
+                    - cell "代办机构" [ref=e1023]
+                    - cell "2023.10.15" [ref=e1024]
+                    - cell "准备3个备选名称" [ref=e1025]
+                  - row "开立银行基本户 法人 2023.11.1 确认办公地址" [ref=e1026]:
+                    - cell "开立银行基本户" [ref=e1027]
+                    - cell "法人" [ref=e1028]
+                    - cell "2023.11.1" [ref=e1029]
+                    - cell "确认办公地址" [ref=e1030]
+                  - row "腾讯云账号申请 技术负责人 2023.11.5 完成企业认证" [ref=e1031]:
+                    - cell "腾讯云账号申请" [ref=e1032]
+                    - cell "技术负责人" [ref=e1033]
+                    - cell "2023.11.5" [ref=e1034]
+                    - cell "完成企业认证" [ref=e1035]
+                  - row "首期客户需求调研 创始团队 2023.11.20 联系华强北商会" [ref=e1036]:
+                    - cell "首期客户需求调研" [ref=e1037]
+                    - cell "创始团队" [ref=e1038]
+                    - cell "2023.11.20" [ref=e1039]
+                    - cell "联系华强北商会" [ref=e1040]
+                  - row "最小可行性产品开发 开发团队 2023.12.31 接入微信客服API" [ref=e1041]:
+                    - cell "最小可行性产品开发" [ref=e1042]
+                    - cell "开发团队" [ref=e1043]
+                    - cell "2023.12.31" [ref=e1044]
+                    - cell "接入微信客服API" [ref=e1045]
+              - separator [ref=e1046]
+              - paragraph [ref=e1047]:
+                - strong [ref=e1048]: 声明
+                - text: ：本报告由九章数智人工智能（深圳）有限责任公司出具，基于提供的信息及2023年9月前现行政策分析，具体实施请以最新法规和实际情况为准。报告编号：OPC-LH-20230928
+              - heading "三、可申领补贴与收益预估" [level=2] [ref=e1049]
+              - paragraph [ref=e1050]:
+                - strong [ref=e1051]: 保守估算（普惠易得）：
+                - text: 3.5万 ~ 5.5万
+              - blockquote [ref=e1052]:
+                - paragraph [ref=e1053]: 💡 若满足条件，总补贴上限可达 5.5万
+              - heading "🏆 普惠易得补贴" [level=3] [ref=e1054]
+              - table [ref=e1055]:
+                - rowgroup [ref=e1056]:
+                  - row "补贴项目 估算金额 条件/备注" [ref=e1057]:
+                    - columnheader "补贴项目" [ref=e1058]
+                    - columnheader "估算金额" [ref=e1059]
+                    - columnheader "条件/备注" [ref=e1060]
+                - rowgroup [ref=e1061]:
+                  - row "初创企业补贴（一次性） 1.0万 ~ 1.0万 社保连续满6个月后可申请（在校学生除外）" [ref=e1062]:
+                    - cell "初创企业补贴（一次性）" [ref=e1063]
+                    - cell "1.0万 ~ 1.0万" [ref=e1064]
+                    - cell "社保连续满6个月后可申请（在校学生除外）" [ref=e1065]
+                  - row "社会保险补贴（单位部分） 1.5万 ~ 2.5万 社保满3个月即可申请，按最低标准单位部分100%补贴，最长36个月，先缴后补，按季度发放" [ref=e1066]:
+                    - cell "社会保险补贴（单位部分）" [ref=e1067]
+                    - cell "1.5万 ~ 2.5万" [ref=e1068]
+                    - cell "社保满3个月即可申请，按最低标准单位部分100%补贴，最长36个月，先缴后补，按季度发放" [ref=e1069]
+                  - row "创业场租补贴（青年人才） 8,000元 ~ 1.4万 每年最高7800元，最长3年；可叠加不超过10㎡免租金6个月创业空间" [ref=e1070]:
+                    - cell "创业场租补贴（青年人才）" [ref=e1071]
+                    - cell "8,000元 ~ 1.4万" [ref=e1072]
+                    - cell "每年最高7800元，最长3年；可叠加不超过10㎡免租金6个月创业空间" [ref=e1073]
+                  - row "创业带动就业补贴 2,000元 ~ 6,000元 招用3人以下按每人2000元，需签订1年劳动合同且社保满6个月" [ref=e1074]:
+                    - cell "创业带动就业补贴" [ref=e1075]
+                    - cell "2,000元 ~ 6,000元" [ref=e1076]
+                    - cell "招用3人以下按每人2000元，需签订1年劳动合同且社保满6个月" [ref=e1077]
+              - heading "💸 前期6个月必要投入成本" [level=3] [ref=e1078]
+              - table [ref=e1079]:
+                - rowgroup [ref=e1080]:
+                  - row "项目 估算金额 说明" [ref=e1081]:
+                    - columnheader "项目" [ref=e1082]
+                    - columnheader "估算金额" [ref=e1083]
+                    - columnheader "说明" [ref=e1084]
+                - rowgroup [ref=e1085]:
+                  - row "① 企业注册相关 0~500元 工商注册免费，印章刻制约300~500元" [ref=e1086]:
+                    - cell "① 企业注册相关" [ref=e1087]
+                    - cell "0~500元" [ref=e1088]
+                    - cell "工商注册免费，印章刻制约300~500元" [ref=e1089]
+                  - row "② 云服务器 38~199元/年 阿里云轻量 2核2G 38元/年" [ref=e1090]:
+                    - cell "② 云服务器" [ref=e1091]
+                    - cell "38~199元/年" [ref=e1092]
+                    - cell "阿里云轻量 2核2G 38元/年" [ref=e1093]
+                  - row "③ 域名 1~85元/年 .cn 35-38元; .com 83元" [ref=e1094]:
+                    - cell "③ 域名" [ref=e1095]
+                    - cell "1~85元/年" [ref=e1096]
+                    - cell ".cn 35-38元; .com 83元" [ref=e1097]
+                  - row "④ AI编程工具 7.9~40元/月 阿里云百炼 Coding Plan Lite首月7.9元" [ref=e1098]:
+                    - cell "④ AI编程工具" [ref=e1099]
+                    - cell "7.9~40元/月" [ref=e1100]
+                    - cell "阿里云百炼 Coding Plan Lite首月7.9元" [ref=e1101]
+                  - row "⑤ 大模型调用 0~300元 可用市级模型券（最高200万）冲抵" [ref=e1102]:
+                    - cell "⑤ 大模型调用" [ref=e1103]
+                    - cell "0~300元" [ref=e1104]
+                    - cell "可用市级模型券（最高200万）冲抵" [ref=e1105]
+                  - row "⑥ 代记账报税 0元 已包含于3200元服务包中" [ref=e1106]:
+                    - cell "⑥ 代记账报税" [ref=e1107]
+                    - cell "0元" [ref=e1108]
+                    - cell "已包含于3200元服务包中" [ref=e1109]
+                  - row "社保投入（个人部分） 约7,000元/6个月 深圳社保最低缴费基数6,727元/月估算" [ref=e1110]:
+                    - cell "社保投入（个人部分）" [ref=e1111]
+                    - cell "约7,000元/6个月" [ref=e1112]
+                    - cell "深圳社保最低缴费基数6,727元/月估算" [ref=e1113]
+                  - row "生活费+预留资金 建议30,000~60,000元 建议预留6个月生活费" [ref=e1114]:
+                    - cell "生活费+预留资金" [ref=e1115]
+                    - cell "建议30,000~60,000元" [ref=e1116]
+                    - cell "建议预留6个月生活费" [ref=e1117]
+              - blockquote [ref=e1118]:
+                - paragraph [ref=e1119]: 💡 最低总投入约 3.7万 元
+              - heading "📊 投入产出分析（净收益）" [level=3] [ref=e1120]
+              - list [ref=e1121]:
+                - listitem [ref=e1122]:
+                  - strong [ref=e1123]: 总投入（最低配置）：
+                  - text: 约 3.7万 元（6个月）
+                - listitem [ref=e1124]:
+                  - strong [ref=e1125]: 减去普惠补贴：
+                  - text: "-3.5万"
+                - listitem [ref=e1126]:
+                  - strong [ref=e1127]: 净收益（保守）：
+                  - text: "-2,339元"
+              - blockquote [ref=e1128]:
+                - paragraph [ref=e1129]:
+                  - text: 💳
+                  - strong [ref=e1130]: 可叠加创业担保贷款：
+                  - text: 个人基础额度最高30万元，带动5人以上就业可提至60万元（申请前12个月内）

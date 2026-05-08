@@ -1,0 +1,268 @@
+- generic [ref=e5]:
+  - generic [ref=e7]:
+    - link [ref=e8] [cursor=pointer]:
+      - /url: /pc/
+      - img [ref=e9]
+    - navigation [ref=e10]:
+      - menubar [ref=e11]:
+        - link "首页" [ref=e13] [cursor=pointer]:
+          - /url: /pc/
+          - menuitem "首页" [ref=e14]:
+            - generic [ref=e15]: 首页
+        - link "核心服务" [ref=e17] [cursor=pointer]:
+          - /url: /pc/services
+          - menuitem "核心服务" [ref=e18]:
+            - generic [ref=e19]: 核心服务
+        - link "成功案例" [ref=e21] [cursor=pointer]:
+          - /url: /pc/cases
+          - menuitem "成功案例" [ref=e22]:
+            - generic [ref=e23]: 成功案例
+        - link "关于我们" [ref=e25] [cursor=pointer]:
+          - /url: /pc/about
+          - menuitem "关于我们" [ref=e26]:
+            - generic [ref=e27]: 关于我们
+        - button "资讯中心" [ref=e31] [cursor=pointer]:
+          - link "资讯中心" [ref=e32]:
+            - /url: /pc/information
+            - menuitem "资讯中心" [ref=e33]:
+              - generic [ref=e34]: 资讯中心
+          - img [ref=e37]
+        - link "管理后台" [ref=e41] [cursor=pointer]:
+          - /url: http://47.239.24.30:18088/admin/
+          - menuitem "管理后台" [ref=e42]:
+            - generic [ref=e43]: 管理后台
+    - generic [ref=e46]:
+      - textbox "请输入关键词" [ref=e47]
+      - img [ref=e50]
+    - generic [ref=e53] [cursor=pointer]: 登录/注册
+  - generic [ref=e54]:
+    - main [ref=e55]:
+      - generic [ref=e57]:
+        - generic [ref=e62]:
+          - generic [ref=e63]:
+            - generic [ref=e65]:
+              - img [ref=e67]
+              - generic [ref=e68]: 以数智赋能一人创业，以九章成就万千可能
+            - generic [ref=e70]:
+              - img [ref=e72]
+              - generic [ref=e73]: 打造深圳领先的AI+OPC产业集聚高地
+            - generic [ref=e75]:
+              - img [ref=e77]
+              - generic [ref=e78]: 助力龙岗建设全球AI+OPC产业创新中心
+          - list [ref=e79]:
+            - listitem [ref=e80] [cursor=pointer]:
+              - button [ref=e81]
+            - listitem [ref=e82] [cursor=pointer]:
+              - button [ref=e83]
+            - listitem [ref=e84] [cursor=pointer]:
+              - button [ref=e85]
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]: 🏢
+            - generic [ref=e93]: 1.2万㎡
+            - generic [ref=e94]: 社区面积
+          - generic [ref=e95]:
+            - generic [ref=e96]: 🎯
+            - generic [ref=e97]: 100+
+            - generic [ref=e98]: 首批入驻企业
+          - generic [ref=e99]:
+            - generic [ref=e100]: 📅
+            - generic [ref=e101]: 2026年12月
+            - generic [ref=e102]: 正式开园
+          - generic [ref=e103]:
+            - generic [ref=e104]: ⚡
+            - generic [ref=e105]: 全链条
+            - generic [ref=e106]: 产业生态
+        - generic [ref=e110]:
+          - heading "为什么选择九章数智" [level=2] [ref=e111]
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - generic [ref=e114]: 🏛️
+              - heading "官方资质" [level=3] [ref=e115]
+              - paragraph [ref=e116]: 严格按照《龙岗区支持OPC高质量发展若干措施》标准建设运营，首批OPC创业社区认定机构
+            - generic [ref=e117]:
+              - generic [ref=e118]: 📜
+              - heading "政策对接" [level=3] [ref=e119]
+              - paragraph [ref=e120]: 连续行业创业服务团队，与政府部门建立常态化沟通机制，提供精准政策解读和申报指导
+            - generic [ref=e121]:
+              - generic [ref=e122]: 🤖
+              - heading "技术服务" [level=3] [ref=e123]
+              - paragraph [ref=e124]: 专业AI技术团队，核心成员来自头部企业，具备OpenClaw智能体开发及数字员工运营经验
+            - generic [ref=e125]:
+              - generic [ref=e126]: 🔗
+              - heading "资源整合" [level=3] [ref=e127]
+              - paragraph [ref=e128]: 整合算力、资本、人才、市场等核心产业资源，提供全生命周期资源支持
+        - generic [ref=e132]:
+          - heading "最新资讯" [level=2] [ref=e133]
+          - generic [ref=e134]:
+            - link "企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要 企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要" [ref=e135] [cursor=pointer]:
+              - /url: /pc/information/3
+              - img "企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要" [ref=e137]
+              - heading "企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要" [level=3] [ref=e139]
+            - link "OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！ OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！" [ref=e140] [cursor=pointer]:
+              - /url: /pc/information/2
+              - img "OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！" [ref=e142]
+              - heading "OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！" [level=3] [ref=e144]
+            - link "我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工 我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工" [ref=e145] [cursor=pointer]:
+              - /url: /pc/information/1
+              - img "我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工" [ref=e147]
+              - heading "我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工" [level=3] [ref=e149]
+        - generic [ref=e154]:
+          - heading "联系我们" [level=2] [ref=e155]
+          - paragraph [ref=e156]: 留下您的联系方式，我们将尽快与您取得联系
+          - generic [ref=e157]:
+            - generic [ref=e158]:
+              - generic [ref=e159]:
+                - generic [ref=e160]: "*姓名"
+                - textbox "*姓名" [ref=e164]:
+                  - /placeholder: 请输入您的姓名
+              - generic [ref=e165]:
+                - generic [ref=e166]: "*手机号"
+                - textbox "*手机号" [ref=e170]:
+                  - /placeholder: 请输入您的手机号
+              - generic [ref=e171]:
+                - generic [ref=e172]: 备注
+                - generic [ref=e174]:
+                  - textbox "备注" [ref=e175]:
+                    - /placeholder: 请输入备注信息
+                  - generic [ref=e176]: 0 / 500
+            - button "提交" [ref=e179] [cursor=pointer]:
+              - generic [ref=e180]: 提交
+        - generic [ref=e184]:
+          - generic [ref=e185]:
+            - heading "准备好加入OPC创业社区了吗？" [level=2] [ref=e186]
+            - paragraph [ref=e187]: 立即联系我们，获取免费咨询和专属入驻方案
+          - link "立即咨询" [ref=e189] [cursor=pointer]:
+            - /url: /pc/#form-contact
+    - generic [ref=e191]:
+      - link "用户协议" [ref=e192] [cursor=pointer]:
+        - /url: /pc/policy/service
+      - text: ｜
+      - link "隐私政策" [ref=e193] [cursor=pointer]:
+        - /url: /pc/policy/privacy
+      - text: ｜
+      - link "会员中心" [ref=e194] [cursor=pointer]:
+        - /url: /pc/user/info
+  - generic [ref=e195]:
+    - img [ref=e197] [cursor=pointer]
+    - generic [ref=e201]:
+      - generic [ref=e202]:
+        - generic [ref=e203]: 智能助手
+        - generic [ref=e204]:
+          - button "新建对话" [ref=e205] [cursor=pointer]:
+            - img [ref=e206]
+          - button "关闭" [ref=e208] [cursor=pointer]:
+            - img [ref=e209]
+      - generic [ref=e211]:
+        - generic [ref=e212]:
+          - img [ref=e214]
+          - generic [ref=e219]: 我是小助手
+        - generic [ref=e220]:
+          - generic [ref=e221] [cursor=pointer]: 怎么注册
+          - generic [ref=e222] [cursor=pointer]: 怎么申请补贴
+        - generic [ref=e245]:
+          - generic [ref=e246]:
+            - generic [ref=e247]:
+              - generic [ref=e248]: ✓
+              - generic [ref=e249]: 创业方向
+            - generic [ref=e250]:
+              - generic [ref=e251]: ✓
+              - generic [ref=e252]: 身份信息
+            - generic [ref=e253]:
+              - generic [ref=e254]: ✓
+              - generic [ref=e255]: 团队资金
+            - generic [ref=e256]:
+              - generic [ref=e257]: ✓
+              - generic [ref=e258]: 技术需求
+            - generic [ref=e259]:
+              - generic [ref=e260]: ✓
+              - generic [ref=e261]: 规划
+            - generic [ref=e262]:
+              - generic [ref=e263]: "6"
+              - generic [ref=e264]: 生成报告
+          - generic [ref=e602]:
+            - generic [ref=e658]:
+              - generic [ref=e659]: 🤖
+              - heading "正在生成创业分析报告" [level=3] [ref=e660]
+              - paragraph [ref=e661]: AI 正在根据您的信息撰写报告，请稍候...
+            - generic [ref=e663]:
+              - heading "《九章数智·OPC创业落地分析报告》" [level=1] [ref=e684]
+              - heading "一、公司命名建议" [level=2] [ref=e685]
+              - table [ref=e686]:
+                - rowgroup [ref=e687]:
+                  - row "推荐名称 寓意解析 核名提示" [ref=e688]:
+                    - columnheader "推荐名称" [ref=e689]
+                    - columnheader "寓意解析" [ref=e690]
+                    - columnheader "核名提示" [ref=e691]
+                - rowgroup [ref=e692]:
+                  - row "深美智联科技 \"深\"代表深圳地域，\"美\"指向美妆行业，\"智联\"体现AI连接能力 名称重复率较低，需注意\"智联\"可能被大型科技公司注册" [ref=e693]:
+                    - cell "深美智联科技" [ref=e694]
+                    - cell "\"深\"代表深圳地域，\"美\"指向美妆行业，\"智联\"体现AI连接能力" [ref=e695]
+                    - cell "名称重复率较低，需注意\"智联\"可能被大型科技公司注册" [ref=e696]
+                  - row "容曜AI解决方案 \"容\"暗喻美妆，\"曜\"象征智能光芒，专业感强 需检查\"解决方案\"是否可作为字号使用" [ref=e697]:
+                    - cell "容曜AI解决方案" [ref=e698]
+                    - cell "\"容\"暗喻美妆，\"曜\"象征智能光芒，专业感强" [ref=e699]
+                    - cell "需检查\"解决方案\"是否可作为字号使用" [ref=e700]
+                  - row "妆点未来智能科技 双关\"妆点\"既指美妆又含技术赋能，符合行业特性 名称较长可能增加注册难度" [ref=e701]:
+                    - cell "妆点未来智能科技" [ref=e702]
+                    - cell "双关\"妆点\"既指美妆又含技术赋能，符合行业特性" [ref=e703]
+                    - cell "名称较长可能增加注册难度" [ref=e704]
+              - heading "二、经营范围建议及冲突预检" [level=2] [ref=e705]
+              - heading "核心经营范围（表格）" [level=3] [ref=e706]
+              - table [ref=e707]:
+                - rowgroup [ref=e708]:
+                  - row "规范表述 许可要求 匹配度 风险提示" [ref=e709]:
+                    - columnheader "规范表述" [ref=e710]
+                    - columnheader "许可要求" [ref=e711]
+                    - columnheader "匹配度" [ref=e712]
+                    - columnheader "风险提示" [ref=e713]
+                - rowgroup [ref=e714]:
+                  - row "人工智能应用软件开发(I3008) 无需 ★★★★★ 需注意软件著作权保护" [ref=e715]:
+                    - cell "人工智能应用软件开发(I3008)" [ref=e716]
+                    - cell "无需" [ref=e717]
+                    - cell "★★★★★" [ref=e718]
+                    - cell "需注意软件著作权保护" [ref=e719]
+                  - row "人工智能行业应用系统集成服务(I3022) 无需 ★★★★☆ 避免涉及医疗等特殊领域集成" [ref=e720]:
+                    - cell "人工智能行业应用系统集成服务(I3022)" [ref=e721]
+                    - cell "无需" [ref=e722]
+                    - cell "★★★★☆" [ref=e723]
+                    - cell "避免涉及医疗等特殊领域集成" [ref=e724]
+                  - row "信息技术咨询服务(I0205) 无需 ★★★★☆ 不可混同于认证服务" [ref=e725]:
+                    - cell "信息技术咨询服务(I0205)" [ref=e726]
+                    - cell "无需" [ref=e727]
+                    - cell "★★★★☆" [ref=e728]
+                    - cell "不可混同于认证服务" [ref=e729]
+                  - row "互联网数据服务(I0124) 无需 ★★★☆☆ 需备案但无许可要求" [ref=e730]:
+                    - cell "互联网数据服务(I0124)" [ref=e731]
+                    - cell "无需" [ref=e732]
+                    - cell "★★★☆☆" [ref=e733]
+                    - cell "需备案但无许可要求" [ref=e734]
+              - heading "冲突预警" [level=3] [ref=e735]
+              - list [ref=e736]:
+                - listitem [ref=e737]:
+                  - strong [ref=e738]: 数据安全风险
+                  - text: ：营销文案生成可能涉及用户数据收集，需遵守《个人信息保护法》
+                - listitem [ref=e739]:
+                  - strong [ref=e740]: 行业准入风险
+                  - text: ：美妆行业部分营销话术受《广告法》限制，AI生成内容需人工审核
+                - listitem [ref=e741]:
+                  - strong [ref=e742]: 竞品分析
+                  - text: ：深圳现有37家同类AI客服服务商，建议聚焦美妆垂直领域
+              - heading "结论建议" [level=3] [ref=e743]
+              - paragraph [ref=e744]:
+                - text: ✔️ 优先选择前两项核心经营范围
+                - text: ✔️ 补充"互联网数据服务"增强业务延展性
+                - text: ✖️ 避免添加"广告设计"等需许可项目
+              - heading "三、技术方案" [level=2] [ref=e745]
+              - heading "云服务器配置（腾讯云方案）" [level=3] [ref=e746]
+              - table [ref=e747]:
+                - rowgroup [ref=e748]:
+                  - row "组件 配置建议 年成本（首年优惠）" [ref=e749]:
+                    - columnheader "组件" [ref=e750]
+                    - columnheader "配置建议" [ref=e751]
+                    - columnheader "年成本（首年优惠）" [ref=e752]
+                - rowgroup [ref=e753]:
+                  - row "计算资源" [ref=e754]:
+                    - cell "计算资源" [ref=e755]
+                    - cell [ref=e756]
+                    - cell [ref=e757]
