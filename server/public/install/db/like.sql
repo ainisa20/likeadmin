@@ -785,3 +785,37 @@ CREATE TABLE `la_assessment`  (
   KEY `idx_phone` (`phone`) USING BTREE,
   KEY `idx_create_time` (`create_time`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='评估申请表';
+
+-- ----------------------------
+-- Table structure for la_wizard_report
+-- ----------------------------
+DROP TABLE IF EXISTS `la_wizard_report`;
+CREATE TABLE `la_wizard_report`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
+  `phone` varchar(20) NOT NULL DEFAULT '' COMMENT '联系方式',
+  `direction` varchar(500) NOT NULL DEFAULT '' COMMENT '创业方向',
+  `identity_type` varchar(30) NOT NULL DEFAULT '' COMMENT '身份类型',
+  `region` varchar(30) NOT NULL DEFAULT '' COMMENT '注册区域',
+  `budget` varchar(30) NOT NULL DEFAULT '' COMMENT '启动资金',
+  `employee_count` varchar(30) NOT NULL DEFAULT '' COMMENT '带动就业',
+  `need_server` tinyint(1) NOT NULL DEFAULT 0 COMMENT '需要云服务器',
+  `ai_calls` varchar(30) NOT NULL DEFAULT '' COMMENT 'AI日均调用',
+  `overseas` tinyint(1) NOT NULL DEFAULT 0 COMMENT '海外市场',
+  `register_time` varchar(30) NOT NULL DEFAULT '' COMMENT '注册时间',
+  `services` varchar(500) NOT NULL DEFAULT '' COMMENT '代办服务',
+  `theme_name` varchar(100) NOT NULL DEFAULT '' COMMENT '主题名称',
+  `scope_ids` text COMMENT '经营范围ID',
+  `report_content` longtext COMMENT '报告内容(Markdown)',
+  `subsidy_data` json COMMENT '补贴计算结果',
+  `tech_data` json COMMENT '技术方案数据',
+  `ip` varchar(39) DEFAULT NULL COMMENT 'IP',
+  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0未处理 1已处理',
+  `remark` text COMMENT '备注',
+  `create_time` int NOT NULL DEFAULT 0,
+  `update_time` int DEFAULT NULL,
+  `delete_time` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_phone` (`phone`),
+  KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='OPC向导报告';
