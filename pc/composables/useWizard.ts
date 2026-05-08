@@ -382,10 +382,10 @@ async function appendSubsidyCalculation() {
     replacePlaceholder('SUBSIDY_PLACEHOLDER', subsidyHtml, '## 二、')
     replacePlaceholder('TECH_PLACEHOLDER', techHtml, '## 三、')
 
-    // 清理 AI 输出的裸章节标题（如 "三、\n" 紧邻 "## 三：" 会导致重复）
+    // 清理 AI 输出的裸章节标题（"三、" / "四、" 后面紧跟 "## 三：" / "## 四：" 会导致重复）
     state.generatedContent = state.generatedContent
-      .replace(/^[三四]、\s*\n(?=\n*## [三四])/gm, '')
-      .replace(/\n[三四]、\s*\n(?=\n*## [三四])/g, '\n')
+      .replace(/^[三四]、\s*\n+/, '')
+      .replace(/\n[三四]、\s*\n+/g, '\n\n')
 
     // 同步到聊天记录（difyStore.messages 里最后一个 assistant 消息）
     syncToChatMessages()

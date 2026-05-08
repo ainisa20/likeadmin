@@ -13,8 +13,8 @@
     <div class="confirm-section">
       <h4>👤 身份信息</h4>
       <div class="confirm-row"><span>姓名</span><span>{{ wizard.state.identity.name }}</span></div>
-      <div class="confirm-row"><span>身份</span><span>{{ wizard.state.identity.identityType }}</span></div>
-      <div class="confirm-row"><span>注册区域</span><span>{{ wizard.state.identity.registerArea }}</span></div>
+      <div class="confirm-row"><span>身份</span><span>{{ identityLabel }}</span></div>
+      <div class="confirm-row"><span>注册区域</span><span>{{ regionLabel }}</span></div>
     </div>
 
     <div class="confirm-section">
@@ -71,6 +71,27 @@ const employeeCountText = computed(() => {
     '4+': '4人及以上'
   }
   return map[wizard.state.team.employeeCount] || wizard.state.team.employeeCount
+})
+
+const identityLabel = computed(() => {
+  const map: Record<string, string> = {
+    'graduate': '应届/毕业5年内',
+    'opc': 'OPC/AI创业者',
+    'student': '在校大学生（2026届）',
+    'both': '大学生+OPC创业双重身份',
+  }
+  return map[wizard.state.identity.identityType] || wizard.state.identity.identityType
+})
+
+const regionLabel = computed(() => {
+  const map: Record<string, string> = {
+    'luohu': '罗湖区',
+    'longgang': '龙岗区',
+    'guangming': '光明区',
+    'nanshan': '南山区',
+    'other': '其他区/暂未确定',
+  }
+  return map[wizard.state.identity.registerArea] || wizard.state.identity.registerArea
 })
 
 async function handleGenerate() {
