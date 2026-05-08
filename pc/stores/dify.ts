@@ -3,8 +3,9 @@ import { nextTick } from 'vue'
 import type { DifyConfig, DifyMessage } from '@/types/dify'
 import { getConfig } from '@/api/app'
 import { sendMessage, parseStream, getMessages, getConversations, loadConversationHistory, stopResponse, feedbackMessage, getAppFeedbacks } from '@/api/dify'
+import { generateUUID } from '@/utils/util'
 
-const VISIBLE_NODE_IDS = ['1776435950853', '1776436014252']
+const VISIBLE_NODE_IDS = ['1776435950853', '1776436014252', 'llm']
 
 interface DifyState {
   config: DifyConfig
@@ -138,7 +139,7 @@ export const useDifyStore = defineStore('dify', {
       }
 
       const userMessage: DifyMessage = {
-        id: `user_${crypto.randomUUID()}`,
+        id: `user_${generateUUID()}`,
         role: 'user',
         content: query,
         createdAt: new Date()
@@ -155,7 +156,7 @@ export const useDifyStore = defineStore('dify', {
       this.currentTaskId = null
 
       const assistantMessage: DifyMessage = {
-        id: `assistant_${crypto.randomUUID()}`,
+        id: `assistant_${generateUUID()}`,
         role: 'assistant',
         content: '',
         createdAt: new Date()
@@ -250,6 +251,17 @@ export const useDifyStore = defineStore('dify', {
                   outputs: nodeData.outputs,
                   inputs: nodeData.inputs,
                   elapsedTime: nodeData.elapsed_time
+                }
+
+                if (nodeData.node_type === 'llm' && nodeData.outputs) {
+                  const outputs = nodeData.outputs
+                  if (outputs.text) {
+                    lastMsg.content = outputs.text?.text || ''
+                  } else if (outputs.markdown) {
+                    lastMsg.content = outputs.markdown
+                  } else if (typeof outputs === 'string') {
+                    lastMsg.content = outputs
+                  }
                 }
               }
             }
