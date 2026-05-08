@@ -191,6 +191,93 @@ async function selectTheme(themeId: string) {
   }
 }
 
+async function appendSubsidyCalculation() {
+  try {
+    const identityMap: Record<string, string> = {
+      'graduate': 'graduate',
+      'opc': 'opc',
+      'student': 'student',
+      'both': 'both',
+    }
+
+    const regionMap: Record<string, string> = {
+      'luohu': 'luohu',
+      'longgang': 'longgang',
+      'guangming': 'guangming',
+      'nanshan': 'nanshan',
+      '其他': 'other',
+    }
+
+    const identity = identityMap[state.identity.identityType] || 'other'
+    const region = regionMap[state.identity.registerArea] || 'other'
+    const employee = state.team.employeeCount || '0'
+
+    const res = await fetch('/api/calculate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identity, region, employee }),
+    })
+
+    const data = await res.json()
+
+    if (!data.code || data.code !== 1) {
+      console.error('[Wizard] calculate API error:', data)
+      return
+    }
+
+    const calc = data.data
+    const fmt = (n: number) => n >= 10000 ? `${(n/10000).toFixed(1)}万` : `${n.toLocaleString()}元`
+
+    let subsidyHtml = `\n\n## 三、可申领补贴与收益预估\n\n`
+    subsidyHtml += `**保守估算（普惠易得）：** ${fmt(calc.total_low)} ~ ${fmt(calc.total_high)}\n\n`
+    subsidyHtml += `> 💡 若满足条件，总补贴上限可达 ${fmt(calc.total_high_all)}\n\n`
+
+    const basic = calc.subsidies.filter((s: any) => !s.is_advanced)
+    const advanced = calc.subsidies.filter((s: any) => s.is_advanced)
+
+    if (basic.length > 0) {
+      subsidyHtml += `### 🏆 普惠易得补贴\n\n`
+      subsidyHtml += `| 补贴项目 | 估算金额 | 条件/备注 |\n`
+      subsidyHtml += `|---------|---------|----------|\n`
+      for (const s of basic) {
+        subsidyHtml += `| ${s.name} | ${fmt(s.amount_low)} ~ ${fmt(s.amount_high)} | ${s.condition} |\n`
+      }
+      subsidyHtml += `\n`
+    }
+
+    if (advanced.length > 0) {
+      subsidyHtml += `### 🚀 高难度专项补贴\n\n`
+      subsidyHtml += `| 补贴项目 | 估算金额 | 条件/备注 |\n`
+      subsidyHtml += `|---------|---------|----------|\n`
+      for (const s of advanced) {
+        subsidyHtml += `| ${s.name} | ${fmt(s.amount_low)} ~ ${fmt(s.amount_high)} | ${s.condition} |\n`
+      }
+      subsidyHtml += `\n`
+    }
+
+    subsidyHtml += `### 💸 前期6个月必要投入成本\n\n`
+    subsidyHtml += `| 项目 | 估算金额 | 说明 |\n`
+    subsidyHtml += `|------|---------|------|\n`
+    for (const c of calc.costs) {
+      subsidyHtml += `| ${c.name} | ${c.amount} | ${c.note} |\n`
+    }
+    subsidyHtml += `\n`
+    subsidyHtml += `> 💡 最低总投入约 ${fmt(37339)} 元\n\n`
+
+    subsidyHtml += `### 📊 投入产出分析（净收益）\n\n`
+    subsidyHtml += `- **总投入（最低配置）：** 约 ${fmt(37339)} 元（6个月）\n`
+    subsidyHtml += `- **减去普惠补贴：** -${fmt(calc.total_low)}\n`
+    subsidyHtml += `- **净收益（保守）：** ${calc.net_benefit}\n\n`
+
+    subsidyHtml += `> 💳 **可叠加创业担保贷款：** ${calc.loan_info}\n`
+
+    state.generatedContent += subsidyHtml
+
+  } catch (e) {
+    console.error('[Wizard] appendSubsidyCalculation failed:', e)
+  }
+}
+
 async function generateReport(
   onChunk: (text: string) => void,
   onComplete: (conversationId: string) => void,
@@ -289,6 +376,7 @@ AI日均调用：${state.tech.aiCallsPerDay}
             } else if (chunk.event === 'message_end' && chunk.conversation_id) {
               state.generationComplete = true
               onComplete(chunk.conversation_id)
+              appendSubsidyCalculation()
             }
           } catch {
             // SSE chunks may be incomplete mid-stream, skip them
