@@ -89,10 +89,9 @@ async function handleGenerate() {
       assistantMsg.content += text
     },
     (conversationId: string) => {
-      difyStore.currentConversationId = conversationId
+      // 不保存 OPC 的 conversationId，避免影响普通聊天
     },
   )
-}
 </script>
 
 <style scoped>
