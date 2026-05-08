@@ -126,7 +126,7 @@ class DecorateDataLogic extends BaseLogic
         $defaultConfig = [
             'enabled' => false,
             'token' => '',
-            'baseUrl' => 'http://localhost',
+            'baseUrl' => '/dify-api',  // 使用 nginx 代理路径，避免 CORS 跨域
             'buttonColor' => '#1C64F2',
             'windowWidth' => '24',
             'windowHeight' => '40',
@@ -200,6 +200,8 @@ class DecorateDataLogic extends BaseLogic
                 'welcomeText' => $difyParams['welcomeText'] ?? '',
                 'suggestionsEnabled' => isset($difyParams['suggestionsEnabled']) && ($difyParams['suggestionsEnabled'] === true || $difyParams['suggestionsEnabled'] === 'true' || $difyParams['suggestionsEnabled'] === 1 || $difyParams['suggestionsEnabled'] === '1'),
                 'suggestions' => $difyParams['suggestions'] ?? [],
+                'opcToken' => $difyParams['opcToken'] ?? '',
+                'wizardEnabled' => isset($difyParams['wizardEnabled']) && ($difyParams['wizardEnabled'] === true || $difyParams['wizardEnabled'] === 'true' || $difyParams['wizardEnabled'] === 1 || $difyParams['wizardEnabled'] === '1'),
             ];
             
             // 验证建议提问

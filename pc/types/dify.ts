@@ -29,6 +29,10 @@ export interface DifyConfig {
   suggestionsEnabled?: boolean
   /** 推荐提问列表（3-5个） */
   suggestions?: string[]
+  /** OPC 引导流程专用 Dify Token（独立于聊天应用） */
+  opcToken?: string
+  /** 是否启用 OPC 创业分析引导模式 */
+  wizardEnabled?: boolean
 }
 
 /**
