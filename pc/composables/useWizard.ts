@@ -214,7 +214,7 @@ async function appendSubsidyCalculation() {
     const region = regionMap[state.identity.registerArea] || 'other'
     const employee = state.team.employeeCount || '0'
 
-    const res = await fetch('/api/calculate', {
+    const res = await fetch('/api/calculate/calculate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ identity, region, employee }),
