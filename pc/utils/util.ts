@@ -61,3 +61,23 @@ export function objectToQuery(params: Record<string, any>): string {
     }
     return query.slice(0, -1)
 }
+
+/**
+ * 生成 UUID（兼容性降级方案）
+ * 优先使用 crypto.randomUUID()，失败时降级到随机数生成
+ */
+export function generateUUID(): string {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        try {
+            return crypto.randomUUID()
+        } catch (e) {
+            // 降级到手动生成
+        }
+    }
+    // 降级方案：生成类似 UUID 的字符串
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0
+        const v = c === 'x' ? r : (r & 0x3 | 0x8)
+        return v.toString(16)
+    })
+}
