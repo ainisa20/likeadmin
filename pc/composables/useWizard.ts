@@ -378,14 +378,25 @@ async function appendSubsidyCalculation() {
       techHtml = `\n\n## 四、技术方案\n\n> 技术方案需根据实际云服务配置和AI调用量定制，请联系顾问获取详细方案。\n`
     }
 
-    // ========== 替换占位符 ==========
+    const servicePackageHtml = `\n\n## 五、OPC创业·全栈服务包（仅需3200元）\n\n`
+      + `| 服务模块 | 服务内容 | 市场价 |\n`
+      + `|---------|---------|-------|\n`
+      + `| 🏢 企业代注册 | 核名、工商登记、执照领取、印章刻制、银行开户咨询 | 1000元/套 |\n`
+      + `| 📊 代记账报税 | 账务处理、纳税申报、年度汇算清缴 | 2200元/年 |\n`
+      + `| 🦞 基础OPC部署 | 环境配置、工具链安装、私有化部署、安全加固建议 | 0元 |\n`
+      + `| 📈 营销获客渠道建设 | 新媒体账号搭建、内容策略指导、AI获客工具配置 | 899元/套 |\n`
+      + `| 🎓 创业辅导服务 | 商业计划书优化、补贴申请指导、财税合规咨询 | 399元起/年 |\n`
+      + `\n`
+      + `> ⭐ **增值服务：** 全程免费指导各项政府补贴申请，直至补贴到账\n\n`
+      + `> 💰 以上基础服务包总价仅需 **3200元**\n`
+
     replacePlaceholder('SUBSIDY_PLACEHOLDER', subsidyHtml, '## 二、')
     replacePlaceholder('TECH_PLACEHOLDER', techHtml, '## 三、')
+    replacePlaceholder('SERVICE_PACKAGE_PLACEHOLDER', servicePackageHtml, '## 四、')
 
-    // 清理 AI 输出的裸章节标题（"三、" / "四、" 后面紧跟 "## 三：" / "## 四：" 会导致重复）
     state.generatedContent = state.generatedContent
-      .replace(/^[三四]、\s*\n+/, '')
-      .replace(/\n[三四]、\s*\n+/g, '\n\n')
+      .replace(/^[三四五六七]、\s*\n+/, '')
+      .replace(/\n[三四五六七]、\s*\n+/g, '\n\n')
 
     // 同步到聊天记录（difyStore.messages 里最后一个 assistant 消息）
     syncToChatMessages()
@@ -485,8 +496,9 @@ AI日均调用：${state.tech.aiCallsPerDay}
 二、经营范围建议及冲突预检（表格列出规范表述|是否需前置许可|匹配度|风险提示 + 冲突预警 + 结论）
 三、请直接输出以下占位符（不要输出其他内容）：<!-- SUBSIDY_PLACEHOLDER -->
 四、请直接输出以下占位符（不要输出其他内容）：<!-- TECH_PLACEHOLDER -->
-五、运营规划（获客渠道 + 变现路径 + 里程碑计划）
-六、下一步行动清单（含时间节点）
+五、请直接输出以下占位符（不要输出其他内容）：<!-- SERVICE_PACKAGE_PLACEHOLDER -->
+六、运营规划（获客渠道 + 变现路径 + 里程碑计划）
+七、下一步行动清单（含时间节点）
 末尾加声明：本报告由九章数智人工智能（深圳）有限责任公司出具，基于提供的信息及现行政策分析。
 
 ## 格式要求
