@@ -42,10 +42,15 @@
             <div class="gen-icon">✅</div>
             <h3>报告生成完成</h3>
           </div>
-          <div class="gen-content final">
-            <div class="stream-content" v-html="parseMarkdown(wizard.state.generatedContent)"></div>
+          <div class="gen-actions">
+            <button class="btn-export" @click="exportPDF">
+              <span class="btn-icon">📄</span>导出 PDF
+            </button>
+            <button class="btn-done" @click="$emit('complete')">完成</button>
           </div>
-          <button class="btn-done" @click="$emit('complete')">完成，进入聊天查看完整报告</button>
+          <div class="gen-content final">
+            <div id="report-content" class="stream-content" v-html="parseMarkdown(wizard.state.generatedContent)"></div>
+          </div>
         </template>
         
         <template v-else>
@@ -71,6 +76,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { marked } from 'marked'
 import { useWizard } from '@/composables/useWizard'
 import DirectionStep from './steps/DirectionStep.vue'
 import IdentityStep from './steps/IdentityStep.vue'
@@ -92,18 +98,74 @@ const progressWidth = computed(() => {
   return `${((wizard.state.currentStep - 1) / (stepLabels.length - 1)) * 100}%`
 })
 
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+})
+
 function parseMarkdown(text: string): string {
   if (!text) return ''
-  let html = text
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    .replace(/^- (.+)$/gm, '<li>$1</li>')
-    .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
-    .replace(/\n/g, '<br>')
-  return html
+  return marked.parse(text) as string
+}
+
+function exportPDF() {
+  const printContent = document.getElementById('report-content')
+  if (!printContent) return
+  
+  const printWindow = window.open('', '_blank')
+  if (!printWindow) return
+  
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>OPC创业落地分析报告</title>
+      <style>
+        body { 
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          padding: 40px;
+          max-width: 800px;
+          margin: 0 auto;
+          line-height: 1.6;
+          color: #333;
+        }
+        h1 { color: #1a1a1a; border-bottom: 2px solid #3b82f6; padding-bottom: 10px; }
+        h2 { color: #2d3748; margin-top: 30px; }
+        h3 { color: #4a5568; }
+        table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+        th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+        th { background: #f7fafc; }
+        ul, ol { padding-left: 20px; }
+        li { margin: 5px 0; }
+        strong { color: #1a1a1a; }
+        .footer { 
+          margin-top: 40px; 
+          padding-top: 20px; 
+          border-top: 1px solid #e2e8f0;
+          font-size: 12px;
+          color: #718096;
+          text-align: center;
+        }
+        @media print {
+          body { padding: 20px; }
+          .footer { position: fixed; bottom: 0; width: 100%; }
+        }
+      </style>
+    </head>
+    <body>
+      ${printContent.innerHTML}
+      <div class="footer">本报告由九章数智人工智能（深圳）有限责任公司出具</div>
+    </body>
+    </html>
+  `
+  
+  printWindow.document.write(html)
+  printWindow.document.close()
+  
+  setTimeout(() => {
+    printWindow.print()
+  }, 500)
 }
 </script>
 
@@ -370,5 +432,133 @@ function parseMarkdown(text: string): string {
 .btn-done:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.gen-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.btn-export {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: white;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-export:hover {
+  background: #f9fafb;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.btn-icon {
+  font-size: 16px;
+}
+
+.stream-content {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #374151;
+}
+
+.stream-content h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 8px;
+  margin: 20px 0 16px;
+}
+
+.stream-content h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 24px 0 12px;
+  padding-left: 8px;
+  border-left: 3px solid #3b82f6;
+}
+
+.stream-content h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  margin: 16px 0 8px;
+}
+
+.stream-content p {
+  margin: 8px 0;
+}
+
+.stream-content ul,
+.stream-content ol {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.stream-content li {
+  margin: 4px 0;
+}
+
+.stream-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 12px;
+}
+
+.stream-content th,
+.stream-content td {
+  border: 1px solid #e2e8f0;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.stream-content th {
+  background: #f7fafc;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.stream-content td {
+  background: white;
+}
+
+.stream-content tr:nth-child(even) td {
+  background: #fafbfc;
+}
+
+.stream-content strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.stream-content em {
+  color: #4a5568;
+}
+
+.stream-content code {
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #dc2626;
+}
+
+.stream-content blockquote {
+  border-left: 4px solid #3b82f6;
+  background: #f8fafc;
+  padding: 12px 16px;
+  margin: 12px 0;
+  color: #475569;
 }
 </style>
