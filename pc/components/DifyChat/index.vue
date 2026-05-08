@@ -56,6 +56,21 @@
             </div>
           </div>
 
+          <!-- OPC 创业分析入口卡片 -->
+          <div v-if="difyStore.config.opcToken && !wizardActive" class="wizard-entry-card" @click="startWizard">
+            <div class="entry-icon">🚀</div>
+            <div class="entry-body">
+              <div class="entry-title">OPC创业落地分析</div>
+              <div class="entry-desc">一键生成你的专属创业分析报告</div>
+            </div>
+            <div class="entry-arrow">→</div>
+          </div>
+
+          <!-- 引导模式 -->
+          <WizardMode v-if="wizardActive" @cancel="wizardActive = false" @complete="onReportComplete" />
+
+          <!-- 正常聊天消息 -->
+          <template v-if="!wizardActive">
           <div
             v-for="msg in difyStore.messages"
             :key="msg.id"
@@ -203,9 +218,11 @@
               </div>
             </div>
           </div>
+          </template>
+
         </div>
 
-        <div class="chat-input">
+        <div v-if="!wizardActive" class="chat-input">
           <div v-if="uploadedFile" class="uploaded-file">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -291,10 +308,13 @@
 import { useDifyStore } from '@/stores/dify'
 import { nextTick, onMounted, onUnmounted, ref, computed, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-// @ts-ignore - marked uses ESM
 import { marked } from 'marked'
+import WizardMode from './WizardMode.vue'
+import { useWizard } from '@/composables/useWizard'
 
 const difyStore = useDifyStore()
+const wizard = useWizard()
+const wizardActive = ref(false)
 const isOpen = ref(false)
 const inputQuery = ref('')
 const messagesRef = ref<HTMLElement>()
@@ -374,6 +394,16 @@ const toggleWindow = () => {
       inputRef.value?.focus()
     })
   }
+}
+
+const startWizard = () => {
+  wizard.startWizard()
+  wizardActive.value = true
+}
+
+const onReportComplete = () => {
+  wizardActive.value = false
+  nextTick(() => scrollToBottom())
 }
 
 const send = async () => {
@@ -918,6 +948,52 @@ onUnmounted(() => {
   background: #dbeafe;
   border-color: #3b82f6;
   transform: translateY(-1px);
+}
+
+.wizard-entry-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  margin: 4px 0 8px;
+  background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.wizard-entry-card:hover {
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59,130,246,0.15);
+}
+
+.entry-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.entry-body {
+  flex: 1;
+}
+
+.entry-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+.entry-desc {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.entry-arrow {
+  font-size: 16px;
+  color: #3b82f6;
+  flex-shrink: 0;
 }
 
 .message {
