@@ -51,17 +51,18 @@ import { useWizard } from '@/composables/useWizard'
 const wizard = useWizard()
 
 const identityOptions = [
-  { label: '在校大学生(2026届)', value: '在校大学生' },
-  { label: '毕业5年内大学生', value: '毕业5年内大学生' },
-  { label: '深户登记失业人员', value: '深户登记失业人员' },
-  { label: '其他社会人员(本科+)', value: '其他' },
+  { label: '🧑‍🎓 应届/毕业5年内', value: 'graduate' },
+  { label: '🤖 OPC/AI创业者', value: 'opc' },
+  { label: '🎓 在校大学生（2026届毕业生）', value: 'student' },
+  { label: '🚀 大学生+OPC创业双重身份', value: 'both' },
 ]
 
 const areaOptions = [
-  { label: '龙岗区', value: '龙岗区' },
-  { label: '罗湖区', value: '罗湖区' },
-  { label: '光明区', value: '光明区' },
-  { label: '其他', value: '其他' },
+  { label: '罗湖区', value: 'luohu' },
+  { label: '龙岗区', value: 'longgang' },
+  { label: '光明区', value: 'guangming' },
+  { label: '南山区', value: 'nanshan' },
+  { label: '其他区/暂未确定', value: 'other' },
 ]
 </script>
 

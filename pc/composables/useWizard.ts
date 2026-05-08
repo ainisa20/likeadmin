@@ -66,7 +66,7 @@ interface WizardState {
   selectedScopeIds: string[]
 
   identity: { name: string; identityType: string; registerArea: string }
-  team: { size: number; budget: string; livingFund: string }
+  team: { size: number; budget: string; employeeCount: string }
   tech: { needServer: boolean; aiCallsPerDay: string; overseas: boolean }
   plan: { registerTime: string; services: string[] }
 
@@ -89,7 +89,7 @@ const initialState: () => WizardState = () => ({
   selectedScopeIds: [],
 
   identity: { name: '', identityType: '', registerArea: '' },
-  team: { size: 1, budget: '', livingFund: '' },
+  team: { size: 1, budget: '', employeeCount: '' },
   tech: { needServer: true, aiCallsPerDay: '', overseas: false },
   plan: { registerTime: '', services: [] },
 
@@ -228,7 +228,7 @@ ${scopeDetails}
 ## 团队与资金
 团队人数：${state.team.size}人
 启动资金：${state.team.budget}
-生活预留：${state.team.livingFund}
+预计带动就业人数：${state.team.employeeCount}
 
 ## 技术需求
 云服务器：${state.tech.needServer ? '需要' : '不需要'}
@@ -242,8 +242,9 @@ AI日均调用：${state.tech.aiCallsPerDay}
 ## 报告结构要求
 一、公司命名建议（推荐3个名称+寓意+核名提示）
 二、经营范围建议及冲突预检（表格列出规范表述|是否需前置许可|匹配度|风险提示 + 冲突预警 + 结论）
-三、可申领补贴与收益预估（6个月成本表 + 可申领补贴表 + 净收益底线测算）
-四、下一步行动清单（含时间节点）
+三、技术方案（云服务器配置建议 + AI工具链部署方案 + 成本估算）
+四、运营规划（获客渠道 + 变现路径 + 里程碑计划）
+五、下一步行动清单（含时间节点）
 末尾加声明：本报告由九章数智人工智能（深圳）有限责任公司出具，基于提供的信息及现行政策分析。`
 
     const response = await fetch(`${config.baseUrl.replace(/\/$/, '')}/v1/chat-messages`, {
@@ -336,7 +337,7 @@ const canProceedFromStep = computed(() => {
     case 2:
       return !!(state.identity.name && state.identity.identityType && state.identity.registerArea)
     case 3:
-      return !!(state.team.size && state.team.budget && state.team.livingFund)
+      return !!(state.team.size && state.team.budget && state.team.employeeCount)
     case 4:
       return !!state.tech.aiCallsPerDay
     case 5:

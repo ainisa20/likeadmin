@@ -21,7 +21,7 @@
       <h4>👥 团队与资金</h4>
       <div class="confirm-row"><span>团队人数</span><span>{{ wizard.state.team.size }}人</span></div>
       <div class="confirm-row"><span>启动资金</span><span>{{ wizard.state.team.budget }}</span></div>
-      <div class="confirm-row"><span>生活预留</span><span>{{ wizard.state.team.livingFund }}</span></div>
+      <div class="confirm-row"><span>带动就业</span><span>{{ employeeCountText }}</span></div>
     </div>
 
     <div class="confirm-section">
@@ -63,6 +63,15 @@ const scopeNames = computed(() => {
   return wizard.selectedScopeItems.value
     .map(item => item.standardItem)
     .join('、')
+})
+
+const employeeCountText = computed(() => {
+  const map: Record<string, string> = {
+    '0': '只有我自己（0人带动）',
+    '1-3': '1-3人',
+    '4+': '4人及以上'
+  }
+  return map[wizard.state.team.employeeCount] || wizard.state.team.employeeCount
 })
 
 async function handleGenerate() {

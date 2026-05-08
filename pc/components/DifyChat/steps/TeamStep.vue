@@ -26,14 +26,14 @@
     </div>
 
     <div class="form-group">
-      <label>6个月生活预留资金</label>
+      <label>预计带动就业人数（含自己）</label>
       <div class="radio-group">
         <label
-          v-for="opt in fundOptions"
+          v-for="opt in employeeOptions"
           :key="opt.value"
-          :class="['radio-card', { active: wizard.state.team.livingFund === opt.value }]"
+          :class="['radio-card', { active: wizard.state.team.employeeCount === opt.value }]"
         >
-          <input type="radio" :value="opt.value" v-model="wizard.state.team.livingFund" />
+          <input type="radio" :value="opt.value" v-model="wizard.state.team.employeeCount" />
           <span>{{ opt.label }}</span>
         </label>
       </div>
@@ -41,7 +41,7 @@
 
     <button
       class="btn-primary"
-      :disabled="!wizard.state.team.budget || !wizard.state.team.livingFund || wizard.state.team.size < 1"
+      :disabled="!wizard.state.team.budget || !wizard.state.team.employeeCount || wizard.state.team.size < 1"
       @click="wizard.nextStep()"
     >
       下一步 →
@@ -61,10 +61,10 @@ const budgetOptions = [
   { label: '10万以上', value: '10万以上' },
 ]
 
-const fundOptions = [
-  { label: '3万', value: '3万' },
-  { label: '5万', value: '5万' },
-  { label: '8万以上', value: '8万以上' },
+const employeeOptions = [
+  { label: '只有我自己（0人带动）', value: '0' },
+  { label: '1-3人', value: '1-3' },
+  { label: '4人及以上', value: '4+' },
 ]
 </script>
 
