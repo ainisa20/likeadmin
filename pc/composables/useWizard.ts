@@ -490,9 +490,8 @@ AI日均调用：${state.tech.aiCallsPerDay}
 末尾加声明：本报告由九章数智人工智能（深圳）有限责任公司出具，基于提供的信息及现行政策分析。
 
 ## 格式要求
-- 使用Markdown表格，不要输出mermaid/flowchart/graph代码
-- 所有图表用Markdown表格或列表呈现
-- 绝对禁止输出任何以graph、flowchart、sequenceDiagram开头的代码块，所有流程图用文字列表或表格代替
+- 所有流程图用 ASCII art 文本图（用 │ ▼ ─ ┌ ┐ └ ┘ 等字符画），绝对禁止输出 mermaid/graph/flowchart 代码
+- 数据对比用 Markdown 表格
 - 不要在占位符前后输出"三、"或"四、"等章节标题，占位符本身就是完整内容`
 
     const response = await fetch(`${config.baseUrl.replace(/\/$/, '')}/v1/chat-messages`, {
