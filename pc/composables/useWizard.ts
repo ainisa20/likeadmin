@@ -412,8 +412,9 @@ async function appendSubsidyCalculation() {
 function syncToChatMessages() {
   const difyStore = useDifyStore()
   for (let i = difyStore.messages.length - 1; i >= 0; i--) {
-    if (difyStore.messages[i].role === 'assistant') {
-      difyStore.messages[i].content = state.generatedContent
+    const msg = difyStore.messages[i]
+    if (msg.role === 'assistant' && (msg as any).source === 'opc') {
+      msg.content = state.generatedContent
       break
     }
   }

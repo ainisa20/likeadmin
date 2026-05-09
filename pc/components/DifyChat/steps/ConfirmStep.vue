@@ -104,13 +104,14 @@ async function handleGenerate() {
     role: 'user',
     content: `生成OPC创业落地分析报告：${wizard.state.directionInput}`,
     createdAt: new Date(),
-  })
+  } as any)
 
   const assistantMsg: any = {
     id: assistantMsgId,
     role: 'assistant',
     content: '',
     createdAt: new Date(),
+    source: 'opc',
   }
   difyStore.messages.push(assistantMsg)
 

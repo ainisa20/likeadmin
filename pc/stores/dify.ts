@@ -5,7 +5,7 @@ import { getConfig } from '@/api/app'
 import { sendMessage, parseStream, getMessages, getConversations, loadConversationHistory, stopResponse, feedbackMessage, getAppFeedbacks } from '@/api/dify'
 import { generateUUID } from '@/utils/util'
 
-const VISIBLE_NODE_IDS = ['1776435950853', '1776436014252', 'llm']
+const VISIBLE_NODE_IDS = ['1776435950853', '1776436014252']
 
 interface DifyState {
   config: DifyConfig
