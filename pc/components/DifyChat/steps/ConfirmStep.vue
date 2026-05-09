@@ -79,7 +79,7 @@ const identityLabel = computed(() => {
     'graduate': '应届/毕业5年内',
     'opc': 'OPC/AI创业者',
     'student': '在校大学生（2026届）',
-    'both': '大学生+OPC创业双重身份',
+    'both': '应届大学生+OPC创业双重身份',
   }
   return map[wizard.state.identity.identityType] || wizard.state.identity.identityType
 })

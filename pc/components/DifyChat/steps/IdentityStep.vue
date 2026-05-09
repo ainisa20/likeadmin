@@ -59,7 +59,7 @@ const identityOptions = [
   { label: '🧑‍🎓 应届/毕业5年内', value: 'graduate' },
   { label: '🤖 OPC/AI创业者', value: 'opc' },
   { label: '🎓 在校大学生（2026届毕业生）', value: 'student' },
-  { label: '🚀 大学生+OPC创业双重身份', value: 'both' },
+  { label: '🚀 应届大学生+OPC创业双重身份', value: 'both' },
 ]
 
 const areaOptions = [
