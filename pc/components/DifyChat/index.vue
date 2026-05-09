@@ -69,6 +69,21 @@
           <!-- 引导模式 -->
           <WizardMode v-if="wizardActive" @cancel="wizardActive = false" @complete="onReportComplete" />
 
+          <!-- 验证码对话框 -->
+          <el-dialog v-model="showCaptchaDialog" title="安全验证" width="400px" :close-on-click-modal="false">
+            <div class="captcha-tip">
+              为了保护服务安全，请完成以下验证
+            </div>
+            <div class="captcha-display">{{ expectedCaptcha }}</div>
+            <el-input v-model="captchaInput" placeholder="请输入4位验证码" maxlength="4" style="text-transform: uppercase; letter-spacing: 8px; margin: 16px 0" autofocus />
+            <div class="captcha-hint">验证码不区分大小写</div>
+            <template #footer>
+              <el-button type="primary" :disabled="captchaInput.value.length !== 4" @click="verifyCaptcha" style="width: 100%">
+                验证
+              </el-button>
+            </template>
+          </el-dialog>
+
           <!-- 正常聊天消息 -->
           <template v-if="!wizardActive">
           <div
@@ -302,18 +317,53 @@
       </div>
     </Transition>
   </div>
+
+  <!-- 验证码对话框 -->
+  <el-dialog
+    v-model="showCaptchaDialog"
+    title="安全验证"
+    width="400px"
+    :close-on-click-modal="false"
+  >
+    <div class="captcha-tip">
+      为了保护服务安全，请完成以下验证
+    </div>
+    <div class="captcha-display">{{ expectedCaptcha }}</div>
+    <el-input
+      v-model="captchaInput"
+      placeholder="请输入4位验证码"
+      maxlength="4"
+      style="text-transform: uppercase; letter-spacing: 8px; margin: 16px 0"
+      @keyup.enter="verifyCaptcha"
+      autofocus
+    />
+    <div class="captcha-hint">验证码不区分大小写</div>
+    <template #footer>
+      <el-button
+        type="primary"
+        :disabled="captchaInput.value.length !== 4"
+        @click="verifyCaptcha"
+        style="width: 100%"
+      >
+        验证
+      </el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { useDifyStore } from '@/stores/dify'
 import { nextTick, onMounted, onUnmounted, ref, computed, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElDialog, ElInput, ElButton, ElFormItem, ElForm } from 'element-plus'
 import { marked } from 'marked'
+import * as ElementPlusIcons from '@element-plus/icons-vue'
 import WizardMode from './WizardMode.vue'
 import { useWizard } from '@/composables/useWizard'
+import { useSecurity } from '@/composables/useSecurity'
 
 const difyStore = useDifyStore()
 const wizard = useWizard()
+const security = useSecurity()
 const wizardActive = ref(false)
 const isOpen = ref(false)
 const inputQuery = ref('')
@@ -329,6 +379,10 @@ let mediaRecorder: MediaRecorder | null = null
 let audioChunks: Blob[] = []
 let recordingStream: MediaStream | null = null
 const isSending = ref(false)
+
+const showCaptchaDialog = ref(false)
+const captchaInput = ref('')
+const expectedCaptcha = ref('')
 
 const windowStyle = computed(() => ({
   width: `${difyStore.config.windowWidth}rem`,
@@ -446,8 +500,22 @@ function loadLocalOpcReports() {
 const send = async () => {
   if (!inputQuery.value.trim() || difyStore.isTyping || isSending.value) return
 
-  isSending.value = true
   const query = inputQuery.value
+
+  const validation = security.validateQuery(query)
+  if (!validation.allowed) {
+    if (validation.reason === 'need_verification') {
+      showCaptchaDialog.value = true
+      expectedCaptcha.value = security.generateCaptcha()
+      captchaInput.value = ''
+      return
+    } else {
+      ElMessage.warning(validation.reason || '发送失败，请稍后再试')
+      return
+    }
+  }
+
+  isSending.value = true
   inputQuery.value = ''
   
   const filesToSend = uploadedFile.value ? [{...uploadedFile.value}] : undefined
@@ -461,6 +529,18 @@ const send = async () => {
     inputQuery.value = query
   } finally {
     isSending.value = false
+  }
+}
+
+const verifyCaptcha = () => {
+  if (security.verifyCaptcha(captchaInput.value, expectedCaptcha.value)) {
+    security.markVerified()
+    showCaptchaDialog.value = false
+    ElMessage.success('验证通过')
+  } else {
+    ElMessage.error('验证码错误，请重试')
+    captchaInput.value = ''
+    expectedCaptcha.value = security.generateCaptcha()
   }
 }
 
@@ -779,6 +859,8 @@ const selectSuggestion = (suggestion: string) => {
 }
 
 onMounted(async () => {
+  security.init()
+  
   if (!difyStore.isConfigured) {
     await difyStore.initConfig()
   }
@@ -1648,11 +1730,34 @@ onUnmounted(() => {
   // 代码块
   code {
     padding: 2px 6px;
-    background: rgba(0, 0, 0, 0.06);
-    border-radius: 4px;
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-    font-size: 0.9em;
   }
+
+  // 验证码对话框
+  .captcha-tip {
+    text-align: center;
+    padding: 12px 0;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+
+  .captcha-display {
+    text-align: center;
+    padding: 16px 0;
+    font-family: monospace;
+    font-size: 24px;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+    font-weight: bold;
+    color: #3b82f6;
+  }
+
+  .captcha-hint {
+    text-align: center;
+    font-size: 12px;
+    color: #909399;
+    margin-top: 4px;
+  }
+}
 
   pre {
     padding: 12px;

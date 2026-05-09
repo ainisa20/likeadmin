@@ -1,0 +1,218 @@
+- generic [ref=e1]:
+  - generic [ref=e45]:
+    - complementary [ref=e47]:
+      - generic [ref=e48]:
+        - generic [ref=e49] [cursor=pointer]:
+          - img [ref=e51]
+          - generic [ref=e54]: 九章数智
+        - menubar [ref=e59]:
+          - link "工作台" [ref=e60] [cursor=pointer]:
+            - /url: /admin/workbench
+            - menuitem "工作台" [ref=e61]:
+              - img [ref=e63]
+              - generic [ref=e65]: 工作台
+          - menuitem "用户管理" [ref=e66]:
+            - generic [ref=e67] [cursor=pointer]:
+              - img [ref=e69]
+              - generic [ref=e71]: 用户管理
+              - img [ref=e73]
+          - menuitem "应用管理" [expanded] [ref=e75]:
+            - generic [ref=e76] [cursor=pointer]:
+              - img [ref=e78]
+              - generic [ref=e81]: 应用管理
+              - img [ref=e83]
+            - menu [ref=e317]:
+              - link "用户充值" [ref=e318] [cursor=pointer]:
+                - /url: /admin/app/recharge
+                - menuitem "用户充值" [ref=e319]:
+                  - img [ref=e321]
+                  - generic [ref=e323]: 用户充值
+              - menuitem "文章资讯" [ref=e324]:
+                - generic [ref=e325] [cursor=pointer]:
+                  - img [ref=e327]
+                  - generic [ref=e330]: 文章资讯
+                  - img [ref=e332]
+              - menuitem "消息管理" [ref=e334]:
+                - generic [ref=e335] [cursor=pointer]:
+                  - img [ref=e337]
+                  - generic [ref=e340]: 消息管理
+                  - img [ref=e342]
+              - menuitem "素材管理" [ref=e344]:
+                - generic [ref=e345] [cursor=pointer]:
+                  - img [ref=e347]
+                  - generic [ref=e350]: 素材管理
+                  - img [ref=e352]
+              - link "评估申请" [ref=e354] [cursor=pointer]:
+                - /url: /admin/app/assessment
+                - menuitem "评估申请" [ref=e355]:
+                  - img [ref=e357]
+                  - generic [ref=e359]: 评估申请
+              - link "OPC报告管理" [ref=e360] [cursor=pointer]:
+                - /url: /admin/app/wizard_report
+                - menuitem "OPC报告管理" [active] [ref=e361]:
+                  - img [ref=e363]
+                  - generic [ref=e365]: OPC报告管理
+          - menuitem "财务管理" [ref=e85]:
+            - generic [ref=e86] [cursor=pointer]:
+              - img [ref=e88]
+              - generic [ref=e90]: 财务管理
+              - img [ref=e92]
+          - menuitem "装修管理" [ref=e94]:
+            - generic [ref=e95] [cursor=pointer]:
+              - img [ref=e97]
+              - generic [ref=e99]: 装修管理
+              - img [ref=e101]
+          - menuitem "渠道设置" [ref=e103]:
+            - generic [ref=e104] [cursor=pointer]:
+              - img [ref=e106]
+              - generic [ref=e109]: 渠道设置
+              - img [ref=e111]
+          - menuitem "组织管理" [ref=e113]:
+            - generic [ref=e114] [cursor=pointer]:
+              - img [ref=e116]
+              - generic [ref=e120]: 组织管理
+              - img [ref=e122]
+          - menuitem "权限管理" [ref=e124]:
+            - generic [ref=e125] [cursor=pointer]:
+              - img [ref=e127]
+              - generic [ref=e130]: 权限管理
+              - img [ref=e132]
+          - menuitem "系统设置" [ref=e134]:
+            - generic [ref=e135] [cursor=pointer]:
+              - img [ref=e137]
+              - generic [ref=e139]: 系统设置
+              - img [ref=e141]
+          - menuitem "模板示例" [ref=e143]:
+            - generic [ref=e144] [cursor=pointer]:
+              - img [ref=e146]
+              - generic [ref=e151]: 模板示例
+              - img [ref=e153]
+    - generic [ref=e155]:
+      - banner [ref=e157]:
+        - generic [ref=e158]:
+          - generic [ref=e159]:
+            - img [ref=e163] [cursor=pointer]
+            - img [ref=e168] [cursor=pointer]
+            - navigation "面包屑" [ref=e171]:
+              - link "OPC报告管理" [ref=e369]
+          - generic [ref=e174]:
+            - img [ref=e178] [cursor=pointer]
+            - button "admin" [ref=e182] [cursor=pointer]:
+              - img [ref=e184]
+              - generic [ref=e185]: admin
+              - img [ref=e187]
+            - img [ref=e192] [cursor=pointer]
+        - generic [ref=e194]:
+          - tablist [ref=e200]:
+            - tab "工作台" [ref=e201]:
+              - text: 工作台
+              - img [ref=e371]
+            - tab "OPC报告管理" [selected] [ref=e373]:
+              - text: OPC报告管理
+              - img [ref=e375]
+          - button [ref=e203] [cursor=pointer]:
+            - img [ref=e205]
+      - main [ref=e208]:
+        - generic [ref=e377]:
+          - generic [ref=e380]:
+            - generic [ref=e381]:
+              - generic [ref=e382]: 姓名
+              - textbox "姓名" [ref=e386]:
+                - /placeholder: 输入姓名
+            - generic [ref=e387]:
+              - generic [ref=e388]: 手机号
+              - textbox "手机号" [ref=e392]:
+                - /placeholder: 输入手机号
+            - generic [ref=e393]:
+              - generic [ref=e394]: 身份类型
+              - generic [ref=e397] [cursor=pointer]:
+                - generic:
+                  - combobox "身份类型" [ref=e399]
+                  - generic [ref=e400]: 全部
+                - img [ref=e403]
+            - generic [ref=e405]:
+              - generic [ref=e406]: 处理状态
+              - generic [ref=e409] [cursor=pointer]:
+                - generic:
+                  - combobox "处理状态" [ref=e411]
+                  - generic [ref=e412]: 全部
+                - img [ref=e415]
+            - generic [ref=e418]:
+              - button "查询" [ref=e419] [cursor=pointer]:
+                - generic [ref=e420]: 查询
+              - button "重置" [ref=e421] [cursor=pointer]:
+                - generic [ref=e422]: 重置
+          - generic [ref=e424]:
+            - generic [ref=e426]:
+              - table [ref=e428]:
+                - rowgroup [ref=e440]:
+                  - row "ID 姓名 手机号 创业方向 身份 区域 主题 状态 提交时间 操作" [ref=e441]:
+                    - columnheader "ID" [ref=e442]:
+                      - generic [ref=e443]: ID
+                    - columnheader "姓名" [ref=e444]:
+                      - generic [ref=e445]: 姓名
+                    - columnheader "手机号" [ref=e446]:
+                      - generic [ref=e447]: 手机号
+                    - columnheader "创业方向" [ref=e448]:
+                      - generic [ref=e449]: 创业方向
+                    - columnheader "身份" [ref=e450]:
+                      - generic [ref=e451]: 身份
+                    - columnheader "区域" [ref=e452]:
+                      - generic [ref=e453]: 区域
+                    - columnheader "主题" [ref=e454]:
+                      - generic [ref=e455]: 主题
+                    - columnheader "状态" [ref=e456]:
+                      - generic [ref=e457]: 状态
+                    - columnheader "提交时间" [ref=e458]:
+                      - generic [ref=e459]: 提交时间
+                    - columnheader "操作" [ref=e460]:
+                      - generic [ref=e461]: 操作
+              - table [ref=e466]:
+                - rowgroup [ref=e478]:
+                  - row "1 测试张三 13800138000 AI客服 OPC/AI创业者 罗湖区 智能客服 未处理 2026-05-08 22:39:16 查看报告 备注 删除" [ref=e479]:
+                    - cell "1" [ref=e480]:
+                      - generic [ref=e481]: "1"
+                    - cell "测试张三" [ref=e482]:
+                      - generic [ref=e483]: 测试张三
+                    - cell "13800138000" [ref=e484]:
+                      - generic [ref=e485]: "13800138000"
+                    - cell "AI客服" [ref=e486]:
+                      - generic [ref=e487]: AI客服
+                    - cell "OPC/AI创业者" [ref=e488]:
+                      - generic [ref=e489]: OPC/AI创业者
+                    - cell "罗湖区" [ref=e490]:
+                      - generic [ref=e491]: 罗湖区
+                    - cell "智能客服" [ref=e492]:
+                      - generic [ref=e493]: 智能客服
+                    - cell "未处理" [ref=e494]:
+                      - generic [ref=e497]: 未处理
+                    - cell "2026-05-08 22:39:16" [ref=e498]:
+                      - generic [ref=e499]: 2026-05-08 22:39:16
+                    - cell "查看报告 备注 删除" [ref=e500]:
+                      - generic [ref=e501]:
+                        - button "查看报告" [ref=e502] [cursor=pointer]:
+                          - generic [ref=e503]: 查看报告
+                        - button "备注" [ref=e504] [cursor=pointer]:
+                          - generic [ref=e505]: 备注
+                        - button "删除" [ref=e506] [cursor=pointer]:
+                          - generic [ref=e507]: 删除
+            - generic [ref=e510]:
+              - generic [ref=e511]: 共 1 条
+              - generic [ref=e514] [cursor=pointer]:
+                - generic:
+                  - combobox [ref=e516]
+                  - generic [ref=e517]: "10"
+                - img [ref=e520]
+              - button "上一页" [disabled] [ref=e522]:
+                - generic:
+                  - img
+              - list [ref=e523]:
+                - listitem "第 1 页" [ref=e524]: "1"
+              - button "下一页" [disabled] [ref=e525]:
+                - generic:
+                  - img
+              - generic [ref=e526]:
+                - generic [ref=e527]: 前往
+                - spinbutton "页" [ref=e530]: "1"
+                - generic [ref=e531]: 页
+  - img

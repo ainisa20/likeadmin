@@ -1,0 +1,21 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e324]:
+    - generic [ref=e326]:
+      - img [ref=e329]
+      - generic [ref=e330]:
+        - generic [ref=e331]: 九章数智
+        - generic [ref=e332]:
+          - generic [ref=e335]:
+            - img [ref=e338]
+            - textbox "请输入账号" [ref=e341]
+          - generic [ref=e344]:
+            - img [ref=e347]
+            - textbox "请输入密码" [ref=e351]
+        - generic [ref=e353] [cursor=pointer]:
+          - generic [ref=e354]:
+            - checkbox "记住账号"
+          - generic [ref=e356]: 记住账号
+        - button "登录" [ref=e357] [cursor=pointer]:
+          - generic [ref=e358]: 登录
+    - contentinfo [ref=e359]
+  - img

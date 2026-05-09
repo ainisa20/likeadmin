@@ -1,0 +1,159 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e45]:
+    - complementary [ref=e47]:
+      - generic [ref=e48]:
+        - generic [ref=e49] [cursor=pointer]:
+          - img [ref=e51]
+          - generic [ref=e54]: 九章数智
+        - menubar [ref=e59]:
+          - link "工作台" [ref=e60] [cursor=pointer]:
+            - /url: /admin/workbench
+            - menuitem "工作台" [ref=e61]:
+              - img [ref=e63]
+              - generic [ref=e65]: 工作台
+          - menuitem "用户管理" [ref=e66]:
+            - generic [ref=e67] [cursor=pointer]:
+              - img [ref=e69]
+              - generic [ref=e71]: 用户管理
+              - img [ref=e73]
+          - menuitem "应用管理" [ref=e75]:
+            - generic [ref=e76] [cursor=pointer]:
+              - img [ref=e78]
+              - generic [ref=e81]: 应用管理
+              - img [ref=e83]
+          - menuitem "财务管理" [ref=e85]:
+            - generic [ref=e86] [cursor=pointer]:
+              - img [ref=e88]
+              - generic [ref=e90]: 财务管理
+              - img [ref=e92]
+          - menuitem "装修管理" [ref=e94]:
+            - generic [ref=e95] [cursor=pointer]:
+              - img [ref=e97]
+              - generic [ref=e99]: 装修管理
+              - img [ref=e101]
+          - menuitem "渠道设置" [ref=e103]:
+            - generic [ref=e104] [cursor=pointer]:
+              - img [ref=e106]
+              - generic [ref=e109]: 渠道设置
+              - img [ref=e111]
+          - menuitem "组织管理" [ref=e113]:
+            - generic [ref=e114] [cursor=pointer]:
+              - img [ref=e116]
+              - generic [ref=e120]: 组织管理
+              - img [ref=e122]
+          - menuitem "权限管理" [ref=e124]:
+            - generic [ref=e125] [cursor=pointer]:
+              - img [ref=e127]
+              - generic [ref=e130]: 权限管理
+              - img [ref=e132]
+          - menuitem "系统设置" [ref=e134]:
+            - generic [ref=e135] [cursor=pointer]:
+              - img [ref=e137]
+              - generic [ref=e139]: 系统设置
+              - img [ref=e141]
+          - menuitem "模板示例" [ref=e143]:
+            - generic [ref=e144] [cursor=pointer]:
+              - img [ref=e146]
+              - generic [ref=e151]: 模板示例
+              - img [ref=e153]
+    - generic [ref=e155]:
+      - banner [ref=e157]:
+        - generic [ref=e158]:
+          - generic [ref=e159]:
+            - img [ref=e163] [cursor=pointer]
+            - img [ref=e168] [cursor=pointer]
+            - navigation "面包屑" [ref=e171]:
+              - link "工作台" [ref=e173]
+          - generic [ref=e174]:
+            - img [ref=e178] [cursor=pointer]
+            - button "admin" [ref=e182] [cursor=pointer]:
+              - img [ref=e184]
+              - generic [ref=e185]: admin
+              - img [ref=e187]
+            - img [ref=e192] [cursor=pointer]
+        - generic [ref=e194]:
+          - tablist [ref=e200]:
+            - tab "工作台" [selected] [ref=e201]
+          - button [ref=e203] [cursor=pointer]:
+            - img [ref=e205]
+      - main [ref=e208]:
+        - generic [ref=e213]:
+          - generic [ref=e214]:
+            - generic [ref=e215]:
+              - generic [ref=e216]: 版本信息
+              - generic [ref=e218]:
+                - generic [ref=e219]:
+                  - generic [ref=e220]: 平台名称
+                  - generic [ref=e221]: 九章数智
+                - generic [ref=e222]:
+                  - generic [ref=e223]: 当前版本
+                  - generic [ref=e224]: 1.9.4
+                - generic [ref=e225]:
+                  - generic [ref=e226]: 获取渠道
+                  - generic [ref=e227]:
+                    - link "官网" [ref=e228] [cursor=pointer]:
+                      - /url: https://www.likeadmin.cn
+                      - button "官网" [ref=e229]:
+                        - generic [ref=e230]: 官网
+                    - link "Gitee" [ref=e231] [cursor=pointer]:
+                      - /url: https://gitee.com/likeadmin/likeadmin_php
+                      - button "Gitee" [ref=e232]:
+                        - generic [ref=e233]: Gitee
+            - generic [ref=e234]:
+              - generic [ref=e236]: 今日数据 更新时间：2026-05-09 03:50:48
+              - generic [ref=e238]:
+                - generic [ref=e239]:
+                  - generic [ref=e240]: 销售额
+                  - generic [ref=e241]: "100"
+                  - generic [ref=e242]: 总：1000
+                - generic [ref=e243]:
+                  - generic [ref=e244]: 成交订单
+                  - generic [ref=e245]: "12"
+                  - generic [ref=e246]: 总：255
+                - generic [ref=e247]:
+                  - generic [ref=e248]: 新增用户
+                  - generic [ref=e249]: "30"
+                  - generic [ref=e250]: 总：3000
+                - generic [ref=e251]:
+                  - generic [ref=e252]: 新增访问量
+                  - generic [ref=e253]: "10"
+                  - generic [ref=e254]: 总：100
+          - generic [ref=e256]:
+            - generic [ref=e257]: 常用功能
+            - generic [ref=e259]:
+              - link "管理员" [ref=e261] [cursor=pointer]:
+                - /url: /admin/permission/admin
+                - img [ref=e263]
+                - generic [ref=e264]: 管理员
+              - link "角色管理" [ref=e266] [cursor=pointer]:
+                - /url: /admin/permission/role
+                - img [ref=e268]
+                - generic [ref=e269]: 角色管理
+              - link "部门管理" [ref=e271] [cursor=pointer]:
+                - /url: /admin/organization/department
+                - img [ref=e273]
+                - generic [ref=e274]: 部门管理
+              - link "字典管理" [ref=e276] [cursor=pointer]:
+                - /url: /admin/setting/dev_tools/dict
+                - img [ref=e278]
+                - generic [ref=e279]: 字典管理
+              - link "代码生成器" [ref=e281] [cursor=pointer]:
+                - /url: /admin/dev_tools/code
+                - img [ref=e283]
+                - generic [ref=e284]: 代码生成器
+              - link "素材中心" [ref=e286] [cursor=pointer]:
+                - /url: /admin/app/material/index
+                - img [ref=e288]
+                - generic [ref=e289]: 素材中心
+              - link "菜单权限" [ref=e291] [cursor=pointer]:
+                - /url: /admin/permission/menu
+                - img [ref=e293]
+                - generic [ref=e294]: 菜单权限
+              - link "网站信息" [ref=e296] [cursor=pointer]:
+                - /url: /admin/setting/website/information
+                - img [ref=e298]
+                - generic [ref=e299]: 网站信息
+          - generic [ref=e300]:
+            - generic [ref=e302]: 访问量趋势图
+            - generic [ref=e310]: 销售额趋势图
+  - img
