@@ -69,21 +69,6 @@
           <!-- 引导模式 -->
           <WizardMode v-if="wizardActive" @cancel="wizardActive = false" @complete="onReportComplete" />
 
-          <!-- 验证码对话框 -->
-          <el-dialog v-model="showCaptchaDialog" title="安全验证" width="400px" :close-on-click-modal="false">
-            <div class="captcha-tip">
-              为了保护服务安全，请完成以下验证
-            </div>
-            <div class="captcha-display">{{ expectedCaptcha }}</div>
-            <el-input v-model="captchaInput" placeholder="请输入4位验证码" maxlength="4" style="text-transform: uppercase; letter-spacing: 8px; margin: 16px 0" autofocus />
-            <div class="captcha-hint">验证码不区分大小写</div>
-            <template #footer>
-              <el-button type="primary" :disabled="captchaInput.value.length !== 4" @click="verifyCaptcha" style="width: 100%">
-                验证
-              </el-button>
-            </template>
-          </el-dialog>
-
           <!-- 正常聊天消息 -->
           <template v-if="!wizardActive">
           <div
@@ -341,7 +326,7 @@
     <template #footer>
       <el-button
         type="primary"
-        :disabled="captchaInput.value.length !== 4"
+        :disabled="captchaInput.length !== 4"
         @click="verifyCaptcha"
         style="width: 100%"
       >
@@ -1732,33 +1717,6 @@ onUnmounted(() => {
     padding: 2px 6px;
   }
 
-  // 验证码对话框
-  .captcha-tip {
-    text-align: center;
-    padding: 12px 0;
-    margin-bottom: 16px;
-    font-size: 14px;
-  }
-
-  .captcha-display {
-    text-align: center;
-    padding: 16px 0;
-    font-family: monospace;
-    font-size: 24px;
-    letter-spacing: 4px;
-    margin-bottom: 16px;
-    font-weight: bold;
-    color: #3b82f6;
-  }
-
-  .captcha-hint {
-    text-align: center;
-    font-size: 12px;
-    color: #909399;
-    margin-top: 4px;
-  }
-}
-
   pre {
     padding: 12px;
     background: rgba(0, 0, 0, 0.06);
@@ -1837,6 +1795,32 @@ onUnmounted(() => {
   em {
     font-style: italic;
   }
+}
+
+// 验证码对话框
+.captcha-tip {
+  text-align: center;
+  padding: 12px 0;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.captcha-display {
+  text-align: center;
+  padding: 16px 0;
+  font-family: monospace;
+  font-size: 24px;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.captcha-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #909399;
+  margin-top: 4px;
 }
 
 // 思考过程样式
