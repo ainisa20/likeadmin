@@ -12,18 +12,19 @@ const CONFIG = {
   MAX_PER_DAY: 5000,
   MAX_LENGTH: 10000,
 
-  // 敏感词黑名单
+  // 敏感词黑名单（仅检测高危注入/攻击模式）
   SENSITIVE_WORDS: [
     // SQL注入
-    'drop table', 'delete from', 'truncate', 'insert into', 'update set',
+    'drop table', 'delete from', 'truncate table', 'insert into', 'update set',
+    // XSS
     'script>alert', '<script', 'javascript:', 'onerror=',
+    // 代码注入
     'eval(', 'exec(', 'system(', 'shell_exec(',
     // 恶意命令
-    'rm -rf', '> /dev/', 'cat /etc/', 'wget http',
-    'curl http', 'curl https',
-    // 其他
-    'password', '123456', 'admin', 'root',
-    'test', 'test123', 'test1'
+    'rm -rf', '> /dev/', 'cat /etc/passwd',
+    // 高危模式
+    'union select', 'or 1=1', 'and 1=1', "' or '", '" or "',
+    'base64_decode(', 'passthru(', 'popen(',
   ] as const,
 } as const
 

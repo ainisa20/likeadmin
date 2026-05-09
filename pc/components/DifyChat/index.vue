@@ -309,6 +309,7 @@
     title="安全验证"
     width="400px"
     :close-on-click-modal="false"
+    append-to-body
   >
     <div class="captcha-tip">
       为了保护服务安全，请完成以下验证
@@ -1797,32 +1798,6 @@ onUnmounted(() => {
   }
 }
 
-// 验证码对话框
-.captcha-tip {
-  text-align: center;
-  padding: 12px 0;
-  margin-bottom: 16px;
-  font-size: 14px;
-}
-
-.captcha-display {
-  text-align: center;
-  padding: 16px 0;
-  font-family: monospace;
-  font-size: 24px;
-  letter-spacing: 4px;
-  margin-bottom: 16px;
-  font-weight: bold;
-  color: #3b82f6;
-}
-
-.captcha-hint {
-  text-align: center;
-  font-size: 12px;
-  color: #909399;
-  margin-top: 4px;
-}
-
 // 思考过程样式
 .thinking-process {
   margin-top: 8px;
@@ -1930,5 +1905,32 @@ onUnmounted(() => {
     white-space: pre-wrap;
     word-break: break-all;
   }
+}
+</style>
+
+<style lang="scss">
+.captcha-tip {
+  text-align: center;
+  padding: 12px 0;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.captcha-display {
+  text-align: center;
+  padding: 16px 0;
+  font-family: monospace;
+  font-size: 24px;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.captcha-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #909399;
+  margin-top: 4px;
 }
 </style>
