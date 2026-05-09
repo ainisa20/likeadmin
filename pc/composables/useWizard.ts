@@ -546,8 +546,8 @@ AI日均调用：${state.tech.aiCallsPerDay}
 七、下一步行动清单（含时间节点）
 
 ## 格式要求
-- 所有流程图用 ASCII art 文本图（用 │ ▼ ─ ┌ ┐ └ ┘ 等字符画），绝对禁止输出 mermaid/graph/flowchart 代码
-- 数据对比用 Markdown 表格
+- 流程图：仅在绝对必要展示复杂步骤关系时，可使用 ASCII art 文本图（字符限用 │ ▼ ─ ┌ ┐ └ ┘ 等），**否则优先使用文字描述、列表、表格**。绝对禁止输出 mermaid / graph / flowchart 代码。
+- 数据对比统一使用 Markdown 表格。
 - 不要在占位符前后输出"三、"或"四、"等章节标题，占位符本身就是完整内容`
 
     const response = await fetch(`${config.baseUrl.replace(/\/$/, '')}/v1/chat-messages`, {
