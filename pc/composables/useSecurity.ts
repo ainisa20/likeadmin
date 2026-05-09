@@ -8,8 +8,8 @@ const CONFIG = {
 
   // 速率限制
   RATE_LIMIT_KEY: 'dify_chat_rate',
-  MAX_PER_HOUR: 1000,
-  MAX_PER_DAY: 5000,
+  MAX_PER_HOUR: 150,
+  MAX_PER_DAY: 1000,
   MAX_LENGTH: 10000,
 
   // 敏感词黑名单（仅检测高危注入/攻击模式）

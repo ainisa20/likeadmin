@@ -285,6 +285,31 @@
         <div v-if="difyStore.error" class="error-message">
           {{ difyStore.error }}
         </div>
+
+        <!-- 内联验证码弹窗 -->
+        <div v-if="showCaptchaDialog" class="captcha-overlay">
+          <div class="captcha-card">
+            <div class="captcha-card-title">安全验证</div>
+            <div class="captcha-tip">首次使用需完成验证，之后不再弹出</div>
+            <div class="captcha-display">{{ expectedCaptcha }}</div>
+            <input
+              v-model="captchaInput"
+              class="captcha-input"
+              placeholder="请输入4位验证码"
+              maxlength="4"
+              @keyup.enter="verifyCaptcha"
+              autofocus
+            />
+            <div class="captcha-hint">验证码不区分大小写</div>
+            <button
+              class="captcha-btn"
+              :disabled="captchaInput.length !== 4"
+              @click="verifyCaptcha"
+            >
+              验证
+            </button>
+          </div>
+        </div>
       </div>
     </Transition>
 
@@ -302,45 +327,12 @@
       </div>
     </Transition>
   </div>
-
-  <!-- 验证码对话框 -->
-  <el-dialog
-    v-model="showCaptchaDialog"
-    title="安全验证"
-    width="400px"
-    :close-on-click-modal="false"
-    append-to-body
-  >
-    <div class="captcha-tip">
-      为了保护服务安全，请完成以下验证
-    </div>
-    <div class="captcha-display">{{ expectedCaptcha }}</div>
-    <el-input
-      v-model="captchaInput"
-      placeholder="请输入4位验证码"
-      maxlength="4"
-      style="text-transform: uppercase; letter-spacing: 8px; margin: 16px 0"
-      @keyup.enter="verifyCaptcha"
-      autofocus
-    />
-    <div class="captcha-hint">验证码不区分大小写</div>
-    <template #footer>
-      <el-button
-        type="primary"
-        :disabled="captchaInput.length !== 4"
-        @click="verifyCaptcha"
-        style="width: 100%"
-      >
-        验证
-      </el-button>
-    </template>
-  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { useDifyStore } from '@/stores/dify'
 import { nextTick, onMounted, onUnmounted, ref, computed, watch } from 'vue'
-import { ElMessage, ElDialog, ElInput, ElButton, ElFormItem, ElForm } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { marked } from 'marked'
 import * as ElementPlusIcons from '@element-plus/icons-vue'
 import WizardMode from './WizardMode.vue'
@@ -1909,28 +1901,102 @@ onUnmounted(() => {
 </style>
 
 <style lang="scss">
-.captcha-tip {
+.captcha-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  border-radius: 0 0 16px 16px;
+}
+
+.captcha-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 280px;
   text-align: center;
-  padding: 12px 0;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.captcha-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.captcha-tip {
+  font-size: 12px;
+  color: #9ca3af;
   margin-bottom: 16px;
-  font-size: 14px;
 }
 
 .captcha-display {
-  text-align: center;
-  padding: 16px 0;
   font-family: monospace;
-  font-size: 24px;
-  letter-spacing: 4px;
-  margin-bottom: 16px;
+  font-size: 28px;
+  letter-spacing: 6px;
   font-weight: bold;
   color: #3b82f6;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f0f7ff;
+  border-radius: 8px;
+}
+
+.captcha-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  outline: none;
+  box-sizing: border-box;
+  font-family: monospace;
+
+  &:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+
+  &::placeholder {
+    font-size: 13px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #9ca3af;
+  }
 }
 
 .captcha-hint {
-  text-align: center;
-  font-size: 12px;
-  color: #909399;
-  margin-top: 4px;
+  font-size: 11px;
+  color: #9ca3af;
+  margin: 8px 0 16px;
+}
+
+.captcha-btn {
+  width: 100%;
+  height: 38px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover:not(:disabled) {
+    background: #2563eb;
+  }
+
+  &:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
+  }
 }
 </style>
