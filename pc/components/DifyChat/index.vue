@@ -56,14 +56,27 @@
             </div>
           </div>
 
-          <!-- OPC 创业分析入口卡片 -->
-          <div v-if="difyStore.config.opcToken && !wizardActive" class="wizard-entry-card" @click="startWizard">
-            <div class="entry-icon">🚀</div>
-            <div class="entry-body">
-              <div class="entry-title">OPC创业落地分析</div>
-              <div class="entry-desc">一键生成你的专属创业分析报告</div>
+          <!-- OPC 功能入口卡片行 -->
+          <div v-if="difyStore.config.opcToken && !wizardActive" class="wizard-entry-row">
+            <!-- OPC 创业分析入口卡片 -->
+            <div class="wizard-entry-card" @click="startWizard">
+              <div class="entry-icon">🚀</div>
+              <div class="entry-body">
+                <div class="entry-title">OPC创业落地分析</div>
+                <div class="entry-desc">一键生成你的专属创业分析报告</div>
+              </div>
+              <div class="entry-arrow">→</div>
             </div>
-            <div class="entry-arrow">→</div>
+
+            <!-- OPC 注册助手下载卡片 -->
+            <a href="/downloads/OPC公司注册助手.zip" download class="wizard-entry-card download-card">
+              <div class="entry-icon">📦</div>
+              <div class="entry-body">
+                <div class="entry-title">OPC注册助手</div>
+                <div class="entry-desc">知识库与操作指南下载</div>
+              </div>
+              <div class="entry-arrow">⬇</div>
+            </a>
           </div>
 
           <!-- 引导模式 -->
@@ -1050,23 +1063,47 @@ onUnmounted(() => {
   transform: translateY(-1px);
 }
 
+.wizard-entry-row {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0 8px;
+}
+
+.wizard-entry-row .wizard-entry-card {
+  flex: 1;
+}
+
 .wizard-entry-card {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
-  margin: 4px 0 8px;
   background: linear-gradient(135deg, #eff6ff, #f0fdf4);
   border: 1px solid #bfdbfe;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.wizard-entry-card.download-card {
+  background: linear-gradient(135deg, #fefce8, #fef3c7);
+  border-color: #fde047;
 }
 
 .wizard-entry-card:hover {
-  border-color: #3b82f6;
   transform: translateY(-1px);
+}
+
+.wizard-entry-card:not(.download-card):hover {
+  border-color: #3b82f6;
   box-shadow: 0 2px 8px rgba(59,130,246,0.15);
+}
+
+.wizard-entry-card.download-card:hover {
+  border-color: #eab308;
+  box-shadow: 0 2px 8px rgba(234,179,8,0.15);
 }
 
 .entry-icon {
