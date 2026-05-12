@@ -1,0 +1,84 @@
+- generic [ref=e7] [box=0,0,375,930]:
+  - link " 请输入关键词搜索 搜索" [ref=e41] [cursor=pointer] [box=0,12,375,36]:
+    - /url: /pages/search/search
+    - generic [ref=e43] [box=12,12,351,36]:
+      - generic [ref=e44] [box=12,12,351,36]:
+        - generic [ref=e47] [box=21,23,15,15]: 
+        - generic [ref=e49] [box=41,20,308,20]:
+          - generic [box=41,23,308,14]: 请输入关键词搜索
+          - searchbox [disabled] [ref=e51] [box=41,20,308,20]
+      - generic [box=363,20,0,20]: 搜索
+  - generic [ref=e57] [box=-700,63,355,161]:
+    - generic [ref=e59] [box=365,63,355,161]:
+      - generic [box=365,63,355,161]:
+        - img [box=365,63,355,161]
+    - generic [ref=e61] [box=-345,63,355,161]:
+      - generic [box=-345,63,355,161]:
+        - img [box=-345,63,355,161]
+    - generic [ref=e63] [box=10,63,355,161]:
+      - generic [box=10,63,355,161]:
+        - img [box=10,63,355,161]
+  - generic [ref=e75] [box=10,244,355,65]:
+    - generic [ref=e76] [box=10,244,71,65]:
+      - img [ref=e80] [box=25,244,41,41]
+      - generic [ref=e81] [box=22,292,48,17]: 资讯中心
+    - generic [ref=e82] [box=81,244,71,65]:
+      - img [ref=e86] [box=96,244,41,41]
+      - generic [ref=e87] [box=93,292,48,17]: 个人设置
+    - generic [ref=e88] [box=152,244,71,65]:
+      - img [ref=e92] [box=167,244,41,41]
+      - generic [ref=e93] [box=164,292,48,17]: 我的收藏
+    - generic [ref=e94] [box=223,244,71,65]:
+      - img [ref=e98] [box=238,244,41,41]
+      - generic [ref=e99] [box=235,292,48,17]: 关于我们
+    - generic [ref=e100] [box=294,244,71,65]:
+      - img [ref=e104] [box=309,244,41,41]
+      - generic [ref=e105] [box=306,292,48,17]: 联系客服
+  - img [ref=e115] [box=10,330,355,100]
+  - generic [ref=e116] [box=0,445,375,405]:
+    - generic [ref=e117] [box=10,445,355,21]: 最新资讯
+    - link "企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要 2022-09-16 18:04:25 26" [ref=e118] [cursor=pointer] [box=0,481,375,123]:
+      - /url: /pages/news_detail/news_detail?id=3
+      - generic [ref=e120] [box=0,481,375,123]:
+        - img [ref=e125] [box=10,497,120,90]
+        - generic [ref=e126] [box=140,497,225,90]:
+          - generic [ref=e127] [box=140,497,225,40]: 企业养虾🦞（OpenClaw），虾住在哪里比虾本身重要
+          - generic [ref=e128] [box=140,572,225,15]:
+            - generic [ref=e129] [box=140,572,113,15]: 2022-09-16 18:04:25
+            - generic [ref=e130] [box=332,572,33,15]:
+              - img [ref=e133] [box=332,572,15,15]
+              - generic [ref=e134] [box=352,572,13,15]: "26"
+    - link "OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！ 2022-09-16 18:07:34 6" [ref=e135] [cursor=pointer] [box=0,604,375,123]:
+      - /url: /pages/news_detail/news_detail?id=2
+      - generic [ref=e137] [box=0,604,375,123]:
+        - img [ref=e142] [box=10,620,120,90]
+        - generic [ref=e143] [box=140,620,225,90]:
+          - generic [ref=e144] [box=140,620,225,40]: OpenClaw跨境电商黑客松闭门会：聊出了5个落地真相！！
+          - generic [ref=e145] [box=140,695,225,15]:
+            - generic [ref=e146] [box=140,695,113,15]: 2022-09-16 18:07:34
+            - generic [ref=e147] [box=338,695,27,15]:
+              - img [ref=e150] [box=338,695,15,15]
+              - generic [ref=e151] [box=358,695,7,15]: "6"
+    - link "我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工 2022-09-16 16:42:39 3" [ref=e152] [cursor=pointer] [box=0,727,375,123]:
+      - /url: /pages/news_detail/news_detail?id=1
+      - generic [ref=e154] [box=0,727,375,123]:
+        - img [ref=e159] [box=10,743,120,90]
+        - generic [ref=e160] [box=140,743,225,90]:
+          - generic [ref=e161] [box=140,743,225,40]: 我用 NAS 开了间「一人公司」，CEO、CTO、HR 一应俱全，OpenClaw 只配打工
+          - generic [ref=e162] [box=140,818,225,15]:
+            - generic [ref=e163] [box=140,818,113,15]: 2022-09-16 16:42:39
+            - generic [ref=e164] [box=338,818,27,15]:
+              - img [ref=e167] [box=338,818,15,15]
+              - generic [ref=e168] [box=358,818,7,15]: "3"
+  - generic [ref=e12] [box=326,683,19,19]: 
+  - generic [ref=e13] [box=0,762,375,50]:
+    - generic [ref=e14] [box=0,762,125,50]:
+      - img [ref=e169] [box=53,769,20,20]
+      - generic [ref=e20] [box=53,792,20,12]: 首页
+    - generic [ref=e21] [box=125,762,125,50]:
+      - img [ref=e170] [box=178,769,20,20]
+      - generic [ref=e27] [box=178,792,20,12]: 资讯
+    - generic [ref=e28] [box=250,762,125,50]:
+      - img [ref=e171] [box=303,769,20,20]
+      - generic [ref=e34] [box=303,792,20,12]: 我的
+  - img [ref=e37] [box=323,597,24,24]
