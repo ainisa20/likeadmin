@@ -134,7 +134,7 @@ export const useDifyStore = defineStore('dify', {
       }
 
       const userMessage: DifyMessage = {
-        id: `user_${crypto.randomUUID()}`,
+        id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         role: 'user',
         content: query,
         createdAt: new Date()
@@ -151,7 +151,7 @@ export const useDifyStore = defineStore('dify', {
       this.currentTaskId = null
 
       const assistantMessage: DifyMessage = {
-        id: `assistant_${crypto.randomUUID()}`,
+        id: `assistant_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         role: 'assistant',
         content: '',
         createdAt: new Date()

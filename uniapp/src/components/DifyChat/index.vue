@@ -730,10 +730,6 @@ const onStreamUpdate = () => {
 }
 
 onMounted(async () => {
-  if (!difyStore.isConfigured) {
-    await difyStore.initConfig()
-  }
-
   window.addEventListener('dify-stream-update', onStreamUpdate)
 
   nextTick(() => {
