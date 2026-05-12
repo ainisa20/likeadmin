@@ -354,12 +354,13 @@ async function appendSubsidyCalculation() {
 
       // 月度成本汇总
       techHtml += `### 💰 技术方案月度成本汇总\n\n`
-      techHtml += `| 项目 | 月费 |\n`
-      techHtml += `|------|------|\n`
+      techHtml += `| 项目 | 月费 | 备注 |\n`
+      techHtml += `|------|------|------|\n`
       for (const item of tp.monthly_breakdown) {
-        techHtml += `| ${item.item} | ${item.cost}元/月 |\n`
+        const costStr = item.cost === 0 ? '**0元**' : `${item.cost}元`
+        techHtml += `| ${item.item} | ${costStr}/月 | ${item.note || ''} |\n`
       }
-      techHtml += `| **合计** | **${tp.monthly_cost}元/月（${tp.yearly_cost}元/年）** |\n`
+      techHtml += `| **合计** | **${tp.monthly_cost}元/月（${tp.yearly_cost}元/年）** | |\n`
     } else {
       // 没有技术方案数据时的兜底
       techHtml = `\n\n## 三、技术方案\n\n> 技术方案需根据实际云服务配置和AI调用量定制，请联系顾问获取详细方案。\n`
@@ -514,7 +515,7 @@ AI日均调用：${state.tech.aiCallsPerDay}
 请基于用户提供的行业属性、创始人信息、地域特点，按以下流程输出：  
 
 1. **风格诊断与推荐**  
-   根据用户提供的信息，分析并推荐 几个适合的品牌风格调性，并简要说明推荐理由。
+   根据用户提供的信息，分析并推荐 几个适合的品牌风格调性，并简要说明理由。
 
 2. **生成 5-8 个公司名称**  
    每个名称包含以下四项内容：  

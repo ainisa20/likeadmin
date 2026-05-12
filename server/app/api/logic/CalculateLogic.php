@@ -204,8 +204,8 @@ class CalculateLogic
             ['name' => '③ 域名', 'amount' => '1~85元/年', 'note' => '.cn 35-38元; .com 83元'],
             ['name' => '④ AI编程工具', 'amount' => '7.9~40元/月', 'note' => '阿里云百炼 Coding Plan Lite首月7.9元'],
             ['name' => '⑤ 大模型调用', 'amount' => '0~300元', 'note' => '可用市级模型券（最高200万）冲抵'],
-            ['name' => '⑥ 代记账报税', 'amount' => '2000～3000元', 'note' => '与九章数智合作，全栈服务包3200元含该服务'],
-            ['name' => '⑦ 基础龙虾部署', 'amount' => '0元', 'note' => '与九章数智合作，全栈服务包3200元享免费部署，送龙虾面板工具'],
+            ['name' => '⑥ 代记账报税', 'amount' => '1500～2500元', 'note' => '与九章数智合作，全栈服务包3200元含该服务'],
+            ['name' => '⑦ 基础龙虾部署', 'amount' => '2000～3000元', 'note' => '与九章数智合作，全栈服务包3200元享免费部署，送龙虾面板工具'],
             ['name' => '社保投入（个人部分）', 'amount' => '约7,000元/6个月', 'note' => '深圳社保最低缴费基数6,727元/月估算'],
             ['name' => '生活费+预留资金', 'amount' => '建议30,000~60,000元', 'note' => '建议预留6个月生活费'],
         ];
@@ -235,7 +235,7 @@ class CalculateLogic
      * @param bool $overseas 是否面向海外市场
      * @param string $budget 启动资金区间
      */
-    public static function techPlan(bool $needServer, string $aiCallsPerDay, bool $overseas, string $budget = ''): array
+    public static function techPlan(bool $needServer, string $aiCallsPerDay, string $budget = ''): array
     {
         $servers = [];
         $monthlyServerCost = 0;
@@ -249,31 +249,22 @@ class CalculateLogic
         $aiTools = self::pickAiToolchain($aiCallsPerDay);
         $monthlyAiCost = $aiTools['monthly_cost'];
 
-        $overseasTools = [];
-        $monthlyOverseasCost = 0;
-        if ($overseas) {
-            $overseasTools = self::pickOverseasTools();
-            $monthlyOverseasCost = $overseasTools['monthly_cost'];
-        }
-
         $devTools = self::pickDevTools();
 
-        $totalMonthly = $monthlyServerCost + $monthlyAiCost + $monthlyOverseasCost + $devTools['monthly_cost'];
+        $totalMonthly = $monthlyServerCost + $monthlyAiCost + $devTools['monthly_cost'];
         $totalYearly = $totalMonthly * 12;
 
         return [
             'need_server' => $needServer,
             'servers' => $servers,
             'ai_tools' => $aiTools,
-            'overseas_tools' => $overseasTools,
             'dev_tools' => $devTools,
             'monthly_cost' => $totalMonthly,
             'yearly_cost' => $totalYearly,
             'monthly_breakdown' => [
-                ['item' => '云服务器', 'cost' => $monthlyServerCost],
-                ['item' => 'AI模型调用', 'cost' => $monthlyAiCost],
-                ['item' => '海外加速/CDN', 'cost' => $monthlyOverseasCost],
-                ['item' => '开发工具', 'cost' => $devTools['monthly_cost']],
+                ['item' => '云服务器', 'cost' => $monthlyServerCost, 'note' => ''],
+                ['item' => 'AI模型调用', 'cost' => $monthlyAiCost, 'note' => $monthlyAiCost === 0 ? '可使用免费额度或市级模型券冲抵' : ''],
+                ['item' => '开发工具', 'cost' => $devTools['monthly_cost'], 'note' => $devTools['monthly_cost'] === 0 ? '使用免费开发工具即可起步' : ''],
             ],
         ];
     }
@@ -289,7 +280,7 @@ class CalculateLogic
                 'name' => '入门型（开发/测试）',
                 'spec' => '2核2G 3M带宽 50GB SSD',
                 'provider' => '阿里云轻量应用服务器',
-                'yearly_cost' => 38,
+                'yearly_cost' => 99,
                 'monthly_cost' => 3,
                 'suitable_for' => '个人开发测试、低流量MVP验证',
                 'ref_url' => 'https://www.aliyun.com/product/swas',

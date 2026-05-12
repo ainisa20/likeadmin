@@ -41,11 +41,10 @@ class CalculateController extends BaseApiController
         // 技术方案参数（可选，前端传入时一并返回）
         $needServer = $this->request->post('needServer/b', null);
         $aiCallsPerDay = $this->request->post('aiCallsPerDay/s', '');
-        $overseas = $this->request->post('overseas/b', false);
         $budget = $this->request->post('budget/s', '');
 
         if ($needServer !== null && $aiCallsPerDay !== '') {
-            $result['tech_plan'] = CalculateLogic::techPlan($needServer, $aiCallsPerDay, $overseas, $budget);
+            $result['tech_plan'] = CalculateLogic::techPlan($needServer, $aiCallsPerDay, $budget);
         }
 
         return $this->data($result);
