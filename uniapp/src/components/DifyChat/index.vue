@@ -896,6 +896,8 @@ $ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   left: 0;
   right: 0;
   bottom: 0;
+  height: 100vh;
+  height: 100dvh;
   background: white;
   display: flex;
   flex-direction: column;
@@ -1322,6 +1324,7 @@ $ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 // Input Area
 // ============================================
 .chat-input-area {
+  flex-shrink: 0;
   padding: 16rpx 24rpx;
   // Safe area for home indicator
   padding-bottom: calc(16rpx + env(safe-area-inset-bottom, 0px));
