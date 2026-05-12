@@ -383,8 +383,8 @@ async function appendSubsidyCalculation() {
     replacePlaceholder('SUBSIDY_PLACEHOLDER', subsidyHtml, '## 四、')
 
     state.generatedContent = state.generatedContent
-      .replace(/^[三四五六七]、\s*\n+/, '')
-      .replace(/\n[三四五六七]、\s*\n+/g, '\n\n')
+      .replace(/^[三四五六七]、[^\n]*\n?/gm, '')
+      .replace(/\n[三四五六七]、[^\n]*\n/g, '\n')
 
     state.generatedContent += '\n\n---\n\n*本报告由九章数智人工智能（深圳）有限责任公司出具，基于提供的信息及现行政策分析。*'
 
