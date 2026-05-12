@@ -24,14 +24,6 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label>是否面向海外市场？</label>
-      <div class="toggle-row">
-        <button :class="['toggle-btn', { active: wizard.state.tech.overseas }]" @click="wizard.state.tech.overseas = true">是</button>
-        <button :class="['toggle-btn', { active: !wizard.state.tech.overseas }]" @click="wizard.state.tech.overseas = false">否</button>
-      </div>
-    </div>
-
     <button
       class="btn-primary"
       :disabled="!wizard.state.tech.aiCallsPerDay"

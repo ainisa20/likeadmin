@@ -67,7 +67,7 @@ interface WizardState {
 
   identity: { name: string; phone: string; identityType: string; registerArea: string }
   team: { budget: string; employeeCount: string }
-  tech: { needServer: boolean; aiCallsPerDay: string; overseas: boolean }
+  tech: { needServer: boolean; aiCallsPerDay: string }
   plan: { registerTime: string; services: string[] }
 
   isGenerating: boolean
@@ -91,7 +91,7 @@ const initialState: () => WizardState = () => ({
 
   identity: { name: '', phone: '', identityType: '', registerArea: '' },
   team: { budget: '', employeeCount: '' },
-  tech: { needServer: true, aiCallsPerDay: '', overseas: false },
+  tech: { needServer: true, aiCallsPerDay: '' },
   plan: { registerTime: '', services: [] },
 
   isGenerating: false,
@@ -218,7 +218,6 @@ async function appendSubsidyCalculation() {
     if (state.tech.aiCallsPerDay) {
       reqBody.needServer = state.tech.needServer
       reqBody.aiCallsPerDay = state.tech.aiCallsPerDay
-      reqBody.overseas = state.tech.overseas
       reqBody.budget = state.team.budget
     }
 
@@ -238,8 +237,8 @@ async function appendSubsidyCalculation() {
     const calc = data.data
     const fmt = (n: number) => n >= 10000 ? `${(n/10000).toFixed(1)}万` : `${n.toLocaleString()}元`
 
-    // ========== 构建第三节：补贴计算 ==========
-    let subsidyHtml = `\n\n## 三、可申领补贴与收益预估\n\n`
+    // ========== 构建第五节：补贴计算 ==========
+    let subsidyHtml = `\n\n## 五、可申领补贴与收益预估\n\n`
     subsidyHtml += `**保守估算（普惠易得）：** ${fmt(calc.total_low)} ~ ${fmt(calc.total_high)}\n\n`
     subsidyHtml += `> 💡 若满足条件，总补贴上限可达 ${fmt(calc.total_high_all)}\n\n`
 
@@ -282,11 +281,11 @@ async function appendSubsidyCalculation() {
 
     subsidyHtml += `> 💳 **可叠加创业担保贷款：** ${calc.loan_info}`
 
-    // ========== 构建第四节：技术方案 ==========
+    // ========== 构建第三节：技术方案 ==========
     let techHtml = ''
     if (calc.tech_plan) {
       const tp = calc.tech_plan
-      techHtml = `\n\n## 四、技术方案与成本估算\n\n`
+      techHtml = `\n\n## 三、技术方案与成本估算\n\n`
 
       // 云服务器推荐
       if (tp.need_server && tp.servers) {
@@ -341,18 +340,6 @@ async function appendSubsidyCalculation() {
         }
       }
 
-      // 海外市场工具
-      if (tp.overseas_tools && (tp.overseas_tools as any).items) {
-        const ot = tp.overseas_tools as any
-        techHtml += `### 🌍 海外市场基础设施\n\n`
-        techHtml += `| 工具 | 月费 | 用途 |\n`
-        techHtml += `|------|------|------|\n`
-        for (const item of ot.items) {
-          techHtml += `| ${item.name} | ${item.cost} | ${item.purpose} |\n`
-        }
-        techHtml += `\n`
-      }
-
       // 开发工具
       if (tp.dev_tools) {
         const dt = tp.dev_tools
@@ -375,10 +362,10 @@ async function appendSubsidyCalculation() {
       techHtml += `| **合计** | **${tp.monthly_cost}元/月（${tp.yearly_cost}元/年）** |\n`
     } else {
       // 没有技术方案数据时的兜底
-      techHtml = `\n\n## 四、技术方案\n\n> 技术方案需根据实际云服务配置和AI调用量定制，请联系顾问获取详细方案。\n`
+      techHtml = `\n\n## 三、技术方案\n\n> 技术方案需根据实际云服务配置和AI调用量定制，请联系顾问获取详细方案。\n`
     }
 
-    const servicePackageHtml = `\n\n## 五、OPC创业·全栈服务包（仅需3200元）\n\n`
+    const servicePackageHtml = `\n\n## 四、OPC创业·全栈服务包（仅需3200元）\n\n`
       + `| 服务模块 | 服务内容 | 市场价 |\n`
       + `|---------|---------|-------|\n`
       + `| 🏢 企业代注册 | 核名、工商登记、执照领取、印章刻制、银行开户咨询 | 1000元/套 |\n`
@@ -390,9 +377,9 @@ async function appendSubsidyCalculation() {
       + `> ⭐ **增值服务：** 全程免费指导各项政府补贴申请，直至补贴到账\n\n`
       + `> 💰 以上基础服务包总价仅需 **3200元**\n`
 
-    replacePlaceholder('SUBSIDY_PLACEHOLDER', subsidyHtml, '## 二、')
-    replacePlaceholder('TECH_PLACEHOLDER', techHtml, '## 三、')
-    replacePlaceholder('SERVICE_PACKAGE_PLACEHOLDER', servicePackageHtml, '## 四、')
+    replacePlaceholder('TECH_PLACEHOLDER', techHtml, '## 二、')
+    replacePlaceholder('SERVICE_PACKAGE_PLACEHOLDER', servicePackageHtml, '## 三、')
+    replacePlaceholder('SUBSIDY_PLACEHOLDER', subsidyHtml, '## 四、')
 
     state.generatedContent = state.generatedContent
       .replace(/^[三四五六七]、\s*\n+/, '')
@@ -436,7 +423,6 @@ async function saveReport(calcData: any) {
         employeeCount: state.team.employeeCount,
         needServer: state.tech.needServer,
         aiCalls: state.tech.aiCallsPerDay,
-        overseas: state.tech.overseas,
         registerTime: state.plan.registerTime,
         services: state.plan.services,
         themeName: state.themeData?.themeName || '',
@@ -518,7 +504,6 @@ ${scopeDetails}
 ## 技术需求
 云服务器：${state.tech.needServer ? '需要' : '不需要'}
 AI日均调用：${state.tech.aiCallsPerDay}
-海外市场：${state.tech.overseas ? '是' : '否'}
 
 ## 规划
 注册时间：${state.plan.registerTime}
@@ -538,12 +523,11 @@ AI日均调用：${state.tech.aiCallsPerDay}
    - **核名提示**：基于注册规范评估重名风险、通过率预估  
    - **与用户信息的关联**：说明该名称如何结合了“姓名 / 地域 / 业务 / 技术” 
 
-二、经营范围建议及冲突预检（表格列出规范表述|是否需前置许可|匹配度|风险提示 + 冲突预警 + 结论）
-三、请直接输出以下占位符（不要输出其他内容）：<!-- SUBSIDY_PLACEHOLDER -->
-四、请直接输出以下占位符（不要输出其他内容）：<!-- TECH_PLACEHOLDER -->
-五、请直接输出以下占位符（不要输出其他内容）：<!-- SERVICE_PACKAGE_PLACEHOLDER -->
-六、运营规划（获客渠道 + 变现路径 + 里程碑计划）
-七、下一步行动清单（含时间节点）
+二、经营范围建议及冲突预检（表格列出规范表述|是否需前置许可|匹配度|风险提示 + 冲突预警 + 结论，最后一句话输出建议注册使用的经营范围描述）
+三、请直接输出以下占位符（不要输出其他内容）：<!-- TECH_PLACEHOLDER -->
+四、请直接输出以下占位符（不要输出其他内容）：<!-- SERVICE_PACKAGE_PLACEHOLDER -->
+五、请直接输出以下占位符（不要输出其他内容）：<!-- SUBSIDY_PLACEHOLDER -->
+六、下一步行动清单（含时间节点）
 
 ## 格式要求
 - 流程图：仅在绝对必要展示复杂步骤关系时，可使用 ASCII art 文本图（字符限用 │ ▼ ─ ┌ ┐ └ ┘ 等），**否则优先使用文字描述、列表、表格**。绝对禁止输出 mermaid / graph / flowchart 代码。
