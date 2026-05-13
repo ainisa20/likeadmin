@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { nextTick } from 'vue'
 import type { DifyConfig, DifyMessage } from '@/types/dify'
 import { sendMessage, parseStream, getMessages, getConversations, loadConversationHistory, stopResponse, feedbackMessage, getAppFeedbacks } from '@/api/dify'
+import { getConfig } from '@/api/app'
 import { toast } from '@/utils/message'
 
 interface DifyState {
@@ -38,6 +39,19 @@ export const useDifyStore = defineStore('dify', {
   },
 
   actions: {
+    /**
+     * 从后端 API 获取配置并初始化
+     */
+    async initConfig() {
+      try {
+        const appConfig = await getConfig()
+        this.setDifyConfig(appConfig.dify || {})
+      } catch (error) {
+        console.error('[Dify Store] Failed to init config:', error)
+        this.error = 'Failed to initialize Dify config'
+      }
+    },
+
     /**
      * 从后端配置设置 Dify 配置（统一使用PC端配置）
      */
