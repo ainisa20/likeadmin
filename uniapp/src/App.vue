@@ -26,10 +26,19 @@ const setH5WebIcon = () => {
 }
 //#endif
 
+const setH5Title = () => {
+  const shopName = appStore.getWebsiteConfig?.shop_name
+  if (shopName) {
+    document.title = shopName
+    uni.setNavigationBarTitle({ title: shopName })
+  }
+}
+
 const getConfig = async () => {
   await appStore.getConfig()
   //#ifdef H5
   setH5WebIcon()
+  setH5Title()
   //#endif
   const { status, page_status, page_url } = appStore.getH5Config
   if (route.meta.webview) return
