@@ -378,10 +378,6 @@ async function appendSubsidyCalculation() {
       + `> ⭐ **增值服务：** 全程免费指导各项政府补贴申请，直至补贴到账\n\n`
       + `> 💰 以上基础服务包总价仅需 **3200元**\n`
 
-    replacePlaceholder('TECH_PLACEHOLDER', techHtml, '## 二、')
-    replacePlaceholder('SERVICE_PACKAGE_PLACEHOLDER', servicePackageHtml, '## 三、')
-    replacePlaceholder('SUBSIDY_PLACEHOLDER', subsidyHtml, '## 四、')
-
     const actionPlanHtml = `\n\n## 六、下一步行动清单（含时间节点）\n\n`
       + `| 阶段 | 时间节点 | 行动项 | 具体操作 | 产出/里程碑 |\n`
       + `|------|---------|--------|---------|-------------|\n`
@@ -396,15 +392,10 @@ async function appendSubsidyCalculation() {
       + `\n`
       + `> 📞 **联系顾问：** 九章数智（彭生/电话：135-7087-9523，备注"OPC创业"优先通过）\n`
 
-    replacePlaceholder('ACTION_PLAN_PLACEHOLDER', actionPlanHtml, '## 五、')
-
-    // 清理 AI 残留的独立章节标题行（如 "三、"、"四、" 开头的行），不影响 "## 三、" 正常标题
-    state.generatedContent = state.generatedContent
-      .replace(/^[三四五六七]、[^\n]*\n?/gm, '')
-      // 删除六、开头的行及其后所有内容（AI 生成的第六章），由固定表格替代
-      .replace(/^六[、．.][^\n]*[\s\S]*$/m, '')
-
-    // 追加固定的第六章 + 免责声明
+    state.generatedContent += '\n'
+    state.generatedContent += techHtml
+    state.generatedContent += servicePackageHtml
+    state.generatedContent += subsidyHtml
     state.generatedContent += actionPlanHtml
     state.generatedContent += '\n\n---\n\n*本报告由九章数智人工智能（深圳）有限责任公司出具，基于提供的信息及现行政策分析。*'
 
@@ -535,25 +526,21 @@ AI日均调用：${state.tech.aiCallsPerDay}
 请基于用户提供的行业属性、创始人信息、地域特点，按以下流程输出：  
 
 1. **风格诊断与推荐**  
-   根据用户提供的信息，分析并推荐 几个适合的品牌风格调性，并简要说明理由。
+   根据用户提供的信息，分析并推荐 几个适合的品牌风格调性，并简要说明推荐理由。
 
 2. **生成 5-8 个公司名称**  
    每个名称包含以下四项内容：  
    - **名称**：中文名 
    - **寓意**（30 字以内）  
    - **核名提示**：基于注册规范评估重名风险、通过率预估  
-   - **与用户信息的关联**：说明该名称如何结合了“姓名 / 地域 / 业务 / 技术” 
+   - **与用户信息的关联**：说明该名称如何结合了"姓名 / 地域 / 业务 " 
 
 二、经营范围建议及冲突预检（表格列出规范表述|是否需前置许可|匹配度|风险提示 + 冲突预警 + 结论，最后一句话输出建议注册使用的经营范围描述）
-三、请直接输出以下占位符（不要输出其他内容）：<!-- TECH_PLACEHOLDER -->
-四、请直接输出以下占位符（不要输出其他内容）：<!-- SERVICE_PACKAGE_PLACEHOLDER -->
-五、请直接输出以下占位符（不要输出其他内容）：<!-- SUBSIDY_PLACEHOLDER -->
-六、请直接输出以下占位符（不要输出其他内容）：<!-- ACTION_PLAN_PLACEHOLDER -->
 
 ## 格式要求
-- 流程图：仅在绝对必要展示复杂步骤关系时，可使用 ASCII art 文本图（字符限用 │ ▼ ─ ┌ ┐ └ ┘ 等），**否则优先使用文字描述、列表、表格**。绝对禁止输出 mermaid / graph / flowchart 代码。
+- 流作图：仅在绝对必要展示复杂步骤关系时，可使用 ASCII art 文本图（字符限用 │ ▼ ─ ┌ ┐ └ ┘ 等），**否则优先使用文字描述、列表、表格**。绝对禁止输出 mermaid / graph / flowchart 代码。
 - 数据对比统一使用 Markdown 表格。
-- 不要在占位符前后输出"三、"或"四、"等章节标题，占位符本身就是完整内容`
+- **二之后不要输出任何内容，报告到二结束**`
 
     const response = await fetch(`${config.baseUrl.replace(/\/$/, '')}/v1/chat-messages`, {
       method: 'POST',
