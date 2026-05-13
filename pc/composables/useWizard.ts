@@ -398,11 +398,11 @@ async function appendSubsidyCalculation() {
 
     replacePlaceholder('ACTION_PLAN_PLACEHOLDER', actionPlanHtml, '## 五、')
 
-    // 清理 AI 可能残留的章节标题（三四五六七、），以及六之后的全部 AI 内容
+    // 清理 AI 残留的独立章节标题行（如 "三、"、"四、" 开头的行），不影响 "## 三、" 正常标题
     state.generatedContent = state.generatedContent
-      .replace(/[三四五六七]、[^\n]*\n?/g, '')
-      // 删除六、后面所有 AI 生成的内容（直到末尾）
-      .replace(/六[、．.][^\n]*[\s\S]*$/m, '')
+      .replace(/^[三四五六七]、[^\n]*\n?/gm, '')
+      // 删除六、开头的行及其后所有内容（AI 生成的第六章），由固定表格替代
+      .replace(/^六[、．.][^\n]*[\s\S]*$/m, '')
 
     // 追加固定的第六章 + 免责声明
     state.generatedContent += actionPlanHtml
