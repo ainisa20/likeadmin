@@ -32,6 +32,7 @@
         "@chenfengyuan/vue-countdown": "2.1.1",
         "@types/marked": "^6.0.0",
         "element-plus": "2.5.2",
+        "html2pdf.js": "^0.14.0",
         "marked": "^18.0.1",
         "pinia": "2.0.3",
         "vue-cropper": "1.0.5",

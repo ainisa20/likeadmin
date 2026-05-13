@@ -44,16 +44,16 @@
             <p v-if="!wizard.state.subsidyCalculated" class="gen-hint">正在计算补贴明细...</p>
           </div>
           <div class="gen-actions">
-            <button 
-              class="btn-export" 
+            <button
+              class="btn-export"
               @click="exportPDF"
               :disabled="!wizard.state.subsidyCalculated"
             >
               <span class="btn-icon">📄</span>{{ wizard.state.subsidyCalculated ? '导出 PDF' : '计算中...' }}
             </button>
-            <button 
-              class="btn-done" 
-              @click="$emit('complete')"
+            <button
+              class="btn-done"
+              @click="handleComplete"
               :disabled="!wizard.state.subsidyCalculated"
             >
               {{ wizard.state.subsidyCalculated ? '完成' : '计算中...' }}
@@ -81,6 +81,12 @@
       <button @click="wizard.state.error = null">×</button>
     </div>
 
+    <!-- 保存提示 -->
+    <div v-if="showSaveHint" class="save-hint">
+      <div class="save-hint-icon">💾</div>
+      <div>建议先导出PDF保存报告</div>
+    </div>
+
     <div class="wizard-footer">
       <button v-if="wizard.state.currentStep > 1 && !wizard.state.isGenerating && !wizard.state.generationComplete" class="btn-prev" @click="wizard.prevStep()">
         ← 上一步
@@ -92,8 +98,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch, nextTick } from 'vue'
 import { marked } from 'marked'
+import html2pdf from 'html2pdf.js'
 import { useWizard } from '@/composables/useWizard'
 import DirectionStep from './steps/DirectionStep.vue'
 import IdentityStep from './steps/IdentityStep.vue'
@@ -108,6 +115,7 @@ const emit = defineEmits<{
 }>()
 
 const wizard = useWizard()
+const showSaveHint = ref(false)
 
 const stepLabels = ['创业方向', '身份信息', '团队资金', '技术需求', '规划', '生成报告']
 
@@ -125,127 +133,57 @@ function parseMarkdown(text: string): string {
   return marked.parse(text) as string
 }
 
-function exportPDF() {
+async function exportPDF() {
   const printContent = document.getElementById('report-content')
   if (!printContent) return
-  
-  const printWindow = window.open('', '_blank')
-  if (!printWindow) return
-  
-  const html = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <title>OPC创业落地分析报告</title>
-      <style>
-        @page {
-          size: A4;
-          margin: 15mm 20mm;
-        }
-        * {
-          box-sizing: border-box;
-        }
-        body { 
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          width: 100%;
-          max-width: none;
-          margin: 0;
-          padding: 0;
-          line-height: 1.5;
-          color: #1a1a1a;
-          font-size: 10pt;
-        }
-        .report-wrapper {
-          width: 100%;
-          max-width: 100%;
-        }
-        h1 { 
-          color: #1a1a1a; 
-          font-size: 18pt;
-          border-bottom: 2px solid #3b82f6; 
-          padding-bottom: 8px; 
-          margin: 0 0 16px 0;
-        }
-        h2 { 
-          color: #2d3748; 
-          font-size: 14pt;
-          margin: 20px 0 10px 0;
-          padding-left: 8px;
-          border-left: 3px solid #3b82f6;
-        }
-        h3 { 
-          color: #4a5568; 
-          font-size: 11pt;
-          margin: 12px 0 6px 0;
-        }
-        p { margin: 6px 0; }
-        table { 
-          border-collapse: collapse; 
-          width: 100%; 
-          margin: 10px 0;
-          font-size: 9pt;
-        }
-        th, td { 
-          border: 1px solid #cbd5e0; 
-          padding: 6px 8px; 
-          text-align: left;
-        }
-        th { 
-          background: #edf2f7; 
-          font-weight: 600;
-        }
-        tr:nth-child(even) td {
-          background: #f7fafc;
-        }
-        ul, ol { 
-          padding-left: 18px; 
-          margin: 6px 0;
-        }
-        li { margin: 3px 0; }
-        strong { color: #1a1a1a; font-weight: 600; }
-        em { color: #4a5568; }
-        code {
-          background: #edf2f7;
-          padding: 1px 4px;
-          border-radius: 3px;
-          font-size: 9pt;
-          color: #c53030;
-        }
-        blockquote {
-          border-left: 3px solid #3b82f6;
-          background: #f7fafc;
-          padding: 8px 12px;
-          margin: 10px 0;
-          color: #4a5568;
-        }
-        .footer { 
-          margin-top: 30px; 
-          padding-top: 12px; 
-          border-top: 1px solid #cbd5e0;
-          font-size: 9pt;
-          color: #718096;
-          text-align: center;
-          page-break-after: avoid;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="report-wrapper">
-        ${printContent.innerHTML}
-      </div>
-      <div class="footer">本报告由九章数智人工智能（深圳）有限责任公司出具</div>
-    </body>
-    </html>
-  `
-  
-  printWindow.document.write(html)
-  printWindow.document.close()
-  
-  setTimeout(() => {
-    printWindow.print()
-  }, 500)
+
+  // 创建临时容器用于PDF生成
+  const container = document.createElement('div')
+  container.style.cssText = 'padding: 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;'
+  container.innerHTML = printContent.innerHTML
+
+  // 添加页脚
+  const footer = document.createElement('div')
+  footer.style.cssText = 'margin-top: 40px; padding-top: 16px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 12px;'
+  footer.textContent = '本报告由九章数智人工智能（深圳）有限责任公司出具'
+  container.appendChild(footer)
+
+  const opt = {
+    margin: [15, 20, 15, 20],
+    filename: `OPC创业落地分析报告_${new Date().toLocaleDateString()}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }
+
+  try {
+    await html2pdf().set(opt).from(container).save()
+  } catch (error) {
+    console.error('PDF生成失败:', error)
+    alert('PDF生成失败，请重试或截图保存')
+  }
 }
+
+function handleComplete() {
+  showSaveHint.value = true
+  setTimeout(() => {
+    if (confirm('请确认已保存PDF报告，确认后将离开此页面且无法返回。\n\n是否已保存报告？')) {
+      emit('complete')
+    } else {
+      showSaveHint.value = false
+    }
+  }, 100)
+}
+
+// 步骤切换时自动滚动到顶部
+watch(() => wizard.state.currentStep, () => {
+  nextTick(() => {
+    const wizardBody = document.querySelector('.wizard-body') as HTMLElement
+    if (wizardBody) {
+      wizardBody.scrollTop = 0
+    }
+  })
+})
 </script>
 
 <style scoped>
@@ -660,6 +598,32 @@ function exportPDF() {
   cursor: not-allowed;
 }
 
+/* 保存提示 */
+.save-hint {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  z-index: 10000;
+  text-align: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.save-hint-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
 /* ========== 移动端适配 ========== */
 @media (max-width: 640px) {
   .wizard-container {
@@ -722,12 +686,12 @@ function exportPDF() {
   }
 
   .gen-content {
-    max-height: 200px;
+    max-height: 40vh;
     padding: 10px;
   }
 
   .gen-content.final {
-    max-height: 280px;
+    max-height: 50vh;
   }
 
   .gen-actions {
