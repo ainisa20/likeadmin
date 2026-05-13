@@ -111,6 +111,9 @@ export default class HttpRequest {
                     resolve(response)
                 },
                 fail: async (err) => {
+                    if (err.errMsg == RequestErrMsgEnum.ABORT) {
+                        return
+                    }
                     if (err.errMsg == RequestErrMsgEnum.TIMEOUT) {
                         this.retryRequest(mergeOptions, mergeConfig)
                             .then((res) => resolve(res))
