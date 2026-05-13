@@ -30,7 +30,10 @@ const setH5Title = () => {
   const shopName = appStore.getWebsiteConfig?.shop_name
   if (shopName) {
     document.title = shopName
+    //#ifndef H5
+    // 只有非 H5 端才需要调用 uni.setNavigationBarTitle
     uni.setNavigationBarTitle({ title: shopName })
+    //#endif
   }
 }
 
