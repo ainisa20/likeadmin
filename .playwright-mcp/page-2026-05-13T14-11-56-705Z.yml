@@ -1,0 +1,10 @@
+- generic [ref=e10]:
+  - generic [ref=e13] [cursor=pointer]:
+    - img [ref=e15]
+    - generic [ref=e16]: 首页
+  - generic [ref=e18] [cursor=pointer]:
+    - img [ref=e20]
+    - generic [ref=e21]: 资讯
+  - generic [ref=e23] [cursor=pointer]:
+    - img [ref=e25]
+    - generic [ref=e26]: 我的
