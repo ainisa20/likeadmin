@@ -13,6 +13,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDifyStore } from '@/stores/dify'
 import { useWizard } from '@/composables/useWizard'
+import WizardMode from '@/components/DifyChat/WizardMode.vue'
 
 const router = useRouter()
 const difyStore = useDifyStore()
