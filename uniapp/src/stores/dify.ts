@@ -3,6 +3,14 @@ import { nextTick } from 'vue'
 import type { DifyConfig, DifyMessage } from '@/types/dify'
 import { sendMessage, parseStream, getMessages, getConversations, loadConversationHistory, stopResponse, feedbackMessage, getAppFeedbacks } from '@/api/dify'
 import { getConfig } from '@/api/app'
+
+function generateUUID(): string {
+  try {
+    return crypto.randomUUID()
+  } catch {
+    return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+  }
+}
 import { toast } from '@/utils/message'
 
 interface DifyState {
@@ -148,7 +156,7 @@ export const useDifyStore = defineStore('dify', {
       }
 
       const userMessage: DifyMessage = {
-        id: `user_${crypto.randomUUID()}`,
+        id: `user_${generateUUID()}`,
         role: 'user',
         content: query,
         createdAt: new Date()
@@ -165,7 +173,7 @@ export const useDifyStore = defineStore('dify', {
       this.currentTaskId = null
 
       const assistantMessage: DifyMessage = {
-        id: `assistant_${crypto.randomUUID()}`,
+        id: `assistant_${generateUUID()}`,
         role: 'assistant',
         content: '',
         createdAt: new Date()
