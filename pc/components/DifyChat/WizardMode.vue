@@ -137,23 +137,70 @@ async function exportPDF() {
   const printContent = document.getElementById('report-content')
   if (!printContent) return
 
-  // 创建临时容器用于PDF生成
-  const container = document.createElement('div')
-  container.style.cssText = 'padding: 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;'
-  container.innerHTML = printContent.innerHTML
+  // 注入完整样式副本（html2canvas 克隆节点时丢失 scoped CSS）
+  const pdfStyles = `
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 12px;
+      line-height: 1.6;
+      color: #1a1a1a;
+    }
+    h1 {
+      font-size: 18px; font-weight: 700; color: #1a1a1a;
+      border-bottom: 2px solid #3b82f6; padding-bottom: 8px;
+      margin: 20px 0 16px;
+    }
+    h2 {
+      font-size: 16px; font-weight: 600; color: #2d3748;
+      margin: 24px 0 12px; padding-left: 8px;
+      border-left: 3px solid #3b82f6;
+    }
+    h3 { font-size: 14px; font-weight: 600; color: #4a5568; margin: 16px 0 8px; }
+    p { margin: 8px 0; }
+    table {
+      width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 11px;
+    }
+    th, td {
+      border: 1px solid #e2e8f0; padding: 6px 8px; text-align: left;
+    }
+    th { background: #f7fafc; font-weight: 600; color: #2d3748; }
+    td { background: white; }
+    tr:nth-child(even) td { background: #fafbfc; }
+    ul, ol { padding-left: 20px; margin: 8px 0; }
+    li { margin: 4px 0; }
+    strong { color: #1a1a1a; font-weight: 600; }
+    em { color: #4a5568; }
+    code {
+      background: #f1f5f9; padding: 2px 6px; border-radius: 4px;
+      font-size: 11px; color: #dc2626;
+    }
+    blockquote {
+      border-left: 4px solid #3b82f6; background: #f8fafc;
+      padding: 12px 16px; margin: 12px 0; color: #475569;
+    }
+    .report-footer {
+      margin-top: 40px; padding-top: 16px; border-top: 1px solid #e5e7eb;
+      text-align: center; color: #6b7280; font-size: 11px;
+    }
+  `
 
-  // 添加页脚
-  const footer = document.createElement('div')
-  footer.style.cssText = 'margin-top: 40px; padding-top: 16px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 12px;'
-  footer.textContent = '本报告由九章数智人工智能（深圳）有限责任公司出具'
-  container.appendChild(footer)
+  const container = document.createElement('div')
+  container.innerHTML = `
+    <style>${pdfStyles}</style>
+    <div>${printContent.innerHTML}</div>
+    <div class="report-footer">本报告由九章数智人工智能（深圳）有限责任公司出具</div>
+  `
 
   const opt = {
-    margin: [15, 20, 15, 20],
+    margin: [10, 15],
     filename: `OPC创业落地分析报告_${new Date().toLocaleDateString()}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
+    image: { type: 'jpeg', quality: 0.95 },
     html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: {
+      mode: ['css', 'legacy'],
+      avoid: ['h1', 'h2', 'h3', 'table', 'img', 'blockquote']
+    }
   }
 
   try {
