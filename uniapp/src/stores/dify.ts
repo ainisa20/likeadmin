@@ -51,12 +51,12 @@ export const useDifyStore = defineStore('dify', {
      * 从后端 API 获取配置并初始化
      */
     async initConfig() {
+      if (this.isConfigured) return
       try {
-        const appConfig = await getConfig()
+        const appConfig = await getConfig(true) // ignoreCancel=true，不取消App.vue的getConfig请求
         this.setDifyConfig(appConfig.dify || {})
       } catch (error) {
         console.error('[Dify Store] Failed to init config:', error)
-        this.error = 'Failed to initialize Dify config'
       }
     },
 

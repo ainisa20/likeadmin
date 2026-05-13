@@ -5,8 +5,8 @@ export function smsSend(data: any) {
     return request.post({ url: '/sms/sendCode', data: data })
 }
 
-export function getConfig() {
-    return request.get({ url: '/index/config' })
+export function getConfig(ignoreCancel = false) {
+    return request.get({ url: '/index/config' }, { ignoreCancel })
 }
 
 export function getPolicy(data: any) {

@@ -112,6 +112,7 @@ export default class HttpRequest {
                 },
                 fail: async (err) => {
                     if (err.errMsg == RequestErrMsgEnum.ABORT) {
+                        reject(err)
                         return
                     }
                     if (err.errMsg == RequestErrMsgEnum.TIMEOUT) {
