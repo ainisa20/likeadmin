@@ -449,32 +449,6 @@ async function saveReport(calcData: any) {
   }
 }
 
-/**
- * 占位符替换（带 fallback）
- * 1. 优先替换 <!-- XXX_PLACEHOLDER -->
- * 2. 其次替换裸 XXX_PLACEHOLDER
- * 3. 最后 fallback: 插入到前一个章节之后
- */
-function replacePlaceholder(tag: string, content: string, prevSectionMarker: string) {
-  const htmlTag = `<!-- ${tag} -->`
-  if (state.generatedContent.includes(htmlTag)) {
-    state.generatedContent = state.generatedContent.replace(htmlTag, content)
-  } else if (state.generatedContent.includes(tag)) {
-    state.generatedContent = state.generatedContent.replace(tag, content)
-  } else {
-    // fallback: 找到前一个章节标题，在下一个 ## 标题前插入
-    const idx = state.generatedContent.indexOf(prevSectionMarker)
-    if (idx !== -1) {
-      const afterPrevSection = state.generatedContent.indexOf('\n## ', idx + prevSectionMarker.length)
-      if (afterPrevSection !== -1) {
-        state.generatedContent = state.generatedContent.slice(0, afterPrevSection) + '\n\n' + content + state.generatedContent.slice(afterPrevSection)
-        return
-      }
-    }
-    state.generatedContent += content
-  }
-}
-
 async function generateReport(
   onChunk: (text: string) => void,
   onComplete: (conversationId: string) => void,
