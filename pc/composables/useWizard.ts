@@ -398,10 +398,14 @@ async function appendSubsidyCalculation() {
 
     replacePlaceholder('ACTION_PLAN_PLACEHOLDER', actionPlanHtml, '## 五、')
 
+    // 清理 AI 可能残留的章节标题（三四五六七、），以及六之后的全部 AI 内容
     state.generatedContent = state.generatedContent
-      .replace(/^[三四五六七]、[^\n]*\n?/gm, '')
-      .replace(/\n[三四五六七]、[^\n]*\n/g, '\n')
+      .replace(/[三四五六七]、[^\n]*\n?/g, '')
+      // 删除六、后面所有 AI 生成的内容（直到末尾）
+      .replace(/六[、．.][^\n]*[\s\S]*$/m, '')
 
+    // 追加固定的第六章 + 免责声明
+    state.generatedContent += actionPlanHtml
     state.generatedContent += '\n\n---\n\n*本报告由九章数智人工智能（深圳）有限责任公司出具，基于提供的信息及现行政策分析。*'
 
     syncToChatMessages()
