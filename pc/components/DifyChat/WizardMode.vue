@@ -659,4 +659,107 @@ function exportPDF() {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* ========== 移动端适配 ========== */
+@media (max-width: 640px) {
+  .wizard-container {
+    padding: 10px;
+  }
+
+  /* 进度条：隐藏文字，只保留圆点 */
+  .wizard-progress {
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .step-label {
+    display: none;
+  }
+
+  .progress-step.active .step-label {
+    display: block;
+    font-size: 10px;
+    position: absolute;
+    top: 28px;
+    white-space: nowrap;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .step-dot {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  /* 向导主体 */
+  .wizard-body {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 底部按钮区 */
+  .wizard-footer {
+    padding: 10px 0 0;
+  }
+
+  .btn-prev,
+  .btn-cancel {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  /* 生成报告页 */
+  .gen-header {
+    padding: 14px 0;
+  }
+
+  .gen-icon {
+    font-size: 32px;
+  }
+
+  .gen-header h3 {
+    font-size: 15px;
+  }
+
+  .gen-content {
+    max-height: 200px;
+    padding: 10px;
+  }
+
+  .gen-content.final {
+    max-height: 280px;
+  }
+
+  .gen-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-export {
+    justify-content: center;
+  }
+
+  .btn-done {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* Markdown 内容 */
+  .stream-content {
+    font-size: 12px;
+  }
+
+  .stream-content h1 { font-size: 15px; }
+  .stream-content h2 { font-size: 14px; }
+  .stream-content h3 { font-size: 13px; }
+
+  .stream-content table {
+    font-size: 11px;
+  }
+
+  .stream-content th,
+  .stream-content td {
+    padding: 6px;
+  }
+}
 </style>
